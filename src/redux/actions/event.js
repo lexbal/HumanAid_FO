@@ -1,0 +1,27 @@
+import axios from 'axios';
+
+const api = {
+  url: 'http://localhost:3000'
+};
+
+export const getEvents = () => {
+  return (dispatch) => {
+    dispatch({
+      type: 'LOADING'
+    });
+    return axios.get(`${api.url}/event`)
+            .then((json) => {
+              console.log(json)
+              dispatch({
+                type: 'GET_EVENTS_SUCCESS',
+                events: json.data
+              });
+            })
+            .catch((err) => {
+              dispatch({
+                type: 'ERROR',
+                error: err
+              });
+            });
+  }
+};

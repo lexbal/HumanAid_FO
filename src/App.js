@@ -13,6 +13,7 @@ import Image from 'react-bootstrap/Image';
 import Home from './components/Home/Home';
 import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
+import Associations from './components/Associations/Associations';
 import logo from './logo_complet.png';
 import './App.css';
 import { logout } from './redux/actions/user';
@@ -72,6 +73,7 @@ const App = ({ username, loggedIn, removeConnexion }) => {
         <Route exact path="/" component={Home}/>
         <Route exact path="/signup" component={Signup}/>
         <Route exact path="/login" component={Login}/>
+        <Route exact path="/associations" component={Associations}/>
       </Router>
     </div>
   );

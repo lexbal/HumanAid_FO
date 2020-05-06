@@ -8,9 +8,9 @@ import './Associations.css';
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.events.loading,
-    assocs: state.events.assocs,
-    error: state.events.error
+    loading: state.assocs.loading,
+    assocs: state.assocs.assocs,
+    error: state.assocs.error
   }
 }
 
@@ -29,13 +29,13 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
   }, []);
 
   return (
-    <div className='events'>
+    <div className='assocs'>
       <Container>
         <ListGroup>
           {
-            !loading && assocs && assocs.length > 0 && assocs.map(({description, title}, i) =>
+            !loading && assocs && assocs.length > 0 && assocs.map(({description, name}, i) =>
               <ListGroup.Item key={i}>
-                <Association title={title} description={description}/>
+                <Association name={name} description={description}/>
               </ListGroup.Item>
             )
           }

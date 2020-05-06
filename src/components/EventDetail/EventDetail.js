@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import {
   Row, Col, Image, Container
 } from 'react-bootstrap';
+import { useParams } from "react-router-dom";
 
 import { connect } from 'react-redux';
 
@@ -18,15 +19,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleEvent: () => {
-      dispatch(getEvent())
+    getSingleEvent: id => {
+      dispatch(getEvent(id))
     }
   }
 }
 
 const EventDetail = ({ getSingleEvent, event }) => {
+  let { id } = useParams();
+
   useEffect(() => {
-    getSingleEvent();
+    getSingleEvent(id);
   // eslint-disable-next-line
   }, []);
 

@@ -2,31 +2,35 @@ import React, { useEffect } from 'react';
 import {
   Row, Col, Image, Container
 } from 'react-bootstrap';
+import { useParams } from "react-router-dom";
 
 import { connect } from 'react-redux';
 
-import { getAssoc } from '../../redux/actions/event';
+import { getAssoc } from '../../redux/actions/assoc';
 import './AssocDetail.css';
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.events.loading,
-    assoc: state.events.assoc,
-    error: state.events.error
+    loading: state.assocs.loading,
+    assoc: state.assocs.assoc,
+    error: state.assocs.error
   }
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getSingleAssoc: () => {
-      dispatch(getAssoc())
+    getSingleAssoc: id => {
+      dispatch(getAssoc(id))
     }
   }
 }
 
 const AssocDetail = ({ getSingleAssoc, event }) => {
+  let { id } = useParams();
+
   useEffect(() => {
-    getSingleEvent();
+    console.log(id)
+    getSingleAssoc(id);
   // eslint-disable-next-line
   }, []);
 

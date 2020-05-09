@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, ListGroup, Spinner, Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import Event from './Event/Event';
 import { getEvents } from '../../redux/actions/event';
@@ -33,11 +34,19 @@ const Events = ({ events, loading, error, getAllEvents }) => {
       <Container>
         <ListGroup>
           {
-            !loading && events && events.length > 0 && events.map(({description, title}, i) =>
+            !loading && events && events.length > 0 && events.map(({description, title, id}, i) =>
               <ListGroup.Item key={i}>
-                <Event title={title} description={description}/>
+                <Link to={`/event/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                  <Event title={title} description={description}/>
+                </Link>
               </ListGroup.Item>
             )
+          }
+          {
+            !loading && events.length === 0 &&
+            <ListGroup.Item>
+              Aucun évènements !
+            </ListGroup.Item>
           }
           {
             loading &&

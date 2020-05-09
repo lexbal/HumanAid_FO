@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Container, ListGroup, Spinner, Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 
 import Association from './Association/Association';
 import { getAssociations } from '../../redux/actions/assoc';
@@ -33,9 +34,11 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
       <Container>
         <ListGroup>
           {
-            !loading && assocs && assocs.length > 0 && assocs.map(({description, name}, i) =>
+            !loading && assocs && assocs.length > 0 && assocs.map(({description, name, id}, i) =>
               <ListGroup.Item key={i}>
-                <Association name={name} description={description}/>
+                <Link to={`/associations/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                  <Association name={name} description={description}/>
+                </Link>
               </ListGroup.Item>
             )
           }

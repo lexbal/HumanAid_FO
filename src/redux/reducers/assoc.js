@@ -1,11 +1,18 @@
 const INITIAL_STATE = {
   assocs: [],
+  assoc: {},
   loading: false,
   error: ""
 };
 
 const assocs = (state = INITIAL_STATE, action) => {
   switch (action.type) {
+    case 'GET_ASSOC_SUCCESS':
+      return {
+        assoc: action.assoc,
+        loading: false,
+        error: ""
+      }
     case 'GET_ASSOCS_SUCCESS':
       return {
         assocs: action.assocs,

@@ -14,6 +14,9 @@ import Home from './components/Home/Home';
 import Signup from './components/Signup/Signup';
 import Login from './components/Login/Login';
 import Contact from './components/Contact/Contact';
+import Associations from './components/Associations/Associations';
+import Events from './components/Events/Events';
+import EventDetail from './components/EventDetail/EventDetail';
 import logo from './logo_complet.png';
 import './App.css';
 import { logout } from './redux/actions/user';
@@ -74,6 +77,9 @@ const App = ({ username, loggedIn, removeConnexion }) => {
         <Route exact path="/signup" component={Signup}/>
         <Route exact path="/login" component={Login}/>
         <Route exact path="/contact" component={Contact}/>
+        <Route exact path="/associations" component={Associations}/>
+        <Route exact path="/events" component={Events}/>
+        <Route exact path="/event/detail/:id" component={EventDetail}/>
       </Router>
     </div>
   );

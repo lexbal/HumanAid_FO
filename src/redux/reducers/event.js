@@ -1,21 +1,21 @@
 const INITIAL_STATE = {
-  assocs: [],
-  assoc: {},
+  events: [],
+  event: {},
   loading: false,
   error: ""
 };
 
-const assocs = (state = INITIAL_STATE, action) => {
+const events = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case 'GET_ASSOC_SUCCESS':
+    case 'GET_EVENTS_SUCCESS':
       return {
-        assoc: action.assoc,
+        events: action.events,
         loading: false,
         error: ""
       }
-    case 'GET_ASSOCS_SUCCESS':
+    case 'GET_EVENT_SUCCESS':
       return {
-        assocs: action.assocs,
+        event: action.event,
         loading: false,
         error: ""
       }
@@ -36,4 +36,4 @@ const assocs = (state = INITIAL_STATE, action) => {
   }
 }
 
-export default assocs;
+export default events;

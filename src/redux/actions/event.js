@@ -4,37 +4,38 @@ const api = {
   url: 'http://localhost:3000'
 };
 
-export const getAssoc = id => {
+export const getEvents = () => {
   return (dispatch) => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.get(`${api.url}/assoc/${id}`)
+    return axios.get(`${api.url}/event`)
             .then((json) => {
+              console.log(json)
               dispatch({
-                type: 'GET_ASSOC_SUCCESS',
-                assoc: json.data
-                });
-            })
-            .catch((err) => {
-              dispatch({
-                type: 'ERROR',
-                error: err
+                type: 'GET_EVENTS_SUCCESS',
+                events: json.data
               });
+          })
+          .catch((err) => {
+            dispatch({
+              type: 'ERROR',
+              error: err
             });
+          });
   }
 };
 
-export const getAssociations = () => {
+export const getEvent = id => {
   return (dispatch) => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.get(`${api.url}/assoc`)
+    return axios.get(`${api.url}/event/${id}`)
             .then((json) => {
               dispatch({
-                type: 'GET_ASSOCS_SUCCESS',
-                assocs: json.data
+                type: 'GET_EVENT_SUCCESS',
+                event: json.data
               });
             })
             .catch((err) => {

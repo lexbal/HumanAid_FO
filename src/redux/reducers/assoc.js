@@ -9,12 +9,14 @@ const assocs = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'GET_ASSOC_SUCCESS':
       return {
+        ...state,
         assoc: action.assoc,
         loading: false,
         error: ""
       }
     case 'GET_ASSOCS_SUCCESS':
       return {
+        ...state,
         assocs: action.assocs,
         loading: false,
         error: ""

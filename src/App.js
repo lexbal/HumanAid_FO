@@ -77,7 +77,7 @@ const App = ({ username, loggedIn, removeConnexion }) => {
         <Route exact path="/" component={Home}/>
         <Route exact path="/signup" component={Signup}/>
         <Route exact path="/login" component={Login}/>
-        <Route exact path="/association/detail/:id" component={AssocDetail}/>
+        <Route exact path="/associations/detail/:id" component={AssocDetail}/>
         <Route exact path="/contact" component={Contact}/>
         <Route exact path="/associations" component={Associations}/>
         <Route exact path="/events" component={Events}/>

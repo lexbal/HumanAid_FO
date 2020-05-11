@@ -11,7 +11,6 @@ export const getEvents = () => {
     });
     return axios.get(`${api.url}/event`)
             .then((json) => {
-              console.log(json)
               dispatch({
                 type: 'GET_EVENTS_SUCCESS',
                 events: json.data

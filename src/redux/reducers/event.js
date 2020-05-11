@@ -9,12 +9,14 @@ const events = (state = INITIAL_STATE, action) => {
   switch (action.type) {
     case 'GET_EVENTS_SUCCESS':
       return {
+        ...state,
         events: action.events,
         loading: false,
         error: ""
       }
     case 'GET_EVENT_SUCCESS':
       return {
+        ...state,
         event: action.event,
         loading: false,
         error: ""

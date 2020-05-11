@@ -40,7 +40,11 @@ const EventDetail = ({ getSingleEvent, event }) => {
           <Col xs={4} md={4} lg={4}>
             <Row>
               <Col xs={12} md={12} lg={12}>
-                <Image src="holder.js/171x180" rounded />
+                <Image
+                  src={require(`../../no-image-found.png`)}
+                  alt=""
+                  height="250"
+                  onerror="this.src='../../no-image-found.png'" rounded />
               </Col>
             </Row>
             <Row>

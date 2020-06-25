@@ -55,8 +55,8 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
             </Row>
           </Col>
           <Col xs={8} md={8} lg={8}>
-            <h5>test</h5>
-            <p>test</p>
+            <h5>{assoc.name}</h5>
+            <p>{assoc.description}</p>
           </Col>
         </Row>
       </Container>

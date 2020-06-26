@@ -2,10 +2,9 @@ import React, { useEffect } from 'react';
 import { Container, ListGroup, Spinner, Pagination } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-
+import './Event/Event.css'
 import Event from './Event/Event';
 import { getEvents } from '../../redux/actions/event';
-import './Events.css';
 
 const mapStateToProps = (state) => {
   return {
@@ -32,31 +31,33 @@ const Events = ({ events, loading, error, getAllEvents }) => {
   return (
     <div className='events'>
       <Container>
-        <ListGroup>
           {
-            !loading && events && events.length > 0 && events.map(({description, title, id}, i) =>
-              <ListGroup.Item key={i}>
+            !loading && events && events.length > 0 && events.map(({title, id,star_date,description}, i) =>
+              <div class="card" key={i} classname="event-item">
                 <Link to={`/event/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                  <Event title={title} description={description}/>
+                  <div class="card-body">
+                    <h4>{star_date}</h4>
+                    <h5 class="card-title">{title}</h5>
+                    <p class="card-body">{description}</p>
+                  </div>
                 </Link>
-              </ListGroup.Item>
+              </div>
             )
           }
           {
             !loading && events.length === 0 &&
-            <ListGroup.Item>
+            <div class="card">
               Aucun évènements !
-            </ListGroup.Item>
+            </div>
           }
           {
             loading &&
-            <ListGroup.Item>
+            <div class="card">
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>
-            </ListGroup.Item>
+            </div>
           }
-        </ListGroup>
       </Container>
     </div>
   );

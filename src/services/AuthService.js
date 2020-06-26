@@ -13,7 +13,7 @@ export const removeUser = () => {
 };
 
 export const setUserToken = user => {
-  localStorage.setItem('user', JSON.stringify({ username: user.username, token: user.token }));
+  localStorage.setItem('user', JSON.stringify({ username: user.username, role: JSON.parse(user.roles)[0], token: user.token }));
 
   return true;
 };

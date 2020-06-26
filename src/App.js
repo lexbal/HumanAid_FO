@@ -54,32 +54,25 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
             <Image src={logo} className="logo"/>
           </Link>
           <Nav className="mr-auto">
-<<<<<<< HEAD
-            <Link to="/" className="nav-link">Accueil</Link>
-            <Link to="/events" className="nav-link">Évènements</Link>
-            <Link to="/associations" className="nav-link">Associations</Link>
-            {
-              loggedIn && role === "ROLE_ASSOC" &&
-                <>
-                  <Link to="/event/add" className="nav-link">Ajoutez un évènement</Link>
-                </>
-            }
-            <Link to="/contact" className="nav-link">Nous contacter</Link>
-=======
             <Link to="/" className="nav-link header-link">Accueil</Link>
             <Link to="/events" className="nav-link header-link">Évènements</Link>
             <Link to="/associations" className="nav-link header-link">Associations</Link>
+            {
+              loggedIn && role === "ROLE_ASSOC" &&
+                <>
+                  <Link to="/event/add" className="nav-link header-link">Ajoutez un évènement</Link>
+                </>
+            }
             <Link to="/contact" className="nav-link header-link">Nous contacter</Link>
->>>>>>> develop
           </Nav>
           <Nav>
             {
               loggedIn ?
                 <>
-                  <Navbar.Text>
+                  <Navbar.Text className="header-link">
                     Connecté en tant que {username}
                   </Navbar.Text>
-                  <Link className="nav-link header-link" onClick={handleLogout}>Se déconnecter</Link>
+                  <Link to="" className="nav-link header-link" onClick={handleLogout}>Se déconnecter</Link>
                 </>
                :
                 <>

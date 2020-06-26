@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
-
-import PropTypes from'prop-types';
 
 import './Contact.css';
 
@@ -44,7 +41,6 @@ const Contact = ({ loggedIn, error }) => {
   }
 
   return (
-    !loggedIn ? (
     <div className='Contact'>
       <Card style={{ width: '35rem', margin: "auto", marginTop: "10%" }}>
         <Card.Header>Contacter-nous</Card.Header>
@@ -100,9 +96,6 @@ const Contact = ({ loggedIn, error }) => {
         </Card.Body>
       </Card>
     </div>
-    ) : (
-      <Redirect to='/'/>
-    )
   );
 };
 

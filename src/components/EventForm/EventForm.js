@@ -44,7 +44,7 @@ const EventForm = ({ loggedIn, error }) => {
   }
 
   return (
-    !loggedIn ? (
+    loggedIn ? (
     <div className='EventForm'>
       <Card style={{ width: '35rem', margin: "auto", marginTop: "10%" }}>
         <Card.Header>Informations de l'évènement</Card.Header>

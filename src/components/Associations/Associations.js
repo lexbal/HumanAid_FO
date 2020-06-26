@@ -35,11 +35,14 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
           {
             !loading && assocs && assocs.length > 0 && assocs.map(({description, name, id}, i) =>
               <div class="card" key={i}>
-                <Link to={`/associations/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                  <img class="card-img-top" src={name} alt="Card image"/>
+                
+                  <img class="card-img-top" src="..." alt="Card image"/>
+                  <h5 class="card-title">{name}</h5>
                       <div class="card-body">
-                        <h5 class="card-title">{description}</h5>
+                        <p>{description}</p>
                       </div>
+                      <Link to={`/association/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                      <button>Détail</button>
                 </Link>
               </div>
             )

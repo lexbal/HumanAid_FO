@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
-import {
-  Row, Col, Image, Container
-} from 'react-bootstrap';
+import { Container,Spinner } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
-
 import { connect } from 'react-redux';
-
 import { getAssoc } from '../../redux/actions/assoc';
 import './AssocDetail.css';
 
@@ -25,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const AssocDetail = ({ getSingleAssoc, event }) => {
+const AssocDetail = ({ assoc, getSingleAssoc,loading, event  }) => {
   let { id } = useParams();
 
   useEffect(() => {
@@ -36,25 +32,20 @@ const AssocDetail = ({ getSingleAssoc, event }) => {
   return (
     <div className='assoc-detail'>
       <Container>
-        <Row>
-          <Col xs={4} md={4} lg={4}>
-            <Row>
-              <Col xs={12} md={12} lg={12}>
-                <Image src="holder.js/171x180" rounded />
-              </Col>
-            </Row>
-            <Row>
-              <Col xs={12} md={12} lg={12}>
-                <h5>test</h5>
-                <p>test</p>
-              </Col>
-            </Row>
-          </Col>
-          <Col xs={8} md={8} lg={8}>
-            <h5>test</h5>
-            <p>test</p>
-          </Col>
-        </Row>
+      {
+        !loading && assoc && assoc.length > 0 && assoc.map(({description, name, location,email,website}, i) =>
+        <div>
+          <p>ceci est un test</p>
+          <p>{description}</p>
+        </div>
+        )
+      }
+      {
+       loading &&
+          <Spinner animation="border" role="status">
+            <span className="sr-only">Loading...</span>
+          </Spinner>
+      }
       </Container>
     </div>
   );

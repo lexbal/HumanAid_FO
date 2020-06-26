@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
-import { Container, ListGroup, Spinner, Pagination } from 'react-bootstrap';
+import { Container, ListGroup, Spinner, Pagination, Button, Card } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from "react-router-dom";
-
+import PlusSign from '../../image/plus.svg';
 import Association from './Association/Association';
 import { getAssociations } from '../../redux/actions/assoc';
 import './Associations.css';
@@ -32,25 +32,35 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
   return (
     <div className='assocs'>
       <Container>
-        <ListGroup>
           {
             !loading && assocs && assocs.length > 0 && assocs.map(({description, name, id}, i) =>
-              <ListGroup.Item key={i}>
-                <Link to={`/associations/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                  <Association name={name} description={description}/>
+              <div class="card" key={i}>
+                
+                  <img class="card-img-top" src="..." alt="Card image"/>
+                  <h5 class="card-title">{name}</h5>
+                      <div class="card-body">
+                        <p>{description}</p>
+                      </div>
+                      <Link to={`/association/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+                      <button>Détail</button>
                 </Link>
-              </ListGroup.Item>
+              </div>
             )
           }
           {
+            !loading && assocs.length === 0 &&
+            <div class="card">
+              Aucune association !
+            </div>
+          }
+          {
             loading &&
-            <ListGroup.Item>
+            <div class="card">
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>
-            </ListGroup.Item>
+            </div>
           }
-        </ListGroup>
       </Container>
     </div>
   );

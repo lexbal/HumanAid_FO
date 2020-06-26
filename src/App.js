@@ -19,7 +19,7 @@ import Associations from './components/Associations/Associations';
 import Events from './components/Events/Events';
 import EventForm from './components/EventForm/EventForm';
 import EventDetail from './components/EventDetail/EventDetail';
-import logo from './logo_complet.png';
+import logo from './image/logo_complet.png';
 import './App.css';
 import { logout } from './redux/actions/user';
 
@@ -49,11 +49,12 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
   return (
     <div className="App">
       <Router>
-        <Navbar bg="dark" variant="dark" style={{ zIndex: 9 }} fixed="top">
+        <Navbar className="App-header sticky-top">
           <Link to="/" className="navbar-brand">
-            <Image src={logo}/>
+            <Image src={logo} className="logo"/>
           </Link>
           <Nav className="mr-auto">
+<<<<<<< HEAD
             <Link to="/" className="nav-link">Accueil</Link>
             <Link to="/events" className="nav-link">Évènements</Link>
             <Link to="/associations" className="nav-link">Associations</Link>
@@ -64,6 +65,12 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
                 </>
             }
             <Link to="/contact" className="nav-link">Nous contacter</Link>
+=======
+            <Link to="/" className="nav-link header-link">Accueil</Link>
+            <Link to="/events" className="nav-link header-link">Évènements</Link>
+            <Link to="/associations" className="nav-link header-link">Associations</Link>
+            <Link to="/contact" className="nav-link header-link">Nous contacter</Link>
+>>>>>>> develop
           </Nav>
           <Nav>
             {
@@ -72,12 +79,12 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
                   <Navbar.Text>
                     Connecté en tant que {username}
                   </Navbar.Text>
-                  <Link className="nav-link" onClick={handleLogout}>Se déconnecter</Link>
+                  <Link className="nav-link header-link" onClick={handleLogout}>Se déconnecter</Link>
                 </>
                :
                 <>
-                  <Link to="/login" className="nav-link">Se connecter</Link>
-                  <Link to="/signup" className="nav-link">S'inscrire</Link>
+                  <Link to="/login" className="nav-link header-link">Se connecter</Link>
+                  <Link to="/signup" className="nav-link header-link">S'inscrire</Link>
                 </>
             }
           </Nav>
@@ -92,6 +99,7 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
         <Route exact path="/event/add" component={EventForm}/>
         <Route exact path="/contact" component={Contact}/>
       </Router>
+      <div className="App-footer"/>
     </div>
   );
 }

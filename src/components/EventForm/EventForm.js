@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
@@ -7,26 +7,37 @@ import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
+import Select from 'react-select';
 
-import PropTypes from'prop-types';
-
-import './EventForm.css';
+import { getCategories } from '../../redux/actions/event';
 
 
 const mapStateToProps = (state) => {
   return {
+    categories: state.events.categories,
     loggedIn: state.user.loggedIn,
     error: state.user.error
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllEventCategory: () => {
+      dispatch(getCategories())
+    },
+    createEvent: (event) => {
+      dispatch(createEvent(event))
+    }
+  }
+}
 
-const EventForm = ({ loggedIn, error }) => {
+const EventForm = ({ getAllEventCategory, categories, loggedIn, error }) => {
   const [fields, setField] = useState({
-    name: "",
-    surname: "",
-    email: "",
-    text: "",
+    title: "",
+    description: "",
+    categories: [],
+    start: "",
+    end: "",
   });
 
   const handleChange = (event) => {
@@ -42,6 +53,11 @@ const EventForm = ({ loggedIn, error }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
   }
+
+  useEffect(() => {
+    getAllEventCategory();
+  // eslint-disable-next-line
+  }, []);
 
   return (
     loggedIn ? (
@@ -67,6 +83,16 @@ const EventForm = ({ loggedIn, error }) => {
                 placeholder="Description"
                 value={fields.description}
                 onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group controlId="categoryGroup">
+              <Select
+                isMulti
+                name="colors"
+                options={categories}
+                className="basic-multi-select"
+                classNamePrefix="select"
               />
             </Form.Group>
 
@@ -107,5 +133,5 @@ const EventForm = ({ loggedIn, error }) => {
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(EventForm)

@@ -1,5 +1,6 @@
 const INITIAL_STATE = {
   events: [],
+  categories: [],
   event: {},
   loading: false,
   error: ""
@@ -10,6 +11,12 @@ const events = (state = INITIAL_STATE, action) => {
     case 'GET_EVENTS_SUCCESS':
       return {
         events: action.events,
+        loading: false,
+        error: ""
+      }
+    case 'GET_EVENT_CATEGORIES_SUCCESS':
+      return {
+        categories: action.categories,
         loading: false,
         error: ""
       }

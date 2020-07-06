@@ -1,5 +1,4 @@
 export const isLoggedIn = () => {
-  console.log(localStorage.getItem('user'));
   return localStorage.getItem('user') ? true : false;
 };
 

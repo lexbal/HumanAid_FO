@@ -45,3 +45,25 @@ export const getEvent = id => {
             });
   }
 };
+
+export const getCategories = () => {
+  return (dispatch) => {
+    dispatch({
+      type: 'LOADING'
+    });
+    return axios.get(`${api.url}/event/categories`)
+            .then((json) => {
+              console.log(json);
+              dispatch({
+                type: 'GET_EVENT_CATEGORIES_SUCCESS',
+                categories: json.data
+              });
+            })
+            .catch((err) => {
+              dispatch({
+                type: 'ERROR',
+                error: err
+              });
+            });
+  }
+};

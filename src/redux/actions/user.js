@@ -68,3 +68,27 @@ export const logout = () => {
     type:'LOGOUT_SUCCESS'
   }
 };
+
+export const mail = contact => {
+  return (dispatch) => {
+    dispatch({
+      type: 'LOADING'
+    });
+    return axios.post(`${api.url}/send_mail`, {
+              name: contact.name,
+              email: contact.email,
+              message: contact.content
+            })
+            .then(() => {
+              dispatch({
+                type: 'MAIL_SUCCESS'
+              });
+            })
+            .catch((err) => {
+              dispatch({
+                type: 'ERROR',
+                error: err
+              });
+            });
+  }
+};

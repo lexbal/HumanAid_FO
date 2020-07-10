@@ -8,9 +8,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 
-import PropTypes from'prop-types';
-
-import './Contact.css';
+import { mail } from '../../redux/actions/user';
 
 
 const mapStateToProps = (state) => {
@@ -20,13 +18,19 @@ const mapStateToProps = (state) => {
   }
 }
 
+const mapDispatchToProps = (dispatch) => {
+  return {
+    sendMail: (fields) => {
+      dispatch(mail(fields))
+    }
+  }
+}
 
-const Contact = ({ loggedIn, error }) => {
+const Contact = ({ sendMail, error }) => {
   const [fields, setField] = useState({
     name: "",
-    surname: "",
     email: "",
-    text: "",
+    content: "",
   });
 
   const handleChange = (event) => {
@@ -41,30 +45,20 @@ const Contact = ({ loggedIn, error }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    sendMail(fields);
   }
 
   return (
-    !loggedIn ? (
     <div className='Contact'>
       <Card style={{ width: '35rem', margin: "auto", marginTop: "10%" }}>
         <Card.Header>Contacter-nous</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="surnameGroup">
-              <Form.Control
-                type="text"
-                name="surname"
-                placeholder="Nom"
-                value={fields.surname}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
             <Form.Group controlId="nameGroup">
               <Form.Control
                 type="text"
                 name="name"
-                placeholder="Prenom"
+                placeholder="Nom"
                 value={fields.name}
                 onChange={handleChange}
               />
@@ -80,13 +74,13 @@ const Contact = ({ loggedIn, error }) => {
               />
             </Form.Group>
 
-            <Form.Group controlId="textGroup">
+            <Form.Group controlId="contentGroup">
               <FormControl
                 as="textarea"
-                name="text"
+                name="content"
                 aria-label="With textarea"
                 placeholder="Exprimez-vous votre requête ici !"
-                value={fields.text}
+                value={fields.content}
                 onChange={handleChange}
               />
             </Form.Group>
@@ -100,13 +94,10 @@ const Contact = ({ loggedIn, error }) => {
         </Card.Body>
       </Card>
     </div>
-    ) : (
-      <Redirect to='/'/>
-    )
   );
 };
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(Contact)

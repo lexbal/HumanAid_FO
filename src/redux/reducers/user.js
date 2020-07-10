@@ -28,6 +28,13 @@ const user = (state = INITIAL_STATE, action) => {
         loggedIn: isLoggedIn(),
         error: ""
       }
+    case 'MAIL_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        loggedIn: isLoggedIn(),
+        error: ""
+      }
     case 'LOGOUT_SUCCESS':
       return {
         ...state,

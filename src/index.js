@@ -22,8 +22,8 @@ export const store = createStore(
 
 ReactDOM.render(
   <Provider store={store}>
-    <App key="1" />
-    <Footer key="2" />
+    <App />
+    <Footer />
   </Provider>,
   document.getElementById('root')
 );

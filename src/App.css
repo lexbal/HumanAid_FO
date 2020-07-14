@@ -20,3 +20,13 @@
   background-color: #000000;
   height: 4rem;
 }
+
+.dropdown-menu.show {
+  right: 0!important;
+  left: auto!important;
+  margin-top: 10px!important;
+}
+
+.dropdown-toggle .fa-user-circle {
+  margin-right: 5px!important;
+}

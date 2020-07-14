@@ -9,6 +9,9 @@ import {
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Image from 'react-bootstrap/Image';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle, faCaretDown, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 import Home from './components/Home/Home';
 import Signup from './components/Signup/Signup';
@@ -60,7 +63,7 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
             {
               loggedIn && role === "ROLE_ASSOC" &&
                 <>
-                  <Link to="/event/add" className="nav-link header-link">Ajoutez un évènement</Link>
+                    <Link to="/event/add" className="nav-link header-link">Ajoutez un évènement</Link>
                 </>
             }
             <Link to="/contact" className="nav-link header-link">Nous contacter</Link>
@@ -69,10 +72,13 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
             {
               loggedIn ?
                 <>
-                  <Navbar.Text className="header-link">
-                    Connecté en tant que {username}
-                  </Navbar.Text>
-                  <Link to="" className="nav-link header-link" onClick={handleLogout}>Se déconnecter</Link>
+                  <NavDropdown title={<><FontAwesomeIcon icon={faUserCircle} color="white"/><FontAwesomeIcon icon={faCaretDown} color="white"/></>} id="basic-nav-dropdown" className="dropdown-menu-right">
+                    <NavDropdown.Header>
+                      Connecté en tant que {username}
+                    </NavDropdown.Header>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={handleLogout}><FontAwesomeIcon icon={faSignOutAlt} color="dark"/> Se déconnecter</NavDropdown.Item>
+                  </NavDropdown>
                 </>
                :
                 <>

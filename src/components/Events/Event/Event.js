@@ -6,7 +6,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './Event.css';
 
-const Event = ({ id, title, description,  }) => {
+const Event = ({ id, title, description }) => {
   return (
     <Col xs={4} md={4} lg={4}>
       <Card style={{ width: '95%' }}>

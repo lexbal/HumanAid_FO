@@ -23,9 +23,6 @@ const Association = ({ id, name, description }) => {
         <Card.Body>
           {description}
         </Card.Body>
-        <Card.Footer>
-          
-        </Card.Footer>
       </Card>
     </Col>
   );

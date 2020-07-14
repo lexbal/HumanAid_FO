@@ -6,12 +6,14 @@ import {
   Link
 } from "react-router-dom";
 
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Image from 'react-bootstrap/Image';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import {
+  Navbar,
+  Nav, Image,
+  NavDropdown,
+  Button
+} from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle, faCaretDown, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faCaretDown, faSignOutAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import Home from './components/Home/Home';
 import Signup from './components/Signup/Signup';
@@ -60,15 +62,20 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
             <Link to="/" className="nav-link header-link">Accueil</Link>
             <Link to="/events" className="nav-link header-link">Évènements</Link>
             <Link to="/associations" className="nav-link header-link">Associations</Link>
-            {
-              loggedIn && role === "ROLE_ASSOC" &&
-                <>
-                    <Link to="/event/add" className="nav-link header-link">Ajoutez un évènement</Link>
-                </>
-            }
             <Link to="/contact" className="nav-link header-link">Nous contacter</Link>
           </Nav>
           <Nav>
+            {
+              loggedIn && role === "ROLE_ASSOC" &&
+                <>
+                    <Link to="/event/add" style={{ marginRight: '10px' }}>
+                      <Button renderAs="button">
+                        <FontAwesomeIcon icon={faPlus} color="white"/>
+                        Ajoutez un évènement
+                      </Button>
+                    </Link>
+                </>
+            }
             {
               loggedIn ?
                 <>

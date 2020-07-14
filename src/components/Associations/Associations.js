@@ -1,6 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Spinner, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+
+import Pagination from '../Pagination/Pagination';
 import Association from './Association/Association';
 import { getAssociations } from '../../redux/actions/assoc';
 import './Associations.css';
@@ -22,6 +24,12 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const Associations = ({ assocs, loading, error, getAllAssociations }) => {
+  const [assocsPerPage]               = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastAssoc              = currentPage * assocsPerPage;
+  const indexOfFirstAssoc             = indexOfLastAssoc - assocsPerPage;
+  const currentAssocs                 = assocs.slice(indexOfFirstAssoc, indexOfLastAssoc);
+
   useEffect(() => {
     getAllAssociations();
   // eslint-disable-next-line
@@ -32,7 +40,7 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
       <Container>
         <Row>
           {
-            !loading && assocs && assocs.length > 0 && assocs.map(({description, name, id}, i) =>
+            !loading && assocs && assocs.length > 0 && currentAssocs.map(({description, name, id}, i) =>
               <Association id={id} name={name} description={description} key={i}/>
             )
           }
@@ -51,6 +59,14 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
             </Col>
           }
         </Row>
+        {
+          !loading && assocs && assocs.length > 0 && 
+          <Pagination
+            entitiesPerPage={assocsPerPage}
+            totalEntities={assocs.length}
+            setCurrentPage={setCurrentPage}
+          />
+        }
       </Container>
     </div>
   );

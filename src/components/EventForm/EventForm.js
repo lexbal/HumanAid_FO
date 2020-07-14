@@ -9,6 +9,7 @@ import Alert from 'react-bootstrap/Alert';
 import Select from 'react-select';
 import DateTimePicker from 'react-datetime-picker';
 
+import './EventForm.css';
 import { createEvent, getCategories } from '../../redux/actions/event';
 
 
@@ -67,7 +68,7 @@ const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn
 
   return (
     loggedIn ? (
-    <div className='EventForm'>
+    <div className='eventForm'>
       <Card style={{ width: '35rem', justifyContent: "center" }}>
         <Card.Header>Informations de l'évènement</Card.Header>
         <Card.Body>

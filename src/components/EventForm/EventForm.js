@@ -4,17 +4,17 @@ import { Redirect } from "react-router-dom";
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import FormControl from 'react-bootstrap/FormControl';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 import Select from 'react-select';
+import DateTimePicker from 'react-datetime-picker';
 
-import { getCategories } from '../../redux/actions/event';
+import { createEvent, getCategories } from '../../redux/actions/event';
 
 
 const mapStateToProps = (state) => {
   return {
-    categories: state.events.categories,
+    eventCategories: state.events.categories,
     loggedIn: state.user.loggedIn,
     error: state.user.error
   }
@@ -31,7 +31,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const EventForm = ({ getAllEventCategory, categories, loggedIn, error }) => {
+const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn, error }) => {
   const [fields, setField] = useState({
     title: "",
     description: "",
@@ -40,11 +40,16 @@ const EventForm = ({ getAllEventCategory, categories, loggedIn, error }) => {
     end: "",
   });
 
-  const handleChange = (event) => {
-    const target = event.target;
-    const value  = target.type === 'checkbox' ? target.checked : target.value;
-    const name   = target.name;
+  const handleChange = (event, inputName = null) => {
+    let value = (event.length > 0) ? event[0].id : event; 
+    let name  = inputName;
 
+    if (!inputName) {
+      const target = event.target;
+      value  = target.type === 'checkbox' ? target.checked : target.value;
+      name   = target.name;
+    }
+    
     setField({ ...fields, [name]: value });
 
     return true;
@@ -52,6 +57,7 @@ const EventForm = ({ getAllEventCategory, categories, loggedIn, error }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    createEvent(fields);
   }
 
   useEffect(() => {
@@ -62,7 +68,7 @@ const EventForm = ({ getAllEventCategory, categories, loggedIn, error }) => {
   return (
     loggedIn ? (
     <div className='EventForm'>
-      <Card style={{ width: '35rem', margin: "auto", marginTop: "10%" }}>
+      <Card style={{ width: '35rem', justifyContent: "center" }}>
         <Card.Header>Informations de l'évènement</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
@@ -86,33 +92,31 @@ const EventForm = ({ getAllEventCategory, categories, loggedIn, error }) => {
               />
             </Form.Group>
 
-            <Form.Group controlId="categoryGroup">
+            <Form.Group controlId="categoriesGroup">
               <Select
                 isMulti
-                name="colors"
-                options={categories}
+                name="categories"
+                options={eventCategories}
+                onChange={e => handleChange(e, 'categories')}
+                value={fields.categories}
                 className="basic-multi-select"
                 classNamePrefix="select"
               />
             </Form.Group>
 
             <Form.Group controlId="startGroup">
-              <Form.Control
-                type="text"
-                name="start"
-                placeholder="Date de début"
+              <DateTimePicker
+                onChange={e => handleChange(e, 'start')}
                 value={fields.start}
-                onChange={handleChange}
+                placeholder="Date de début"
               />
             </Form.Group>
 
             <Form.Group controlId="endGroup">
-              <FormControl
-                type="text"
-                name="end"
-                placeholder="Date de fin"
+              <DateTimePicker
+                onChange={e => handleChange(e, 'end')}
                 value={fields.end}
-                onChange={handleChange}
+                placeholder="Date de fin"
               />
             </Form.Group>
 

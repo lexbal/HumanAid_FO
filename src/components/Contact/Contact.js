@@ -7,11 +7,7 @@ import FormControl from 'react-bootstrap/FormControl';
 import Card from 'react-bootstrap/Card';
 import Alert from 'react-bootstrap/Alert';
 
-<<<<<<< HEAD
-import './Contact.css';
-=======
 import { mail } from '../../redux/actions/user';
->>>>>>> develop
 
 
 const mapStateToProps = (state) => {
@@ -53,7 +49,7 @@ const Contact = ({ sendMail, error }) => {
 
   return (
     <div className='Contact'>
-      <Card style={{ width: '35rem', margin: "auto", marginTop: "10%" }}>
+      <Card style={{ width: '35rem', justifyContent: "center" }}>
         <Card.Header>Contacter-nous</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>

@@ -1,0 +1,13 @@
+.eventForm {
+    margin-top: 5rem;
+}
+
+.react-datetime-picker {
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+}
+
+.react-datetime-picker__wrapper {
+    border: 1px solid #ced4da!important;
+    border-radius: .25rem!important;
+}

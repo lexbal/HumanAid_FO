@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import './Event/Event.css';
+import './Events.css';
 import { Row, Col } from 'react-bootstrap';
 
 import Event from './Event/Event';
+import Pagination from '../Pagination/Pagination';
 import { getEvents } from '../../redux/actions/event';
 
 const mapStateToProps = (state) => {
@@ -24,6 +25,12 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const Events = ({ events, loading, error, getAllEvents }) => {
+  const [eventsPerPage]               = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastEvent              = currentPage * eventsPerPage;
+  const indexOfFirstEvent             = indexOfLastEvent - eventsPerPage;
+  const currentEvents                 = events.slice(indexOfFirstEvent, indexOfLastEvent);
+
   useEffect(() => {
     getAllEvents();
   // eslint-disable-next-line
@@ -34,13 +41,15 @@ const Events = ({ events, loading, error, getAllEvents }) => {
       <Container>
         <Row>
           {
-            !loading && events && events.length > 0 && events.map(({id, title, description, star_date}, i) =>
-                <Event id={id} title={title} description={description} star_date={star_date} key={i}/>
+            !loading && events && events.length > 0 && currentEvents.map(({id, title, description, star_date}, i) =>
+              <Event id={id} title={title} description={description} key={i}/>
             )
           }
           {
             !loading && events.length === 0 &&
-            <Col>Aucun évènements !</Col>
+            <Col>
+              Aucun évènements !
+            </Col>
           }
           {
             loading &&
@@ -51,6 +60,14 @@ const Events = ({ events, loading, error, getAllEvents }) => {
             </Col>
           }
         </Row>
+        {
+          !loading && events && events.length > 0 && 
+          <Pagination
+            entitiesPerPage={eventsPerPage}
+            totalEntities={events.length}
+            setCurrentPage={setCurrentPage}
+          />
+        }
       </Container>
     </div>
   );

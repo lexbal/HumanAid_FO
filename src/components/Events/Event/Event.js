@@ -1,20 +1,28 @@
 import React from 'react';
 import { Link } from "react-router-dom";
 import { Col, Card } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './Event.css';
 
-const Event = ({ id, title, description, star_date }) => {
+const Event = ({ id, title, description }) => {
   return (
     <Col xs={4} md={4} lg={4}>
-      <Card style={{ width: 'auto' }}>
-        <Link to={`/event/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-          <div className="card-body">
-            <h4>{star_date}</h4>
-            <h5 className="card-title">{title}</h5>
-            <p className="card-body">{description}</p>
+      <Card style={{ width: '95%' }}>
+        <Card.Header>
+          <div style={{ float: 'left', width: '90%' }}>
+            {title}
           </div>
-        </Link>
+          <div style={{ float: 'right' }}>
+            <Link to={`/event/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+              <FontAwesomeIcon icon={faInfoCircle} color="grey"/>
+            </Link>
+          </div>
+        </Card.Header>
+        <Card.Body>
+          {description}
+        </Card.Body>
       </Card>
     </Col>
   );

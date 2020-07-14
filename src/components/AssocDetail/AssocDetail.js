@@ -25,7 +25,6 @@ const AssocDetail = ({ assoc, getSingleAssoc,loading, event  }) => {
   let { id } = useParams();
 
   useEffect(() => {
-    console.log(id)
     getSingleAssoc(id);
   // eslint-disable-next-line
   }, []);

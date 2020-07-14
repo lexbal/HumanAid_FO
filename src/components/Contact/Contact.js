@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
 
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
@@ -50,7 +49,7 @@ const Contact = ({ sendMail, error }) => {
 
   return (
     <div className='Contact'>
-      <Card style={{ width: '35rem', margin: "auto", marginTop: "10%" }}>
+      <Card style={{ width: '35rem', justifyContent: "center" }}>
         <Card.Header>Contacter-nous</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>

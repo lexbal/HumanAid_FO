@@ -1,24 +1,23 @@
 import React from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
+import { Link } from "react-router-dom";
+import { Col, Card } from 'react-bootstrap';
 
 import './Event.css';
 
-const Event = ({ title, description }) => {
+const Event = ({ id, title, description, star_date }) => {
   return (
-    <div className='event'>
-      <Row>
-        <Col xs={4} md={4} lg={4}>
-          <Image src="holder.js/171x180" rounded />
-        </Col>
-        <Col xs={8} md={8} lg={8}>
-          <h5>{title}</h5>
-          <p>{description}</p>
-        </Col>
-      </Row>
-    </div>
+    <Col xs={4} md={4} lg={4}>
+      <Card style={{ width: 'auto' }}>
+        <Link to={`/event/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+          <div className="card-body">
+            <h4>{star_date}</h4>
+            <h5 className="card-title">{title}</h5>
+            <p className="card-body">{description}</p>
+          </div>
+        </Link>
+      </Card>
+    </Col>
   );
 };
 
-export default Event
+export default Event;

@@ -2,6 +2,7 @@ import { isLoggedIn, getUserValue } from '../../services/AuthService';
 
 const INITIAL_STATE = {
   username: getUserValue("username"),
+  role: getUserValue("role"),
   email: "",
   token: "",
   loggedIn: isLoggedIn(),

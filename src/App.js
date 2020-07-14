@@ -9,6 +9,9 @@ import {
 import Navbar from 'react-bootstrap/Navbar';
 import Nav from 'react-bootstrap/Nav';
 import Image from 'react-bootstrap/Image';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUserCircle, faCaretDown, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
 import Home from './components/Home/Home';
 import Signup from './components/Signup/Signup';
@@ -17,6 +20,7 @@ import AssocDetail from './components/AssocDetail/AssocDetail';
 import Contact from './components/Contact/Contact';
 import Associations from './components/Associations/Associations';
 import Events from './components/Events/Events';
+import EventForm from './components/EventForm/EventForm';
 import EventDetail from './components/EventDetail/EventDetail';
 import logo from './image/logo_complet.png';
 import './App.css';
@@ -26,6 +30,7 @@ import { logout } from './redux/actions/user';
 const mapStateToProps = (state) => {
   return {
     username: state.user.username,
+    role: state.user.role,
     loggedIn: state.user.loggedIn
   }
 }
@@ -39,7 +44,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-const App = ({ username, loggedIn, removeConnexion }) => {
+const App = ({ username, role, loggedIn, removeConnexion }) => {
   const handleLogout = () => {
     removeConnexion()
   }
@@ -55,16 +60,25 @@ const App = ({ username, loggedIn, removeConnexion }) => {
             <Link to="/" className="nav-link header-link">Accueil</Link>
             <Link to="/events" className="nav-link header-link">Évènements</Link>
             <Link to="/associations" className="nav-link header-link">Associations</Link>
+            {
+              loggedIn && role === "ROLE_ASSOC" &&
+                <>
+                    <Link to="/event/add" className="nav-link header-link">Ajoutez un évènement</Link>
+                </>
+            }
             <Link to="/contact" className="nav-link header-link">Nous contacter</Link>
           </Nav>
           <Nav>
             {
               loggedIn ?
                 <>
-                  <Navbar.Text>
-                    Connecté en tant que {username}
-                  </Navbar.Text>
-                  <Link className="nav-link header-link" onClick={handleLogout}>Se déconnecter</Link>
+                  <NavDropdown title={<><FontAwesomeIcon icon={faUserCircle} color="white"/><FontAwesomeIcon icon={faCaretDown} color="white"/></>} id="basic-nav-dropdown" className="dropdown-menu-right">
+                    <NavDropdown.Header>
+                      Connecté en tant que {username}
+                    </NavDropdown.Header>
+                    <NavDropdown.Divider />
+                    <NavDropdown.Item onClick={handleLogout}><FontAwesomeIcon icon={faSignOutAlt} color="dark"/> Se déconnecter</NavDropdown.Item>
+                  </NavDropdown>
                 </>
                :
                 <>
@@ -78,12 +92,12 @@ const App = ({ username, loggedIn, removeConnexion }) => {
         <Route exact path="/signup" component={Signup}/>
         <Route exact path="/login" component={Login}/>
         <Route exact path="/association/detail/:id" component={AssocDetail}/>
-        <Route exact path="/contact" component={Contact}/>
         <Route exact path="/associations" component={Associations}/>
         <Route exact path="/events" component={Events}/>
         <Route exact path="/event/detail/:id" component={EventDetail}/>
+        <Route exact path="/event/add" component={EventForm}/>
+        <Route exact path="/contact" component={Contact}/>
       </Router>
-      <div className="App-footer"/>
     </div>
   );
 }

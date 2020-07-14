@@ -52,7 +52,7 @@ const Login = ({ createConnexion, loggedIn, error }) => {
   return (
     !loggedIn ? (
       <div className="Login">
-        <Card style={{ width: '18rem', margin: "auto", marginTop: "15%" }}>
+        <Card style={{ width: '18rem', justifyContent: "center" }}>
           <Card.Header>Connexion</Card.Header>
           <Card.Body>
             <Form onSubmit={handleSubmit}>

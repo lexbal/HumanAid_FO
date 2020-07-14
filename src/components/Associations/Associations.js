@@ -1,8 +1,6 @@
 import React, { useEffect } from 'react';
-import { Container, ListGroup, Spinner, Pagination, Button, Card } from 'react-bootstrap';
+import { Container, Row, Spinner, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
-import PlusSign from '../../image/plus.svg';
 import Association from './Association/Association';
 import { getAssociations } from '../../redux/actions/assoc';
 import './Associations.css';
@@ -32,35 +30,27 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
   return (
     <div className='assocs'>
       <Container>
+        <Row>
           {
             !loading && assocs && assocs.length > 0 && assocs.map(({description, name, id}, i) =>
-              <div class="card" key={i}>
-                
-                  <img class="card-img-top" src="..." alt="Card image"/>
-                  <h5 class="card-title">{name}</h5>
-                      <div class="card-body">
-                        <p>{description}</p>
-                      </div>
-                      <Link to={`/association/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                      <button>Détail</button>
-                </Link>
-              </div>
+              <Association id={id} name={name} description={description} key={i}/>
             )
           }
           {
             !loading && assocs.length === 0 &&
-            <div class="card">
+            <Col>
               Aucune association !
-            </div>
+            </Col>
           }
           {
             loading &&
-            <div class="card">
+            <Col>
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>
-            </div>
+            </Col>
           }
+        </Row>
       </Container>
     </div>
   );

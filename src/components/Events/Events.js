@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Container, ListGroup, Spinner, Pagination } from 'react-bootstrap';
+import { Container, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
-import './Event/Event.css'
+import './Event/Event.css';
+import { Row, Col } from 'react-bootstrap';
+
 import Event from './Event/Event';
 import { getEvents } from '../../redux/actions/event';
 
@@ -31,33 +32,25 @@ const Events = ({ events, loading, error, getAllEvents }) => {
   return (
     <div className='events'>
       <Container>
+        <Row>
           {
-            !loading && events && events.length > 0 && events.map(({title, id,star_date,description}, i) =>
-              <div class="card" key={i} classname="event-item">
-                <Link to={`/event/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                  <div class="card-body">
-                    <h4>{star_date}</h4>
-                    <h5 class="card-title">{title}</h5>
-                    <p class="card-body">{description}</p>
-                  </div>
-                </Link>
-              </div>
+            !loading && events && events.length > 0 && events.map(({id, title, description, star_date}, i) =>
+                <Event id={id} title={title} description={description} star_date={star_date} key={i}/>
             )
           }
           {
             !loading && events.length === 0 &&
-            <div class="card">
-              Aucun évènements !
-            </div>
+            <Col>Aucun évènements !</Col>
           }
           {
             loading &&
-            <div class="card">
+            <Col>
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>
-            </div>
+            </Col>
           }
+        </Row>
       </Container>
     </div>
   );

@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const AssocDetail = ({ assoc, getSingleAssoc,loading, event  }) => {
+const AssocDetail = ({ getSingleAssoc, assoc }) => {
   let { id } = useParams();
 
   useEffect(() => {
@@ -32,20 +32,29 @@ const AssocDetail = ({ assoc, getSingleAssoc,loading, event  }) => {
   return (
     <div className='assoc-detail'>
       <Container>
-      {
-        !loading && assoc && assoc.length > 0 && assoc.map(({description, name, location,email,website}, i) =>
-        <div>
-          <p>ceci est un test</p>
-          <p>{description}</p>
-        </div>
-        )
-      }
-      {
-       loading &&
-          <Spinner animation="border" role="status">
-            <span className="sr-only">Loading...</span>
-          </Spinner>
-      }
+        <Row>
+          <Col xs={4} md={4} lg={4}>
+            <Row>
+              <Col xs={12} md={12} lg={12}>
+                <Image
+                  src={require(`../../no-image-found.png`)}
+                  alt=""
+                  height="250"
+                  onerror="this.src='../../no-image-found.png'" rounded />
+              </Col>
+            </Row>
+            <Row>
+              <Col xs={12} md={12} lg={12}>
+                <h5>test</h5>
+                <p>test</p>
+              </Col>
+            </Row>
+          </Col>
+          <Col xs={8} md={8} lg={8}>
+            <h5>{assoc.name}</h5>
+            <p>{assoc.description}</p>
+          </Col>
+        </Row>
       </Container>
     </div>
   );

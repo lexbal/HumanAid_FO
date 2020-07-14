@@ -98,7 +98,6 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
         <Route exact path="/event/add" component={EventForm}/>
         <Route exact path="/contact" component={Contact}/>
       </Router>
-      <div className="App-footer"/>
     </div>
   );
 }

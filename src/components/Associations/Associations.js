@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
-import { Container, ListGroup, Spinner, Pagination } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Container, Row, Spinner, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
 
+import Pagination from '../Pagination/Pagination';
 import Association from './Association/Association';
 import { getAssociations } from '../../redux/actions/assoc';
 import './Associations.css';
@@ -24,6 +24,12 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const Associations = ({ assocs, loading, error, getAllAssociations }) => {
+  const [assocsPerPage]               = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastAssoc              = currentPage * assocsPerPage;
+  const indexOfFirstAssoc             = indexOfLastAssoc - assocsPerPage;
+  const currentAssocs                 = assocs.slice(indexOfFirstAssoc, indexOfLastAssoc);
+
   useEffect(() => {
     getAllAssociations();
   // eslint-disable-next-line
@@ -32,25 +38,35 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
   return (
     <div className='assocs'>
       <Container>
-        <ListGroup>
+        <Row>
           {
-            !loading && assocs && assocs.length > 0 && assocs.map(({description, name, id}, i) =>
-              <ListGroup.Item key={i}>
-                <Link to={`/associations/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                  <Association name={name} description={description}/>
-                </Link>
-              </ListGroup.Item>
+            !loading && assocs && assocs.length > 0 && currentAssocs.map(({description, name, id}, i) =>
+              <Association id={id} name={name} description={description} key={i}/>
             )
           }
           {
+            !loading && assocs.length === 0 &&
+            <Col>
+              Aucune association !
+            </Col>
+          }
+          {
             loading &&
-            <ListGroup.Item>
+            <Col>
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>
-            </ListGroup.Item>
+            </Col>
           }
-        </ListGroup>
+        </Row>
+        {
+          !loading && assocs && assocs.length > 0 && 
+          <Pagination
+            entitiesPerPage={assocsPerPage}
+            totalEntities={assocs.length}
+            setCurrentPage={setCurrentPage}
+          />
+        }
       </Container>
     </div>
   );

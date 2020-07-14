@@ -1,11 +1,7 @@
 import React, { useEffect } from 'react';
-import {
-  Row, Col, Image, Container
-} from 'react-bootstrap';
+import { Container,Spinner } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
-
 import { connect } from 'react-redux';
-
 import { getAssoc } from '../../redux/actions/assoc';
 import './AssocDetail.css';
 

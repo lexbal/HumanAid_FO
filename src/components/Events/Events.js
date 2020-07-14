@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
-import { Container, ListGroup, Spinner, Pagination } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Container, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Link } from "react-router-dom";
+import './Events.css';
+import { Row, Col } from 'react-bootstrap';
 
 import Event from './Event/Event';
+import Pagination from '../Pagination/Pagination';
 import { getEvents } from '../../redux/actions/event';
-import './Events.css';
 
 const mapStateToProps = (state) => {
   return {
@@ -24,6 +25,12 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const Events = ({ events, loading, error, getAllEvents }) => {
+  const [eventsPerPage]               = useState(6);
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexOfLastEvent              = currentPage * eventsPerPage;
+  const indexOfFirstEvent             = indexOfLastEvent - eventsPerPage;
+  const currentEvents                 = events.slice(indexOfFirstEvent, indexOfLastEvent);
+
   useEffect(() => {
     getAllEvents();
   // eslint-disable-next-line
@@ -32,31 +39,35 @@ const Events = ({ events, loading, error, getAllEvents }) => {
   return (
     <div className='events'>
       <Container>
-        <ListGroup>
+        <Row>
           {
-            !loading && events && events.length > 0 && events.map(({description, title, id}, i) =>
-              <ListGroup.Item key={i}>
-                <Link to={`/event/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
-                  <Event title={title} description={description}/>
-                </Link>
-              </ListGroup.Item>
+            !loading && events && events.length > 0 && currentEvents.map(({id, title, description, star_date}, i) =>
+              <Event id={id} title={title} description={description} key={i}/>
             )
           }
           {
             !loading && events.length === 0 &&
-            <ListGroup.Item>
+            <Col>
               Aucun évènements !
-            </ListGroup.Item>
+            </Col>
           }
           {
             loading &&
-            <ListGroup.Item>
+            <Col>
               <Spinner animation="border" role="status">
                 <span className="sr-only">Loading...</span>
               </Spinner>
-            </ListGroup.Item>
+            </Col>
           }
-        </ListGroup>
+        </Row>
+        {
+          !loading && events && events.length > 0 && 
+          <Pagination
+            entitiesPerPage={eventsPerPage}
+            totalEntities={events.length}
+            setCurrentPage={setCurrentPage}
+          />
+        }
       </Container>
     </div>
   );

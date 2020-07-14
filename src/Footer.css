@@ -1,0 +1,16 @@
+.Footer {
+    margin-top: 5rem;
+}
+
+.fa-facebook {
+    color: #3b5998!important;
+    background-image: linear-gradient( to bottom, transparent 20%, white 20%, white 93%, transparent 93% )!important;
+    background-size: 41%!important;
+    background-position: 51% 0!important;
+    background-repeat: no-repeat!important;
+}
+
+.fa-twitter-square {
+    color: #55acee;
+    background-image: linear-gradient( to bottom, transparent 20%, white 20%, white 80%, transparent 93% )!important;
+}

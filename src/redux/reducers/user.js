@@ -2,6 +2,7 @@ import { isLoggedIn, getUserValue } from '../../services/AuthService';
 
 const INITIAL_STATE = {
   username: getUserValue("username"),
+  role: getUserValue("role"),
   email: "",
   token: "",
   loggedIn: isLoggedIn(),
@@ -23,6 +24,13 @@ const user = (state = INITIAL_STATE, action) => {
         email: action.email,
         username: action.username,
         token: action.token,
+        loading: false,
+        loggedIn: isLoggedIn(),
+        error: ""
+      }
+    case 'MAIL_SUCCESS':
+      return {
+        ...state,
         loading: false,
         loggedIn: isLoggedIn(),
         error: ""

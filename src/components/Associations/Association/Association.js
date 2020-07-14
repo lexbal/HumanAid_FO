@@ -1,28 +1,31 @@
 import React from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Image from 'react-bootstrap/Image';
+import {Col, Card} from 'react-bootstrap';
+import { Link } from "react-router-dom";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './Association.css';
 
-const Association = ({ title, description }) => {
+const Association = ({ id, name, description }) => {
   return (
-    <div className='event'>
-      <Row>
-        <Col xs={4} md={4} lg={4}>
-          <Image
-            src={require(`../../../no-image-found.png`)}
-            alt=""
-            height="250"
-            onerror="this.src='../../../no-image-found.png'" rounded />
-        </Col>
-        <Col xs={8} md={8} lg={8}>
-          <h5>{title}</h5>
-          <p>{description}</p>
-        </Col>
-      </Row>
-    </div>
+    <Col xs={4} md={4} lg={4}>
+      <Card style={{ width: '95%' }}>
+        <Card.Header>
+          <div style={{ float: 'left', width: '80%' }}>
+            {name}
+          </div>
+          <div style={{ float: 'right' }}>
+          <Link to={`/association/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+              <FontAwesomeIcon icon={faInfoCircle} color="grey"/>
+            </Link>
+          </div>
+        </Card.Header>
+        <Card.Body>
+          {description}
+        </Card.Body>
+      </Card>
+    </Col>
   );
 };
 
-export default Association
+export default Association;

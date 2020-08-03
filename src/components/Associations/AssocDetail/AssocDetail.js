@@ -1,8 +1,9 @@
 import React, { useEffect } from 'react';
-import { Container,Spinner } from 'react-bootstrap';
+import { Container, Col, Row, Image } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
-import { getAssoc } from '../../redux/actions/assoc';
+import { getAssoc } from '../../../redux/actions/assoc';
+import notFound from '../../../images/no-image-found.png';
 import './AssocDetail.css';
 
 const mapStateToProps = (state) => {
@@ -37,10 +38,10 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
             <Row>
               <Col xs={12} md={12} lg={12}>
                 <Image
-                  src={require(`../../no-image-found.png`)}
+                  src={notFound}
                   alt=""
                   height="250"
-                  onerror="this.src='../../no-image-found.png'" rounded />
+                  onerror="this.src='../../../images/no-image-found.png'" rounded />
               </Col>
             </Row>
             <Row>

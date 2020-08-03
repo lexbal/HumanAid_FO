@@ -10,7 +10,7 @@ import Select from 'react-select';
 import DateTimePicker from 'react-datetime-picker';
 
 import './EventForm.css';
-import { createEvent, getCategories } from '../../redux/actions/event';
+import { createEvent, getCategories } from '../../../redux/actions/event';
 
 
 const mapStateToProps = (state) => {

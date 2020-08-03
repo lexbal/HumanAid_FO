@@ -28,6 +28,20 @@ const user = (state = INITIAL_STATE, action) => {
         loggedIn: isLoggedIn(),
         error: ""
       }
+    case 'GET_USER_SUCCESS':
+      return {
+        ...state,
+        loading: false,
+        error: ""
+      }
+    case 'UPDATE_USER_SUCCESS':
+      return {
+        ...state,
+        email: action.email,
+        username: action.username,
+        loading: false,
+        error: ""
+      }
     case 'MAIL_SUCCESS':
       return {
         ...state,

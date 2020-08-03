@@ -9,7 +9,7 @@ import Alert from 'react-bootstrap/Alert';
 
 import PropTypes from'prop-types';
 
-import { login } from '../../redux/actions/user';
+import { login } from '../../../redux/actions/user';
 
 
 const mapDispatchToProps = (dispatch) => {

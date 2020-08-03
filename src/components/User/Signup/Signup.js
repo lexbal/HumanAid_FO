@@ -10,7 +10,7 @@ import Alert from 'react-bootstrap/Alert';
 
 import PropTypes from'prop-types';
 
-import { signup } from '../../redux/actions/user';
+import { signup } from '../../../redux/actions/user';
 import './Signup.css';
 
 

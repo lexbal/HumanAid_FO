@@ -3,10 +3,9 @@ import {
   Row, Col, Image, Container
 } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
-
 import { connect } from 'react-redux';
-
-import { getEvent } from '../../redux/actions/event';
+import notFound from '../../../images/no-image-found.png';
+import { getEvent } from '../../../redux/actions/event';
 import './EventDetail.css';
 
 const mapStateToProps = (state) => {
@@ -41,10 +40,10 @@ const EventDetail = ({ getSingleEvent, event }) => {
             <Row>
               <Col xs={12} md={12} lg={12}>
                 <Image
-                  src={require(`../../no-image-found.png`)}
+                  src={notFound}
                   alt=""
                   height="250"
-                  onerror="this.src='../../no-image-found.png'" rounded />
+                  onerror="this.src='../../../images/no-image-found.png'" rounded />
               </Col>
             </Row>
             <Row>

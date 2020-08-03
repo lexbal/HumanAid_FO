@@ -13,18 +13,19 @@ import {
   Button
 } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUserCircle, faCaretDown, faSignOutAlt, faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faUserCircle, faCaretDown, faSignOutAlt, faPlus, faEdit } from '@fortawesome/free-solid-svg-icons';
 
 import Home from './components/Home/Home';
-import Signup from './components/Signup/Signup';
-import Login from './components/Login/Login';
-import AssocDetail from './components/AssocDetail/AssocDetail';
+import Signup from './components/User/Signup/Signup';
+import Login from './components/User/Login/Login';
+import Profile from './components/User/Profile/Profile';
+import AssocDetail from './components/Associations/AssocDetail/AssocDetail';
 import Contact from './components/Contact/Contact';
 import Associations from './components/Associations/Associations';
 import Events from './components/Events/Events';
-import EventForm from './components/EventForm/EventForm';
-import EventDetail from './components/EventDetail/EventDetail';
-import logo from './image/logo_complet.png';
+import EventForm from './components/Events/EventForm/EventForm';
+import EventDetail from './components/Events/EventDetail/EventDetail';
+import logo from './images/logo_complet.png';
 import './App.css';
 import { logout } from './redux/actions/user';
 
@@ -84,6 +85,8 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
                       Connecté en tant que {username}
                     </NavDropdown.Header>
                     <NavDropdown.Divider />
+                    <Link to="/profile" className="dropdown-item"><FontAwesomeIcon icon={faEdit} color="dark"/> Editer le profil</Link>
+                    <NavDropdown.Divider />
                     <NavDropdown.Item onClick={handleLogout}><FontAwesomeIcon icon={faSignOutAlt} color="dark"/> Se déconnecter</NavDropdown.Item>
                   </NavDropdown>
                 </>
@@ -97,6 +100,7 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
         </Navbar>
         <Route exact path="/" component={Home}/>
         <Route exact path="/signup" component={Signup}/>
+        <Route exact path="/profile" component={Profile}/>
         <Route exact path="/login" component={Login}/>
         <Route exact path="/association/detail/:id" component={AssocDetail}/>
         <Route exact path="/associations" component={Associations}/>

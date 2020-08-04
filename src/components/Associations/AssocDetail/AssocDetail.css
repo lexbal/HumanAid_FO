@@ -1,3 +1,27 @@
 .assoc-detail {
-  margin-top: 5rem;
+  margin-top: 3rem;
+  text-align: left;
+}
+
+.assoc-detail .card {
+  margin: 0;
+  width: 100%;
+}
+
+.networks {
+  display: flex;
+  justify-content: space-around;
+}
+
+.networks svg {
+  cursor: pointer;
+}
+
+.informations {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.text-right {
+  float: right;
 }

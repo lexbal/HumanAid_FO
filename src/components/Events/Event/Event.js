@@ -1,17 +1,17 @@
 import React from 'react';
 import { Link } from "react-router-dom";
-import { Col, Card } from 'react-bootstrap';
+import { Col, Card, Badge } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './Event.css';
 
-const Event = ({ id, title, description }) => {
+const Event = ({ id, title, description, categories, publish_date }) => {
   return (
     <Col xs={4} md={4} lg={4}>
       <Card style={{ width: '95%' }}>
         <Card.Header>
-          <div style={{ float: 'left', width: '90%' }}>
+          <div style={{ float: 'left', width: '90%' }} className="title">
             {title}
           </div>
           <div style={{ float: 'right' }}>
@@ -20,9 +20,19 @@ const Event = ({ id, title, description }) => {
             </Link>
           </div>
         </Card.Header>
-        <Card.Body>
-          {description}
+        <Card.Body>{console.log(categories.split(','))}
+            {categories.split(',').map((element, i) =>
+              <Badge pill variant="primary">
+                {element}
+              </Badge>
+            )}
+          <Card.Text className="description">
+            {description}
+          </Card.Text>
         </Card.Body>
+        <Card.Footer>
+          <small className="text-muted">Publié le {new Date(publish_date).toLocaleString()}</small>
+        </Card.Footer>
       </Card>
     </Col>
   );

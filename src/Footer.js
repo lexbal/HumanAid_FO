@@ -13,7 +13,7 @@ const Footer = () => {
     const twitterLink  = "https://twitter.com/human_aid";
     
     const handleClick  = (path) => {
-        window.location.replace(path);
+        window.open(path, '_blank');;
     }
 
     return (

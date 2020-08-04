@@ -1,8 +1,25 @@
 .event {
   text-align: left;
 }
-.card{
+
+.card {
   width: 15vw;
   display: inline-flex;
   margin: 1rem;
 }
+
+.card-body .description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-header .title {
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+

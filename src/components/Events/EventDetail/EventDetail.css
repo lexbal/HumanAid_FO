@@ -1,4 +1,28 @@
 
 .event-detail {
- margin-top: 5rem;
+    margin-top: 4rem;
+    text-align: left;
+}
+
+.event-detail .card {
+    margin: 0;
+    width: 100%;
+}
+
+.informations {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.text-right {
+    float: right;
+}
+
+.networks svg {
+    cursor: pointer;
+}
+
+.networks {
+    display: flex;
+    justify-content: space-around;
 }

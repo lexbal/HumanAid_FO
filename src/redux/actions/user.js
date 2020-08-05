@@ -1,8 +1,12 @@
 import axios from 'axios';
-import { setUserToken, removeUser } from '../../services/AuthService';
+import { setUserToken, getUserValue, removeUser } from '../../services/AuthService';
 
 const api = {
   url: 'http://localhost:3000'
+};
+
+const config = {
+  headers: { Authorization: `${getUserValue("token")}` }
 };
 
 export const signup = user => {
@@ -128,7 +132,7 @@ export const updateUser = user => {
               email: user.email,
               password: user.password,
               roles: user.roles
-            })
+            }, config)
             .then((json) => {
               dispatch({
                 type: 'UPDATE_USER_SUCCESS',

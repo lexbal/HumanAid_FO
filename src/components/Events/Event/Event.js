@@ -20,7 +20,7 @@ const Event = ({ id, title, description, categories, publish_date }) => {
             </Link>
           </div>
         </Card.Header>
-        <Card.Body>{console.log(categories.split(','))}
+        <Card.Body>
             {categories.split(',').map((element, i) =>
               <Badge pill variant="primary">
                 {element}

@@ -1,8 +1,12 @@
 import axios from 'axios';
-import { removeUser } from '../../services/AuthService';
+import { removeUser, getUserValue } from '../../services/AuthService';
 
 const api = {
   url: 'http://localhost:3000'
+};
+
+const config = {
+  headers: { Authorization: `${getUserValue("token")}` }
 };
 
 export const createEvent = event => {
@@ -15,7 +19,7 @@ export const createEvent = event => {
               description:  event.description,
               start_date:   event.start,
               end_date:     event.end
-            })
+            }, config)
             .then(() => {
               dispatch({
                 type: 'CREATE_EVENT_SUCCESS'

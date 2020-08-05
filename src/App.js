@@ -70,7 +70,7 @@ const App = ({ username, role, loggedIn, removeConnexion }) => {
               loggedIn && role === "ROLE_ASSOC" &&
                 <>
                     <Link to="/event/add" style={{ marginRight: '10px' }}>
-                      <Button renderAs="button">
+                      <Button>
                         <FontAwesomeIcon icon={faPlus} color="white"/>
                         Ajoutez un évènement
                       </Button>

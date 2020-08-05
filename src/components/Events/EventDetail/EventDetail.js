@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {
-  Row, Col, Card, Container, Button
+  Row, Col, Card, Container, ListGroup
 } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
@@ -9,10 +9,13 @@ import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-
 import notFound from '../../../images/no-image-found.png';
 import { getEvent } from '../../../redux/actions/event';
 import './EventDetail.css';
+import Rating from '../../Rating/Rating';
+import RatingForm from '../../Rating/RatingForm/RatingForm';
 
 const mapStateToProps = (state) => {
   return {
     loading: state.events.loading,
+    loggedIn: state.user.loggedIn,
     event: state.events.event,
     error: state.events.error
   }
@@ -26,11 +29,9 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const EventDetail = ({ getSingleEvent, event }) => {
+const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
   let { id } = useParams();
-  const facebookLink = "https://www.facebook.com/HumanAid-100879451546535/";
-  const twitterLink  = "https://twitter.com/human_aid";
-
+  
   useEffect(() => {
     getSingleEvent(id);
   // eslint-disable-next-line
@@ -84,6 +85,16 @@ const EventDetail = ({ getSingleEvent, event }) => {
                   </h6>
                 }
                 <p>{event.event.description ? event.event.description : "Aucune description disponible"}</p>
+                
+                <Row>
+                  <ListGroup className="ratings">
+                    {event.ratings && event.ratings.map(({username, rating, comment, publish_date}, i) =>
+                        <ListGroup.Item key={i}><Rating username={username} rating={rating} comment={comment} publish_date={publish_date} /></ListGroup.Item>
+                      )
+                    }
+                    {loggedIn && <ListGroup.Item><RatingForm event_id={id} /></ListGroup.Item>}
+                  </ListGroup>
+                </Row>
               </Col>
             </>
           }

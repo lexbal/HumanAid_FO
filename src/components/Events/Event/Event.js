@@ -21,10 +21,14 @@ const Event = ({ id, title, description, categories, publish_date }) => {
           </div>
         </Card.Header>
         <Card.Body>
-            {categories.split(',').map((element, i) =>
-              <Badge pill variant="primary">
-                {element}
-              </Badge>
+            {categories && (
+              <div>
+                {categories.split(',').map((element, i) =>
+                  <Badge pill variant="primary">
+                    {element}
+                  </Badge>
+                )}
+              </div>
             )}
           <Card.Text className="description">
             {description}

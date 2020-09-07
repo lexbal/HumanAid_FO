@@ -1,15 +1,11 @@
 import axios from 'axios';
 
-const api = {
-  url: 'http://localhost:3000'
-};
-
 export const getAssoc = id => {
   return (dispatch) => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.get(`${api.url}/assoc/${id}`)
+    return axios.get(`${process.env.REACT_APP_API_HOST}assoc/${id}`)
             .then((json) => {
               dispatch({
                 type: 'GET_ASSOC_SUCCESS',
@@ -30,7 +26,7 @@ export const getAssociations = () => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.get(`${api.url}/assoc`)
+    return axios.get(`${process.env.REACT_APP_API_HOST}assoc`)
             .then((json) => {
               dispatch({
                 type: 'GET_ASSOCS_SUCCESS',

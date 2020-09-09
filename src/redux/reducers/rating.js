@@ -31,5 +31,5 @@ const rating = (state = INITIAL_STATE, action) => {
     }
   }
   
-  export default assocs;
+  export default rating;
   

@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { getUserValue, removeUser } from '../../services/AuthService';
 
-const api = {
-  url: 'http://localhost:3000'
-};
-
 const config = {
   headers: { Authorization: `${getUserValue("token")}` }
 };
@@ -14,7 +10,7 @@ export const createRating = (rating, event_id) => {
       dispatch({
         type: 'LOADING'
       });
-      return axios.post(`${api.url}/rating`, {
+      return axios.post(`${process.env.REACT_APP_API_HOST}rating`, {
                 rating: rating.rating,
                 comment: rating.comment,
                 event_id: event_id,

@@ -6,13 +6,13 @@ import Button from 'react-bootstrap/Button';
 import FormControl from 'react-bootstrap/FormControl';
 import Alert from 'react-bootstrap/Alert';
 
-import { mail } from '../../../redux/actions/user';
+import { mail } from '../../../redux/actions/mail';
 
 
 const mapStateToProps = (state) => {
   return {
-    loggedIn: state.user.loggedIn,
-    error: state.user.error
+    loading: state.mail.loading,
+    error: state.mail.error
   }
 }
 

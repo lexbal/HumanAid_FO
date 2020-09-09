@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { removeUser, getUserValue } from '../../services/AuthService';
 
-const api = {
-  url: 'http://localhost:3000'
-};
-
 const config = {
   headers: { Authorization: `${getUserValue("token")}` }
 };
@@ -14,7 +10,7 @@ export const createEvent = event => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.post(`${api.url}/event`, {
+    return axios.post(`${process.env.REACT_APP_API_HOST}event`, {
               title:        event.title,
               description:  event.description,
               start_date:   event.start,
@@ -43,7 +39,7 @@ export const getEvents = () => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.get(`${api.url}/event`)
+    return axios.get(`${process.env.REACT_APP_API_HOST}event`)
             .then((json) => {
               dispatch({
                 type: 'GET_EVENTS_SUCCESS',
@@ -64,7 +60,7 @@ export const getEvent = id => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.get(`${api.url}/event/${id}`)
+    return axios.get(`${process.env.REACT_APP_API_HOST}event/${id}`)
             .then((json) => {
               dispatch({
                 type: 'GET_EVENT_SUCCESS',
@@ -85,7 +81,7 @@ export const getCategories = () => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.get(`${api.url}/event/categories`)
+    return axios.get(`${process.env.REACT_APP_API_HOST}event/categories`)
             .then((json) => {
               dispatch({
                 type: 'GET_EVENT_CATEGORIES_SUCCESS',

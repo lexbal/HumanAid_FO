@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import { getUser, updateUser } from '../../../redux/actions/user';
+import { getUser, setUser, updateUser } from '../../../redux/actions/user';
 
 import { 
-  Form, Button, 
-  Card, Alert, FormControl 
+  Form, Button, Col,
+  Card, Alert, FormControl, Row 
 } from 'react-bootstrap';
 
 const mapStateToProps = (state) => {
   return {
+    user: state.user.user,
     username: state.user.username,
     email: state.user.email,
     role: state.user.role,
@@ -21,6 +22,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    setUser: (user) => {
+      dispatch(setUser(user))
+    },
     getUser: (id) => {
       dispatch(getUser(id))
     },
@@ -31,133 +35,202 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-const Profile = ({ username, email, getUser, updateProfile, role, loggedIn, error }) => {
+const Profile = ({ user, username, email, getUser, setUser, updateProfile, role, loggedIn, error }) => {
   useEffect(() => {
     getUser(username ? username : email);
   // eslint-disable-next-line
   }, []);
-  
-  const [fields, setField] = useState({
-    username: "",
-    description: "",
-    siret: "",
-    address: "",
-    website: "",
-    name: "",
-    email: "",
-    password: "",
-    roles: "",
-  });
 
   const handleChange = (event) => {
     const target = event.target;
-    const value  = target.type === 'checkbox' ? target.checked : target.value;
+    let value    = target.type === 'checkbox' ? target.checked : target.value;
     const name   = target.name;
 
-    setField({ ...fields, [name]: value });
+    if (name === "address") {
+      const id   = target.id;
+      user.address = {...user.address, [id]: value};
+    } else {
+      user[name] = (target.type === "file") ? target.files[0] : value;
+    }
+
+    setUser(user);
 
     return true;
   }
 
   const handleSubmit = (event) => {
-    updateProfile(fields);
     event.preventDefault();
+    updateProfile(user);
   }
 
   return (
     loggedIn ? (
       <div className="Profile">
-        <Card style={{ width: '80%', justifyContent: "center" }}>
+        <Card style={{ width: '90%', justifyContent: "center" }}>
           <Card.Header>Profil</Card.Header>
           <Card.Body>
             <Form onSubmit={handleSubmit}>
+              <Row>
+                <Col>
+                  <Form.Label>Informations de connexion</Form.Label>
+                  <hr/>
 
-              <Form.Label>Informations de connexion</Form.Label>
-
-              <Form.Group controlId="siretGroup">
-                <Form.Control
-                  type="text"
-                  name="username"
-                  placeholder="Nom d'utilisateur"
-                  value={fields.username}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="emailGroup">
-                <Form.Control
-                  type="text"
-                  name="email"
-                  placeholder="E-mail"
-                  value={fields.email}
-                  onChange={handleChange}
-                    />
-              </Form.Group>
-              <Form.Group controlId="passwordGroup">
-                <Form.Control
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  value={fields.password}
-                  onChange={handleChange}
-                />
-              </Form.Group>
-
-              <Form.Label>Vos informations</Form.Label>
-
-              {
-                (role === "ROLE_ASSOC" || role === "ROLE_COMP") &&
-                <>
-                  <Form.Group controlId="nameGroup">
-                    <Form.Control
+                  <Form.Group>
+                    <Form.Control 
+                      id="username"
                       type="text"
-                      name="name"
-                      value={fields.name}
+                      name="username"
+                      placeholder="Nom d'utilisateur"
+                      defaultValue={user.username}
                       onChange={handleChange}
                     />
                   </Form.Group>
-                  <Form.Group controlId="descriptionGroup">
-                    <FormControl
-                      as="textarea"
-                      name="description"
-                      aria-label="With textarea"
-                      placeholder="Description"
-                      value={fields.description}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group controlId="websiteGroup">
-                    <Form.Control
+                  <Form.Group>
+                    <Form.Control 
+                      id="email"
                       type="text"
-                      name="website"
-                      placeholder="Site Web"
-                      value={fields.website}
+                      name="email"
+                      placeholder="E-mail"
+                      defaultValue={user.email}
                       onChange={handleChange}
-                    />
+                        />
                   </Form.Group>
-                </>
-              }
+                </Col>
+                <Col style={{ borderLeft: "1px lightgrey solid" }}>
+                  <Form.Label>Informations de l'utilisateur</Form.Label>
+                  <hr/>
 
-              {
-                role === "ROLE_COMP" &&
-                <Form.Group controlId="siretGroup">
-                  <Form.Control
-                    type="text"
-                    name="siret"
-                    placeholder="Siret"
-                    value={fields.siret}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              }
-              <Form.Group controlId="locationGroup">
-                <Form.Control
-                  type="text"
-                  name="address"
-                  placeholder="Adresse"
-                  value={fields.address}
-                  onChange={handleChange}
-                />
-              </Form.Group>
+                  {
+                    (role === "ROLE_ASSOC" || role === "ROLE_COMP") &&
+                    <>
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          id="name"
+                          name="name"
+                          placeholder={role === "ROLE_COMP" ? "Nom de l'Entreprise" : "Nom de l'Association"}
+                          defaultValue={user.name}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <FormControl
+                          as="textarea"
+                          id="description"
+                          name="description"
+                          aria-label="With textarea"
+                          placeholder="Description"
+                          defaultValue={user.description}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          id="website"
+                          name="website"
+                          placeholder="Site Web"
+                          defaultValue={user.website}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+                    </>
+                  }
+
+                  {
+                    role === "ROLE_COMP" &&
+                    <Form.Group>
+                      <Form.Control
+                        type="text"
+                        id="siret"
+                        name="siret"
+                        placeholder="Siret"
+                        defaultValue={user.siret}
+                        onChange={handleChange}
+                      />
+                    </Form.Group>
+                  }              
+                </Col>
+              </Row>
+              <hr/>
+              <Row>
+                <Col>
+                  <Form.Label>Informations géographique</Form.Label>
+                  <hr/>
+
+                  {
+                    user.address && 
+                    <>
+                      <Form.Group>
+                        <Form.Row>
+                          <Col>
+                            <Form.Control
+                              type="text"
+                              name="address"
+                              id="street"
+                              placeholder="Adresse"
+                              defaultValue={user.address.street}
+                              onChange={handleChange}
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Control
+                              type="text"
+                              name="address"
+                              id="zipcode"
+                              placeholder="Code postal"
+                              defaultValue={user.address.zipcode}
+                              onChange={handleChange}
+                            />
+                          </Col>
+                          <Col>
+                            <Form.Control
+                              type="text"
+                              name="address"
+                              id="city"
+                              placeholder="Ville"
+                              defaultValue={user.address.city}
+                              onChange={handleChange}
+                            />
+                          </Col>
+                        </Form.Row> 
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          name="address"
+                          id="country"
+                          placeholder="Pays"
+                          defaultValue={user.address.country}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          name="address"
+                          id="department"
+                          placeholder="Département"
+                          defaultValue={user.address.department}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+                      <Form.Group>
+                        <Form.Control
+                          type="text"
+                          name="address"
+                          id="region"
+                          placeholder="Région"
+                          defaultValue={user.address.region}
+                          onChange={handleChange}
+                        />
+                      </Form.Group>
+                    </>
+                  }
+
+                  <hr/>
+                </Col>
+              </Row>              
               { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
 
               <Button variant="primary" type="submit">

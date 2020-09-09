@@ -1,10 +1,11 @@
 import { isLoggedIn, getUserValue } from '../../services/AuthService';
 
 const INITIAL_STATE = {
+  user: {},
   username: getUserValue("username"),
   role: getUserValue("role"),
-  email: "",
-  token: "",
+  email: getUserValue("email"),
+  token: getUserValue("token"),
   loggedIn: isLoggedIn(),
   loading: false,
   error: ""
@@ -28,9 +29,17 @@ const user = (state = INITIAL_STATE, action) => {
         loggedIn: isLoggedIn(),
         error: ""
       }
+    case 'SET_USER':
+      return {
+        ...state,
+        user: action.user,
+        loading: false,
+        error: ""
+      }
     case 'GET_USER_SUCCESS':
       return {
         ...state,
+        user: action.user,
         loading: false,
         error: ""
       }
@@ -40,13 +49,6 @@ const user = (state = INITIAL_STATE, action) => {
         email: action.email,
         username: action.username,
         loading: false,
-        error: ""
-      }
-    case 'MAIL_SUCCESS':
-      return {
-        ...state,
-        loading: false,
-        loggedIn: isLoggedIn(),
         error: ""
       }
     case 'LOGOUT_SUCCESS':

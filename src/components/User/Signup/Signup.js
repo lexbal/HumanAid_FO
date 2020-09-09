@@ -2,11 +2,10 @@ import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import FormControl from 'react-bootstrap/FormControl';
-import Card from 'react-bootstrap/Card';
-import Alert from 'react-bootstrap/Alert';
+import {
+  Alert, Button, Form,
+  FormControl, Card, Col
+} from 'react-bootstrap';
 
 import PropTypes from'prop-types';
 
@@ -33,9 +32,17 @@ const mapStateToProps = (state) => {
 const Signup = ({ createProfile, loggedIn, error }) => {
   const [fields, setField] = useState({
     username: "",
+    photo: null,
     description: "",
     siret: "",
-    address: "",
+    address: {
+      street: "",
+      city: "",
+      zipcode: "",
+      country: "",
+      department: "",
+      region: ""
+    },
     website: "",
     name: "",
     email: "",
@@ -45,23 +52,28 @@ const Signup = ({ createProfile, loggedIn, error }) => {
 
   const handleChange = (event) => {
     const target = event.target;
-    const value  = target.type === 'checkbox' ? target.checked : target.value;
+    let value    = target.type === 'checkbox' ? target.checked : target.value;
     const name   = target.name;
 
-    setField({ ...fields, [name]: value });
+    if (name === "address") {
+      const id   = target.id;
+      setField({ ...fields, address: {...fields.address, [id]: value} });
+    } else {
+      setField({ ...fields, [name]: (target.type === "file") ? target.files[0] : value });
+    }
 
     return true;
   }
 
   const handleSubmit = (event) => {
-    createProfile(fields);
     event.preventDefault();
+    createProfile(fields);
   }
 
   return (
     !loggedIn ? (
     <div className='SignUp'>
-      <Card style={{ width: '35rem', margin: "auto", marginTop: "10%" }}>
+      <Card style={{ width: '65rem', margin: "auto", marginTop: "2%" }}>
         <Card.Header>Créer un compte</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
@@ -80,6 +92,7 @@ const Signup = ({ createProfile, loggedIn, error }) => {
             </Form.Group>
 
             <Form.Label>Informations de connexion</Form.Label>
+            <hr/>
 
             <Form.Group controlId="siretGroup">
               <Form.Control
@@ -90,14 +103,15 @@ const Signup = ({ createProfile, loggedIn, error }) => {
                 onChange={handleChange}
               />
             </Form.Group>
-            <Form.Group controlId="emailGroup">
+            <Form.Group>
               <Form.Control
+                id="emailGroup"    
                 type="text"
                 name="email"
                 placeholder="E-mail"
                 value={fields.email}
                 onChange={handleChange}
-                  />
+              />
             </Form.Group>
             <Form.Group controlId="passwordGroup">
               <Form.Control
@@ -108,12 +122,13 @@ const Signup = ({ createProfile, loggedIn, error }) => {
                 onChange={handleChange}
               />
             </Form.Group>
-
-            <Form.Label>Vos informations</Form.Label>
+            <hr/>
 
             {
               (fields.roles === "Entreprise" || fields.roles === "Association") &&
               <>
+                <Form.Label>Informations professionnelles</Form.Label>
+                <hr/>
                 <Form.Group controlId="nameGroup">
                   <Form.Control
                     type="text"
@@ -123,10 +138,11 @@ const Signup = ({ createProfile, loggedIn, error }) => {
                     onChange={handleChange}
                   />
                 </Form.Group>
-                <Form.Group controlId="descriptionGroup">
+                <Form.Group>
                   <FormControl
                     as="textarea"
                     name="description"
+                    id="description"
                     aria-label="With textarea"
                     placeholder="Description"
                     value={fields.description}
@@ -157,15 +173,94 @@ const Signup = ({ createProfile, loggedIn, error }) => {
                 />
               </Form.Group>
             }
-            <Form.Group controlId="locationGroup">
-              <Form.Control
-                type="text"
-                name="address"
-                placeholder="Adresse"
-                value={fields.address}
+
+            {(fields.roles === "Entreprise" || fields.roles === "Association") && <hr/>}
+
+            <Form.Label>Vos informations</Form.Label>
+            <hr/>
+
+            <Form.Group>
+              <Form.File 
+                id="custom-file-translate-scss"
+                label="Photo de profile/Logo"
+                name="photo"
+                lang="fr"
+                custom
                 onChange={handleChange}
               />
             </Form.Group>
+
+            <hr/>
+            <Form.Label>Informations géographique</Form.Label>
+            <hr/>
+
+            <Form.Group>
+              <Form.Row>
+                <Col>
+                  <Form.Control
+                    type="text"
+                    name="address"
+                    id="street"
+                    placeholder="Adresse"
+                    value={fields.address.street}
+                    onChange={handleChange}
+                  />
+                </Col>
+                <Col>
+                  <Form.Control
+                    type="text"
+                    name="address"
+                    id="zipcode"
+                    placeholder="Code postal"
+                    value={fields.address.zipcode}
+                    onChange={handleChange}
+                  />
+                </Col>
+                <Col>
+                  <Form.Control
+                    type="text"
+                    name="address"
+                    id="city"
+                    placeholder="Ville"
+                    value={fields.address.city}
+                    onChange={handleChange}
+                  />
+                </Col>
+              </Form.Row> 
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                name="address"
+                id="country"
+                placeholder="Pays"
+                value={fields.address.country}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                name="address"
+                id="department"
+                placeholder="Département"
+                value={fields.address.department}
+                onChange={handleChange}
+              />
+            </Form.Group>
+            <Form.Group>
+              <Form.Control
+                type="text"
+                name="address"
+                id="region"
+                placeholder="Région"
+                value={fields.address.region}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <hr/>
+
             { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
 
             <Button variant="primary" type="submit">

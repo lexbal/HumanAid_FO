@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { setUserToken, getUserValue, removeUser } from '../../services/AuthService';
 
-const api = {
-  url: 'http://localhost:3000'
-};
-
 const config = {
   headers: { Authorization: `${getUserValue("token")}` }
 };
@@ -14,12 +10,13 @@ export const signup = user => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.post(`${api.url}/signup`, {
+    return axios.post(`${process.env.REACT_APP_API_HOST}signup`, {
               username: user.username,
               description: user.description,
               siret: user.siret,
               address: user.address,
               website: user.website,
+              photo: user.photo,
               name: user.name,
               email: user.email,
               password: user.password,
@@ -44,7 +41,7 @@ export const login = ({email, password}) => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.post(`${api.url}/login`, {
+    return axios.post(`${process.env.REACT_APP_API_HOST}login`, {
               email: email,
               password: password
             })
@@ -73,19 +70,16 @@ export const logout = () => {
   }
 };
 
-export const mail = contact => {
+export const getUser = id => {
   return (dispatch) => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.post(`${api.url}/send_mail`, {
-              name: contact.name,
-              email: contact.email,
-              message: contact.content
-            })
-            .then(() => {
+    return axios.get(`${process.env.REACT_APP_API_HOST}user/${id}`)
+            .then((json) => {
               dispatch({
-                type: 'MAIL_SUCCESS'
+                type: 'GET_USER_SUCCESS',
+                user: json.data,
               });
             })
             .catch((err) => {
@@ -97,24 +91,13 @@ export const mail = contact => {
   }
 };
 
-export const getUser = id => {
+export const setUser = user => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'SET_USER',
+      user: user
     });
-    return axios.get(`${api.url}/user/${id}`)
-            .then((json) => {
-              dispatch({
-                type: 'GET_USER_SUCCESS'
-              });
-            })
-            .catch((err) => {
-              dispatch({
-                type: 'ERROR',
-                error: err
-              });
-            });
-  }
+  };
 };
 
 export const updateUser = user => {
@@ -122,7 +105,7 @@ export const updateUser = user => {
     dispatch({
       type: 'LOADING'
     });
-    return axios.put(`${api.url}/user/${user.id}`, {
+    return axios.put(`${process.env.REACT_APP_API_HOST}user/${user.id}`, {
               username: user.username,
               description: user.description,
               siret: user.siret,
@@ -130,8 +113,7 @@ export const updateUser = user => {
               website: user.website,
               name: user.name,
               email: user.email,
-              password: user.password,
-              roles: user.roles
+              roles: getUserValue("roles")
             }, config)
             .then((json) => {
               dispatch({

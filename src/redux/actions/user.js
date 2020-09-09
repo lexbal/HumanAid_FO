@@ -71,7 +71,6 @@ export const logout = () => {
 };
 
 export const getUser = id => {
-  id = 1;
   return (dispatch) => {
     dispatch({
       type: 'LOADING'

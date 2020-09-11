@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import { getEvents } from '../../redux/actions/event';
 import Event from '../Events/Event/Event';
 import Companies from '../Companies/Companies';
+import slide from '../../images/slide1.jpg';
 
 const mapStateToProps = (state) => {
   return {
@@ -31,13 +32,24 @@ const Home = ({ events, loading, error, getAllEvents }) => {
   return (
     <div className='home'>
       <Carousel>
+        <Carousel.Item>
+          <img
+            className="d-block w-100"
+            src={slide}
+            alt="HumanAid"
+          />
+          <Carousel.Caption>
+            <h3>HumanAid</h3>
+            <p>Solution digitale répertoriant les évènements associatifs à but non lucratif</p>
+          </Carousel.Caption>
+            </Carousel.Item>
         {
           !loading && events && events.length > 0 && events.slice(0, 5).map(({id, title, description, categories, publish_date}, i) =>
             <Carousel.Item key={i}>
               <img
                 className="d-block w-100"
                 src="holder.js/800x400?text=First slide&bg=373940"
-                alt={title}
+                alt=""
               />
               <Carousel.Caption>
                 <h3>{title}</h3>

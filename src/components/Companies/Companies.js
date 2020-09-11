@@ -38,12 +38,6 @@ const Companies = ({ companies, loading, error, getCompanies }) => {
             )
           }
           {
-            !loading && companies.length === 0 &&
-            <Col>
-              Aucune entreprises !
-            </Col>
-          }
-          {
             loading &&
             <Col>
               <Spinner animation="border" role="status">

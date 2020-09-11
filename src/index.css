@@ -2,6 +2,11 @@ html,
 body {
   height: 100%;
   font-family: sans-serif;
+  background: url("images/background.svg") no-repeat center center fixed; 
+	background-size: cover; 
+	 -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
 }
 
 body {

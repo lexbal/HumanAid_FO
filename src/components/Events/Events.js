@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import './Events.css';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Container, Spinner } from 'react-bootstrap';
 
 import Event from './Event/Event';
 import Pagination from '../Pagination/Pagination';

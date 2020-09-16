@@ -21,13 +21,13 @@ const assocs = (state = INITIAL_STATE, action) => {
         loading: false,
         error: ""
       }
-    case 'LOADING':
+    case 'ASSOC_LOADING':
       return {
         ...state,
         loading: true,
         error: ""
       }
-    case 'ERROR':
+    case 'ASSOC_ERROR':
       return {
         ...state,
         loading: false,

@@ -4,9 +4,11 @@
     background-size: 41%!important;
     background-position: 51% 0!important;
     background-repeat: no-repeat!important;
+    cursor: pointer;
 }
 
 .fa-twitter-square {
     color: #55acee;
     background-image: linear-gradient( to bottom, transparent 20%, white 20%, white 80%, transparent 93% )!important;
+    cursor: pointer;
 }

@@ -3,7 +3,7 @@ import axios from 'axios';
 export const mail = contact => {
     return (dispatch) => {
       dispatch({
-        type: 'LOADING'
+        type: 'MAIL_LOADING'
       });
       return axios.post(`${process.env.REACT_APP_API_HOST}send_mail`, {
                 name: contact.name,
@@ -17,7 +17,7 @@ export const mail = contact => {
               })
               .catch((err) => {
                 dispatch({
-                  type: 'ERROR',
+                  type: 'MAIL_ERROR',
                   error: err
                 });
               });

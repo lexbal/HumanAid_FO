@@ -6,22 +6,17 @@ const config = {
 };
 
 export const signup = user => {
+  var form_data = new FormData();
+
+  for (var key in user) {
+      form_data.append(key, user[key]);
+  }
+
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'USER_LOADING'
     });
-    return axios.post(`${process.env.REACT_APP_API_HOST}signup`, {
-              username: user.username,
-              description: user.description,
-              siret: user.siret,
-              address: user.address,
-              website: user.website,
-              photo: user.photo,
-              name: user.name,
-              email: user.email,
-              password: user.password,
-              roles: user.roles
-            })
+    return axios.post(`${process.env.REACT_APP_API_HOST}signup`, form_data)
             .then((json) => {
               dispatch({
                 type: 'SIGNUP_SUCCESS'
@@ -29,7 +24,7 @@ export const signup = user => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'USER_ERROR',
                 error: err
               });
             });
@@ -39,7 +34,7 @@ export const signup = user => {
 export const login = ({email, password}) => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'USER_LOADING'
     });
     return axios.post(`${process.env.REACT_APP_API_HOST}login`, {
               email: email,
@@ -56,7 +51,7 @@ export const login = ({email, password}) => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'USER_ERROR',
                 error: err
               });
             });
@@ -73,7 +68,7 @@ export const logout = () => {
 export const getUser = id => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'USER_LOADING'
     });
     return axios.get(`${process.env.REACT_APP_API_HOST}user/${id}`)
             .then((json) => {
@@ -84,7 +79,7 @@ export const getUser = id => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'USER_ERROR',
                 error: err
               });
             });
@@ -103,7 +98,7 @@ export const setUser = user => {
 export const updateUser = user => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'USER_LOADING'
     });
     return axios.put(`${process.env.REACT_APP_API_HOST}user/${user.id}`, {
               username: user.username,
@@ -124,7 +119,7 @@ export const updateUser = user => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'USER_ERROR',
                 error: err
               });
             });

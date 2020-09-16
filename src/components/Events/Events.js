@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import './Events.css';
-import { Row, Col, Container, Spinner } from 'react-bootstrap';
+import { Row, Col, Container, Spinner, Button } from 'react-bootstrap';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import Event from './Event/Event';
 import Pagination from '../Pagination/Pagination';
@@ -10,6 +12,7 @@ import { getEvents } from '../../redux/actions/event';
 const mapStateToProps = (state) => {
   return {
     loading: state.events.loading,
+    role: state.user.role,
     events: state.events.events,
     error: state.events.error
   }
@@ -23,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const Events = ({ events, loading, error, getAllEvents }) => {
+const Events = ({ role, events, loading, error, getAllEvents }) => {
   const [eventsPerPage]               = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastEvent              = currentPage * eventsPerPage;
@@ -45,10 +48,20 @@ const Events = ({ events, loading, error, getAllEvents }) => {
             )
           }
           {
-            !loading && events.length === 0 &&
-            <Col>
-              Aucun évènements !
-            </Col>
+            !loading && events.length === 0 && (
+              <Col>
+                <h1>Aucun évènements !</h1>
+                {role === "ROLE_ASSOC" &&
+                  <>
+                    <h5>Gagner en visibilité et créer l'annonce de votre évènements maintenant</h5>
+                    <Button>
+                      <FontAwesomeIcon icon={faPlus} color="white"/>
+                      Ajoutez un évènement
+                    </Button>
+                  </>
+                }
+              </Col>
+            )
           }
           {
             loading &&
@@ -60,7 +73,7 @@ const Events = ({ events, loading, error, getAllEvents }) => {
           }
         </Row>
         {
-          !loading && events && events.length > 0 && 
+          !loading && events && events.length > 0 &&
           <Pagination
             entitiesPerPage={eventsPerPage}
             totalEntities={events.length}

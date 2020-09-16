@@ -3,7 +3,7 @@ import axios from 'axios';
 export const getAssoc = id => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'ASSOC_LOADING'
     });
     return axios.get(`${process.env.REACT_APP_API_HOST}assoc/${id}`)
             .then((json) => {
@@ -14,7 +14,7 @@ export const getAssoc = id => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'ASSOC_ERROR',
                 error: err
               });
             });
@@ -24,7 +24,7 @@ export const getAssoc = id => {
 export const getAssociations = () => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'ASSOC_LOADING'
     });
     return axios.get(`${process.env.REACT_APP_API_HOST}assoc`)
             .then((json) => {
@@ -35,7 +35,7 @@ export const getAssociations = () => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'ASSOC_ERROR',
                 error: err
               });
             });

@@ -2,22 +2,25 @@ const INITIAL_STATE = {
     loading: false,
     error: ""
 };
-  
+
 const mail = (state = INITIAL_STATE, action) => {
     switch (action.type) {
         case 'MAIL_SUCCESS':
+            console.log("here");
             return {
                 ...state,
                 loading: false,
                 error: ""
             }
-        case 'LOADING':
+        case 'MAIL_LOADING':
+            console.log("here1");
             return {
                 ...state,
                 loading: true,
                 error: ""
             }
-        case 'ERROR':
+        case 'MAIL_ERROR':
+            console.log("here2");
             return {
                 ...state,
                 loading: false,
@@ -27,6 +30,5 @@ const mail = (state = INITIAL_STATE, action) => {
             return state
     }
   }
-  
+
   export default mail;
-  

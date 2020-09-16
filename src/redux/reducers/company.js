@@ -3,7 +3,7 @@ const INITIAL_STATE = {
     loading: false,
     error: ""
   };
-  
+
   const companies = (state = INITIAL_STATE, action) => {
     switch (action.type) {
       case 'GET_COMP_SUCCESS':
@@ -13,13 +13,13 @@ const INITIAL_STATE = {
           loading: false,
           error: ""
         }
-      case 'LOADING':
+      case 'COMP_LOADING':
         return {
           ...state,
           loading: true,
           error: ""
         }
-      case 'ERROR':
+      case 'COMP_ERROR':
         return {
           ...state,
           loading: false,
@@ -29,6 +29,5 @@ const INITIAL_STATE = {
         return state
     }
   }
-  
+
   export default companies;
-  

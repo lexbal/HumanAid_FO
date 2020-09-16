@@ -47,7 +47,7 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
           {
             !loading && assocs.length === 0 &&
             <Col>
-              Aucune association !
+              <h1>Aucune association !</h1>
             </Col>
           }
           {
@@ -60,7 +60,7 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
           }
         </Row>
         {
-          !loading && assocs && assocs.length > 0 && 
+          !loading && assocs && assocs.length > 0 &&
           <Pagination
             entitiesPerPage={assocsPerPage}
             totalEntities={assocs.length}

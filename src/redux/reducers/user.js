@@ -61,13 +61,13 @@ const user = (state = INITIAL_STATE, action) => {
         loading: false,
         error: ""
       }
-    case 'LOADING':
+    case 'USER_LOADING':
       return {
         ...state,
         loading: true,
         error: ""
       }
-    case 'ERROR':
+    case 'USER_ERROR':
       return {
         ...state,
         loading: false,

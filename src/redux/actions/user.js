@@ -12,6 +12,8 @@ export const signup = user => {
       form_data.append(key, user[key]);
   }
 
+  console.log(form_data.get('email'));
+
   return (dispatch) => {
     dispatch({
       type: 'USER_LOADING'

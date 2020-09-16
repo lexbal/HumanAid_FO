@@ -2,7 +2,6 @@ import React, { useEffect } from 'react';
 import {  Row, Spinner, Col, Image } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import Company from './Company/Company';
 import { getCompanies } from '../../redux/actions/company';
 import './Companies.css';
 
@@ -36,7 +35,7 @@ const Companies = ({ companies, loading, error, getCompanies }) => {
             !loading && companies.map(({photo}, i) =>
               (
                 <div>
-                  {photo && <Image src={process.env.REACT_APP_API_HOST + "images/" + photo} className="logo" key={i}/>}
+                  {photo && <Image src={process.env.REACT_APP_STATIC_HOST + photo} className="logo" key={i}/>}
                 </div>
               )
             )

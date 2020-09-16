@@ -59,29 +59,25 @@ const Home = ({ events, loading, error, getAllEvents }) => {
           )
         }
       </Carousel>
-      <div className='events'>
-        <Row>
-          {
-            !loading && events && events.length > 0 && events.slice(0, 6).map(({id, title, description, categories, publish_date}, i) =>
-              <Event id={id} title={title} description={description} categories={categories} publish_date={publish_date} key={i}/>
-            )
-          }
-          {
-            !loading && events.length === 0 &&
-            <Col>
-              Aucun évènements !
-            </Col>
-          }
-          {
-            loading &&
-            <Col>
-              <Spinner animation="border" role="status">
-                <span className="sr-only">Loading...</span>
-              </Spinner>
-            </Col>
-          }
-        </Row>
-      </div>
+      {events && events.length > 0 && (
+        <div className='events'>
+          <Row>
+            {
+              !loading && events.slice(0, 6).map(({id, title, description, categories, publish_date}, i) =>
+                <Event id={id} title={title} description={description} categories={categories} publish_date={publish_date} key={i}/>
+              )
+            }
+            {
+              loading &&
+              <Col>
+                <Spinner animation="border" role="status">
+                  <span className="sr-only">Loading...</span>
+                </Spinner>
+              </Col>
+            }
+          </Row>
+        </div>
+      )}
        <Companies />
     </div>
   );

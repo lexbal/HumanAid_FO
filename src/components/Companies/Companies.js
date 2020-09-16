@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Container, Row, Spinner, Col } from 'react-bootstrap';
+import {  Row, Spinner, Col, Image } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import Company from './Company/Company';
@@ -29,12 +29,16 @@ const Companies = ({ companies, loading, error, getCompanies }) => {
   }, []);
 
   return (
-    <div className='companies'>
-      <Container>
+    companies && companies.length > 0 && (
+      <div className='companies'>
         <Row>
           {
-            !loading && companies && companies.length > 0 && companies.map(({description, name, id}, i) =>
-              <Company id={id} name={name} description={description} key={i}/>
+            !loading && companies.map(({photo}, i) =>
+              (
+                <div>
+                  {photo && <Image src={process.env.REACT_APP_API_HOST + "images/" + photo} className="logo" key={i}/>}
+                </div>
+              )
             )
           }
           {
@@ -46,8 +50,8 @@ const Companies = ({ companies, loading, error, getCompanies }) => {
             </Col>
           }
         </Row>
-      </Container>
-    </div>
+      </div>
+    )
   );
 };
 

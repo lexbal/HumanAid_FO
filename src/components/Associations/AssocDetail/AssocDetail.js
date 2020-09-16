@@ -45,7 +45,8 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
             <>
               <Col xs={4} md={4} lg={4}>
                 <Card>
-                  <Card.Img variant="top" src={notFound} onError="this.src='../../../images/no-image-found.png'"/>
+                  {assoc.assoc.photo && <Card.Img variant="top" src={process.env.REACT_APP_API_HOST + "images/" + assoc.assoc.photo} onError="this.src='../../../images/no-image-found.png'"/>}
+                  {!assoc.assoc.photo && <Card.Img variant="top" src={notFound} onError="this.src='../../../images/no-image-found.png'"/>}
                   <Card.Body>
                     <Card.Text>
                       <span className="informations">Président :</span> 

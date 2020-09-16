@@ -1,8 +1,5 @@
 import React from 'react';
 import {Col, Card} from 'react-bootstrap';
-import { Link } from "react-router-dom";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const Company = ({ id, name, description }) => {
   return (

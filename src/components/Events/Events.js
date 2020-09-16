@@ -31,7 +31,7 @@ const Events = ({ role, events, loading, error, getAllEvents }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastEvent              = currentPage * eventsPerPage;
   const indexOfFirstEvent             = indexOfLastEvent - eventsPerPage;
-  const currentEvents                 = events.slice(indexOfFirstEvent, indexOfLastEvent);
+  const currentEvents                 = events.length > 0 ? events.slice(indexOfFirstEvent, indexOfLastEvent) : [];
 
   useEffect(() => {
     getAllEvents();

@@ -28,7 +28,7 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastAssoc              = currentPage * assocsPerPage;
   const indexOfFirstAssoc             = indexOfLastAssoc - assocsPerPage;
-  const currentAssocs                 = assocs.slice(indexOfFirstAssoc, indexOfLastAssoc);
+  const currentAssocs                 = assocs.length > 0 ? assocs.slice(indexOfFirstAssoc, indexOfLastAssoc) : [];
 
   useEffect(() => {
     getAllAssociations();

@@ -2,8 +2,9 @@ import React from 'react';
 import {
   Form, Col, Row
 } from 'react-bootstrap';
+import PropTypes from'prop-types';
 
-const Step1 = ({fields, handleChange, currentStep}) => {
+const Step1 = ({fields, errors, handleChange, currentStep}) => {
   return (
     currentStep === 1 &&
     <div className="step1">
@@ -34,7 +35,12 @@ const Step1 = ({fields, handleChange, currentStep}) => {
             placeholder="Nom d'utilisateur"
             value={fields.username}
             onChange={handleChange}
+            isValid={fields.username}
+            isInvalid={errors.username}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.username}
+          </Form.Control.Feedback>
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="emailGroup">
@@ -48,7 +54,12 @@ const Step1 = ({fields, handleChange, currentStep}) => {
             placeholder="E-mail"
             value={fields.email}
             onChange={handleChange}
+            isValid={fields.email}
+            isInvalid={errors.email}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.email}
+          </Form.Control.Feedback>
         </Col>
       </Form.Group>
       <Form.Group as={Row} controlId="passwordGroup">
@@ -62,11 +73,23 @@ const Step1 = ({fields, handleChange, currentStep}) => {
             placeholder="Password"
             value={fields.password}
             onChange={handleChange}
+            isValid={fields.password}
+            isInvalid={errors.password}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.password}
+          </Form.Control.Feedback>
         </Col>
       </Form.Group>
     </div>
   );
+};
+
+Step1.propTypes = {
+  fields: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  currentStep: PropTypes.number
 };
 
 export default Step1;

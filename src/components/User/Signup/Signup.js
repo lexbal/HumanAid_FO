@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-
 import {
   Alert, Button, Form, Card
 } from 'react-bootstrap';
-
 import PropTypes from'prop-types';
 
 import { signup } from '../../../redux/actions/user';
@@ -32,7 +30,10 @@ const mapStateToProps = (state) => {
 
 
 const Signup = ({ createProfile, loggedIn, error }) => {
+  const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+  const validPwdRegex = RegExp(/^(?=*[A-z])(?=*[A-Z])(?=*[0-9])\${6,16}$/);
   const [currentStep, setCurrentStep] = useState(1);
+  const [invalid, setInvalid] = useState(false);
   const [fields, setField] = useState({
     username: "",
     photo: null,
@@ -52,6 +53,25 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     password: "",
     roles: "",
   });
+  const [errors, setError] = useState({
+    username: null,
+    photo: null,
+    description: null,
+    siret: null,
+    address: {
+      street: null,
+      city: null,
+      zipcode: null,
+      country: null,
+      department: null,
+      region: null
+    },
+    website: null,
+    name: null,
+    email: null,
+    password: null,
+    roles: null,
+  });
 
   const handleChange = (event) => {
     const target = event.target;
@@ -61,14 +81,53 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     if (name === "address") {
       const id   = target.id;
       setField({ ...fields, address: {...fields.address, [id]: value} });
+      setError({ ...errors, address: {...errors.address, [id]: !value ? "Ce champ est vide !" : ""} });
     } else {
       setField({ ...fields, [name]: (target.type === "file") ? target.files[0] : value });
+
+      switch (name) {
+        case 'email':
+          setError({ ...errors, email: !validEmailRegex.test(value) ? "Email invalide ! (exemple: exemple@gmail.com)" : "" });
+          break;
+        case 'password':
+          setError({ ...errors, password: !validPwdRegex.test(value) ? "Le mot de passe doit contenir au moins une majuscule, un chiffre et taille comprise entre 6 et 16 caractères" : "" });
+          break;
+        default:
+          setError({ ...errors, [name]: !value ? "Ce champ est vide !" : "" });
+      }
     }
 
     return true;
   }
 
   const next = () => {
+    if (currentStep === 1) {
+      for (let value of ["username", "email", "password"]) {
+        if (errors[value] || !fields[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    } else if (currentStep === 2) {
+      for (let value of ["street", "zipcode", "city", "country", "department", "region"]) {
+        if (errors.address[value] || !fields.address[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    } else if (currentStep === 3) {
+      for (let value of ["photo", "name", "description", "website", "siret"]) {
+        if (errors[value] || !fields[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    }
+
+    setInvalid(false);
     setCurrentStep(currentStep >= 2 ? 3 : currentStep + 1);
   }
 
@@ -78,26 +137,54 @@ const Signup = ({ createProfile, loggedIn, error }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    for (let value of Object.keys(errors)) {
+      if (value === "address") {
+        for (let value of Object.keys(errors.address)) {
+          if (errors.address[value]) {
+            setInvalid(true);
+
+            return;
+          }
+        }
+      } else {
+        if (errors[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    }
+
+    setInvalid(false);
     createProfile(fields);
   }
 
   return (
     !loggedIn ? (
     <div className='SignUp'>
-      <Card style={{ width: '65rem', margin: "auto", marginTop: "2%" }}>
-        <Card.Header>Créer un compte</Card.Header>
+      <Card className='shadow'>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
+            <h3>- Inscription -</h3>
+            <h5>
+              {currentStep === 1 && " Informations de connexion"}
+              {currentStep === 2 && " Coordonnées géographiques"}
+              {currentStep === 3 && " Informtions professionnelles"}
+            </h5>
+
             <Step1
               currentStep={currentStep}
               handleChange={handleChange}
               fields={fields}
+              errors={errors}
             />
 
             <Step2
               currentStep={currentStep}
               handleChange={handleChange}
               fields={fields}
+              errors={errors}
             />
 
             {
@@ -106,10 +193,12 @@ const Signup = ({ createProfile, loggedIn, error }) => {
                 currentStep={currentStep}
                 handleChange={handleChange}
                 fields={fields}
+                errors={errors}
               />
             }
 
-            { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+            {error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+            {invalid && <Alert variant="danger">Les champs précédents ne sont pas valides</Alert>}
 
             {currentStep !== 1 && (
               <Button variant="secondary mt-2" type="button" onClick={prev}>
@@ -140,10 +229,15 @@ const Signup = ({ createProfile, loggedIn, error }) => {
 };
 
 Signup.propTypes = {
-    createProfile: PropTypes.func.isRequired
+  createProfile: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ])
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Signup)
+)(Signup);

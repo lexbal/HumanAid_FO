@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import './Events.css';
 import { Row, Col, Container, Spinner, Button } from 'react-bootstrap';
+import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
 import Event from './Event/Event';
 import Pagination from '../Pagination/Pagination';
 import { getEvents } from '../../redux/actions/event';
+import './Events.css';
 
 const mapStateToProps = (state) => {
   return {
     loading: state.events.loading,
     role: state.user.role,
-    events: state.events.events,
-    error: state.events.error
+    events: state.events.events
   }
 }
 
@@ -26,7 +26,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const Events = ({ role, events, loading, error, getAllEvents }) => {
+const Events = ({ role, events, loading, getAllEvents }) => {
   const [eventsPerPage]               = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastEvent              = currentPage * eventsPerPage;
@@ -85,7 +85,14 @@ const Events = ({ role, events, loading, error, getAllEvents }) => {
   );
 };
 
+Events.propTypes = {
+  getAllEvents: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired, 
+  events: PropTypes.array.isRequired, 
+  loading: PropTypes.bool.isRequired
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Events)
+)(Events);

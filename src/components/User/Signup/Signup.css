@@ -1,7 +1,20 @@
-.SignUp form {
-  text-align: left;
+.SignUp {
+  height: 100%;
+  display: flex;
+  align-items: center;
 }
 
-.SignUp {
-  margin-bottom: 3rem;
+.SignUp .card {
+  width: 60rem!important;
+  justify-content: center;
+  border-radius: 10px;
+  margin: auto;
+}
+
+.SignUp .card-body h5 {
+  margin: 1rem;
+}
+
+.SignUp form {
+  text-align: left;
 }

@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import { Form, Alert, FormControl, Button } from 'react-bootstrap';
 import { connect } from "react-redux";
-import { createRating } from '../../../redux/actions/rating';
-
+import PropTypes from'prop-types';
 import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 
+import { createRating } from '../../../redux/actions/rating';
+
 const mapStateToProps = (state) => {
     return {
-      loggedIn: state.user.loggedIn,
       error: state.user.error
     }
 }
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const RatingForm = ({ event_id, createRating, loggedIn, error }) => {
+const RatingForm = ({ event_id, createRating, error }) => {
     const [fields, setField] = useState({
         rating: "",
         comment: ""
@@ -56,16 +56,16 @@ const RatingForm = ({ event_id, createRating, loggedIn, error }) => {
                 </Box>
                 <Form.Group controlId="commentGroup">
                     <FormControl
-                    as="textarea"
-                    name="comment"
-                    aria-label="With textarea"
-                    placeholder="Exprimez-vous votre requête ici !"
-                    value={fields.content}
-                    onChange={handleChange}
+                        as="textarea"
+                        name="comment"
+                        aria-label="With textarea"
+                        placeholder="Exprimez-vous votre requête ici !"
+                        value={fields.content}
+                        onChange={handleChange}
                     />
                 </Form.Group>
     
-                { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+                {error && <Alert variant="danger">Une erreur est survenue !</Alert>}
     
                 <Button variant="primary" type="submit">
                     Envoyer
@@ -75,7 +75,16 @@ const RatingForm = ({ event_id, createRating, loggedIn, error }) => {
     );
 };
 
+Rating.propTypes = {
+    event_id: PropTypes.number.isRequired,
+    createRating: PropTypes.func.isRequired,
+    error: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.bool
+    ])
+};
+
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-  )(RatingForm)
+)(RatingForm);

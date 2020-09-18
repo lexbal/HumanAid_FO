@@ -4,20 +4,20 @@ import {
 } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
+import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+
 import notFound from '../../../images/no-image-found.png';
 import { getEvent } from '../../../redux/actions/event';
-import './EventDetail.css';
 import Rating from '../../Rating/Rating';
 import RatingForm from '../../Rating/RatingForm/RatingForm';
+import './EventDetail.css';
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.events.loading,
     loggedIn: state.user.loggedIn,
-    event: state.events.event,
-    error: state.events.error
+    event: state.events.event
   }
 }
 
@@ -104,7 +104,13 @@ const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
   );
 };
 
+EventDetail.propTypes = {
+  getSingleEvent: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  event: PropTypes.object.isRequired
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EventDetail)
+)(EventDetail);

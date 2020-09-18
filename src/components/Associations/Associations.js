@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Spinner, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from'prop-types';
 
 import Pagination from '../Pagination/Pagination';
 import Association from './Association/Association';
@@ -10,8 +11,7 @@ import './Associations.css';
 const mapStateToProps = (state) => {
   return {
     loading: state.assocs.loading,
-    assocs: state.assocs.assocs,
-    error: state.assocs.error
+    assocs: state.assocs.assocs
   }
 }
 
@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const Associations = ({ assocs, loading, error, getAllAssociations }) => {
+const Associations = ({ assocs, loading, getAllAssociations }) => {
   const [assocsPerPage]               = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastAssoc              = currentPage * assocsPerPage;
@@ -72,7 +72,13 @@ const Associations = ({ assocs, loading, error, getAllAssociations }) => {
   );
 };
 
+Associations.propTypes = {
+  getAllAssociations: PropTypes.func.isRequired,
+  loading: PropTypes.bool.isRequired,
+  assocs: PropTypes.array.isRequired
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Associations)
+)(Associations);

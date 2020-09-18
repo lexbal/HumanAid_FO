@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import './Home.css';
 import { Carousel, Row, Col, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
+
 import { getEvents } from '../../redux/actions/event';
 import Event from '../Events/Event/Event';
 import Companies from '../Companies/Companies';
 import slide from '../../images/slide1.jpg';
+import './Home.css';
 
 const mapStateToProps = (state) => {
   return {
     loading: state.events.loading,
-    events: state.events.events,
-    error: state.events.error
+    events: state.events.events
   }
 }
 
@@ -23,7 +23,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const Home = ({ events, loading, error, getAllEvents }) => {
+const Home = ({ events, loading, getAllEvents }) => {
   useEffect(() => {
     getAllEvents();
   // eslint-disable-next-line
@@ -44,7 +44,7 @@ const Home = ({ events, loading, error, getAllEvents }) => {
           </Carousel.Caption>
             </Carousel.Item>
         {
-          !loading && events && events.length > 0 && events.slice(0, 5).map(({id, title, description, categories, publish_date}, i) =>
+          events && events.length > 0 && events.slice(0, 5).map(({id, title, description, categories, publish_date}, i) =>
             <Carousel.Item key={i}>
               <img
                 className="d-block w-100"
@@ -81,6 +81,12 @@ const Home = ({ events, loading, error, getAllEvents }) => {
        <Companies />
     </div>
   );
+};
+
+Home.propTypes = {
+  getAllEvents: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  events: PropTypes.array.isRequired
 };
 
 export default connect(

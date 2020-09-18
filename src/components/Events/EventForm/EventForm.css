@@ -3,6 +3,11 @@
     margin-bottom: 5rem;
 }
 
+.eventForm .event-form-card { 
+    width: 35rem; 
+    justify-content: center; 
+}
+
 .react-datetime-picker {
     width: 100%;
     height: calc(1.5em + .75rem + 2px);

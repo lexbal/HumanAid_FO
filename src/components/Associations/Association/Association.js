@@ -1,5 +1,5 @@
 import React from 'react';
-import {Col, Card} from 'react-bootstrap';
+import { Col, Card } from 'react-bootstrap';
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
@@ -9,13 +9,13 @@ import './Association.css';
 const Association = ({ id, name, description }) => {
   return (
     <Col xs={4} md={4} lg={4}>
-      <Card style={{ width: '95%' }}>
+      <Card className="assoc-card">
         <Card.Header>
-          <div style={{ float: 'left', width: '80%' }}>
+          <div className="assoc-name">
             {name}
           </div>
-          <div style={{ float: 'right' }}>
-          <Link to={`/association/detail/${id}`} style={{ color: 'inherit', textDecoration: 'inherit'}}>
+          <div className="assoc-link">
+            <Link to={`/association/detail/${id}`}>
               <FontAwesomeIcon icon={faInfoCircle} color="grey"/>
             </Link>
           </div>
@@ -26,6 +26,12 @@ const Association = ({ id, name, description }) => {
       </Card>
     </Col>
   );
+};
+
+Association.propTypes = {
+  id: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired
 };
 
 export default Association;

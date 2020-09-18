@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
-import {  Row, Spinner, Col, Image } from 'react-bootstrap';
+import { Row, Spinner, Col, Image } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from'prop-types';
 
 import { getCompanies } from '../../redux/actions/company';
 import './Companies.css';
@@ -8,8 +9,7 @@ import './Companies.css';
 const mapStateToProps = (state) => {
   return {
     loading: state.companies.loading,
-    companies: state.companies.companies,
-    error: state.companies.error
+    companies: state.companies.companies
   }
 }
 
@@ -21,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const Companies = ({ companies, loading, error, getCompanies }) => {
+const Companies = ({ companies, loading, getCompanies }) => {
   useEffect(() => {
     getCompanies();
   // eslint-disable-next-line
@@ -54,7 +54,13 @@ const Companies = ({ companies, loading, error, getCompanies }) => {
   );
 };
 
+Companies.propTypes = {
+  getCompanies: PropTypes.func.isRequired,
+  companies: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Companies)
+)(Companies);

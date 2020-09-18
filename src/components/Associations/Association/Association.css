@@ -1,0 +1,17 @@
+.assoc-card {
+    width: 95%;
+}
+
+.assoc-card .assoc-name {
+    float: left;
+    width: 80%;
+}
+
+.assoc-card .assoc-link {
+    float: right;
+}
+
+.assoc-card .assoc-link a {
+    color: inherit;
+    text-decoration: inherit;
+}

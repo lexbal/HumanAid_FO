@@ -2,8 +2,9 @@ import React from 'react';
 import {
   Form, Col, Row
 } from 'react-bootstrap';
+import PropTypes from'prop-types';
 
-const Step2 = ({fields, handleChange, currentStep}) => {
+const Step2 = ({fields, errors, handleChange, currentStep}) => {
   return (
     currentStep === 2 &&
     <div className="step2">
@@ -24,7 +25,12 @@ const Step2 = ({fields, handleChange, currentStep}) => {
                 placeholder="Adresse"
                 value={fields.address.street}
                 onChange={handleChange}
+                isValid={fields.address.street}
+                isInvalid={errors.address.street}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.address.street}
+              </Form.Control.Feedback>
             </Col>
             <Col>
               <Form.Control
@@ -34,7 +40,12 @@ const Step2 = ({fields, handleChange, currentStep}) => {
                 placeholder="Code postal"
                 value={fields.address.zipcode}
                 onChange={handleChange}
+                isValid={fields.address.zipcode}
+                isInvalid={errors.address.zipcode}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.address.zipcode}
+              </Form.Control.Feedback>
             </Col>
             <Col>
               <Form.Control
@@ -44,7 +55,12 @@ const Step2 = ({fields, handleChange, currentStep}) => {
                 placeholder="Ville"
                 value={fields.address.city}
                 onChange={handleChange}
+                isValid={fields.address.city}
+                isInvalid={errors.address.city}
               />
+              <Form.Control.Feedback type="invalid">
+                {errors.address.city}
+              </Form.Control.Feedback>
             </Col>
           </Form.Row>
         </Col>
@@ -61,7 +77,12 @@ const Step2 = ({fields, handleChange, currentStep}) => {
             placeholder="Pays"
             value={fields.address.country}
             onChange={handleChange}
+            isValid={fields.address.country}
+            isInvalid={errors.address.country}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.address.country}
+          </Form.Control.Feedback>
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
@@ -76,7 +97,12 @@ const Step2 = ({fields, handleChange, currentStep}) => {
             placeholder="Département"
             value={fields.address.department}
             onChange={handleChange}
+            isValid={fields.address.department}
+            isInvalid={errors.address.department}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.address.department}
+          </Form.Control.Feedback>
         </Col>
       </Form.Group>
       <Form.Group as={Row}>
@@ -91,11 +117,23 @@ const Step2 = ({fields, handleChange, currentStep}) => {
             placeholder="Région"
             value={fields.address.region}
             onChange={handleChange}
+            isValid={fields.address.region}
+            isInvalid={errors.address.region}
           />
+          <Form.Control.Feedback type="invalid">
+            {errors.address.region}
+          </Form.Control.Feedback>
         </Col>
       </Form.Group>
     </div>
   );
+};
+
+Step2.propTypes = {
+  fields: PropTypes.object.isRequired,
+  errors: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  currentStep: PropTypes.number
 };
 
 export default Step2;

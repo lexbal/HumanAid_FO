@@ -2,16 +2,17 @@ import React, { useEffect } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
-import Event from '../../Events/Event/Event';
+import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
+
+import Event from '../../Events/Event/Event';
 import { getAssoc } from '../../../redux/actions/assoc';
 import notFound from '../../../images/no-image-found.png';
 import './AssocDetail.css';
 
 const mapStateToProps = (state) => {
   return {
-    loading: state.assocs.loading,
     assoc: state.assocs.assoc,
     error: state.assocs.error
   }
@@ -89,7 +90,12 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
   );
 };
 
+AssocDetail.propTypes = {
+  getSingleAssoc: PropTypes.func.isRequired,
+  assoc: PropTypes.object.isRequired
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(AssocDetail)
+)(AssocDetail);

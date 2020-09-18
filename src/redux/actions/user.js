@@ -9,10 +9,8 @@ export const signup = user => {
   var form_data = new FormData();
 
   for (var key in user) {
-      form_data.append(key, user[key]);
+    form_data.append((key === "photo") ? 'file' : key, user[key]);
   }
-
-  console.log(form_data.get('email'));
 
   return (dispatch) => {
     dispatch({

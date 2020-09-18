@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Container, Spinner, Button } from 'react-bootstrap';
+import { Row, Col, Container, Spinner, Button, Card } from 'react-bootstrap';
 import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -50,16 +50,22 @@ const Events = ({ role, events, loading, getAllEvents }) => {
           {
             !loading && events.length === 0 && (
               <Col>
-                <h1>Aucun évènements !</h1>
-                {role === "ROLE_ASSOC" &&
-                  <>
-                    <h5>Gagner en visibilité et créer l'annonce de votre évènements maintenant</h5>
-                    <Button>
-                      <FontAwesomeIcon icon={faPlus} color="white"/>
-                      Ajoutez un évènement
-                    </Button>
-                  </>
-                }
+                <Card className="no-data">
+                  <Card.Body>
+                    <Card.Title>Aucun évènements de programmée pour le moment</Card.Title>
+                    {role === "ROLE_ASSOC" &&
+                      <>
+                        <Card.Text>
+                          <h5>Gagner en visibilité et créer l'annonce de votre évènements maintenant</h5>
+                          <Button>
+                            <FontAwesomeIcon icon={faPlus} color="white"/>
+                            Ajoutez un évènement
+                          </Button>
+                        </Card.Text>
+                      </>
+                    }
+                  </Card.Body>
+                </Card>
               </Col>
             )
           }
@@ -87,8 +93,8 @@ const Events = ({ role, events, loading, getAllEvents }) => {
 
 Events.propTypes = {
   getAllEvents: PropTypes.func.isRequired,
-  role: PropTypes.string.isRequired, 
-  events: PropTypes.array.isRequired, 
+  role: PropTypes.string.isRequired,
+  events: PropTypes.array.isRequired,
   loading: PropTypes.bool.isRequired
 };
 

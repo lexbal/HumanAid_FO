@@ -8,18 +8,22 @@ const Step1 = ({fields, errors, handleChange, currentStep}) => {
   return (
     currentStep === 1 &&
     <div className="step1">
-      <Form.Group controlId="rolesGroup">
-        <Form.Label>Vous êtes ?</Form.Label>
-        <Form.Control
-          as="select"
-          name="roles"
-          value={fields.roles}
-          onChange={handleChange}
-        >
-          <option>Choose...</option>
-          <option>Association</option>
-          <option>Entreprise</option>
-        </Form.Control>
+      <Form.Group as={Row} controlId="rolesGroup">
+        <Form.Label column sm="2">
+          Vous êtes ?
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            as="select"
+            name="roles"
+            value={fields.roles}
+            onChange={handleChange}
+          >
+            <option>Choose...</option>
+            <option>Association</option>
+            <option>Entreprise</option>
+          </Form.Control>
+        </Col>
       </Form.Group>
 
       <hr/>

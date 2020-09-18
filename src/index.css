@@ -2,8 +2,8 @@ html,
 body {
   height: 100%;
   font-family: sans-serif;
-  background: url("images/background.svg") no-repeat center center fixed; 
-	background-size: cover; 
+  background: url("images/background.svg") no-repeat center center fixed;
+	background-size: cover;
 	 -webkit-background-size: cover;
   -moz-background-size: cover;
   -o-background-size: cover;
@@ -31,7 +31,14 @@ code {
 }
 
 .App {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
   flex: 1 0 auto;
+}
+
+.App-header {
+  background-color: #000000;
 }
 
 .Footer {
@@ -39,9 +46,56 @@ code {
   text-align: center;
   background-color: #000000;
   padding-top: 20px;
+  color: lightgrey;
 }
 
 .Footer ul {
   list-style-type: none;
   padding-left: 0!important;
+}
+
+.header-link{
+ color: white !important;
+}
+
+.margin-navbar{
+  padding: 0 5rem;
+}
+
+.dropdown-menu.show {
+  right: 0!important;
+  left: auto!important;
+  margin-top: 10px!important;
+}
+
+.dropdown-toggle .fa-user-circle {
+  margin-right: 5px!important;
+}
+
+.fa-plus {
+  margin-right: 5px!important;
+}
+
+.row.titles {
+  text-align: left!important;
+}
+
+.network-icons {
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.fa-facebook {
+    color: #3b5998!important;
+    background-image: linear-gradient( to bottom, transparent 20%, white 20%, white 93%, transparent 93% )!important;
+    background-size: 41%!important;
+    background-position: 51% 0!important;
+    background-repeat: no-repeat!important;
+    cursor: pointer;
+}
+
+.fa-twitter-square {
+    color: #55acee;
+    background-image: linear-gradient( to bottom, transparent 20%, white 20%, white 80%, transparent 93% )!important;
+    cursor: pointer;
 }

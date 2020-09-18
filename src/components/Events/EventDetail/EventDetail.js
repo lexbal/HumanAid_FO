@@ -5,6 +5,7 @@ import {
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from'prop-types';
+import CryptoJS from "crypto-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
@@ -31,9 +32,11 @@ const mapDispatchToProps = (dispatch) => {
 
 const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
   let { id } = useParams();
-  
+
   useEffect(() => {
-    getSingleEvent(id);
+    let bytes = CryptoJS.AES.decrypt(id, process.env.REACT_APP_SECRET);
+    let decryptedId = bytes.toString(CryptoJS.enc.Utf8);
+    getSingleEvent(decryptedId);
   // eslint-disable-next-line
   }, []);
 
@@ -45,26 +48,26 @@ const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
     <div className='event-detail'>
       <Container>
         <Row>
-          {event.event && 
+          {event.event &&
             <>
               <Col xs={4} md={4} lg={4}>
                 <Card>
                   <Card.Img variant="top" src={notFound} onError="this.src='../../../images/no-image-found.png'"/>
                   <Card.Body>
                     <Card.Text>
-                      <span className="informations">Organisateur :</span> 
+                      <span className="informations">Organisateur :</span>
                       <span className="text-right">{event.event.name}</span>
                     </Card.Text>
                     <Card.Text>
-                      <span className="informations">Email :</span> 
+                      <span className="informations">Email :</span>
                       <span className="text-right">{event.event.email}</span>
                     </Card.Text>
                     <Card.Text>
-                      <span className="informations">Telephone :</span> 
+                      <span className="informations">Telephone :</span>
                       <span className="text-right">{event.event.landline}</span>
                     </Card.Text>
                     <Card.Text>
-                      <span className="informations">Adresse :</span> 
+                      <span className="informations">Adresse :</span>
                       <span className="text-right">{event.event.street}</span>
                     </Card.Text>
                     <Card.Text className="networks">
@@ -77,7 +80,7 @@ const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
               <Col xs={8} md={8} lg={8}>
                 <h4>{event.event.title ? event.event.title : "Title not found"}</h4>
                 {
-                  event.event.start_date && 
+                  event.event.start_date &&
                   <h6>
                     Date de l'événement : {event.event.end_date && <>du </>}
                     {new Date(event.event.start_date).toLocaleString()}
@@ -85,7 +88,7 @@ const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
                   </h6>
                 }
                 <p>{event.event.description ? event.event.description : "Aucune description disponible"}</p>
-                
+
                 <Row>
                   <ListGroup className="ratings">
                     {event.ratings && event.ratings.map(({username, rating, comment, publish_date}, i) =>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Row, Spinner, Col } from 'react-bootstrap';
+import { Container, Row, Spinner, Col, Card, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Link } from "react-router-dom";
 import PropTypes from'prop-types';
 
 import Pagination from '../Pagination/Pagination';
@@ -47,7 +48,19 @@ const Associations = ({ assocs, loading, getAllAssociations }) => {
           {
             !loading && assocs.length === 0 &&
             <Col>
-              <h1>Aucune association !</h1>
+              <Card className="no-data">
+                <Card.Body>
+                  <Card.Title>Aucune association ne s'est inscrite pour le moment</Card.Title>
+                  <Card.Text>
+                    <p>Vous êtes une association et vous aimeriez gagner de la visibilité ? Inscrivez-vous gratuitement dès maintenant !</p>
+                    <Link to="/signup">
+                      <Button>
+                        S'inscrire
+                      </Button>
+                    </Link>
+                  </Card.Text>
+                </Card.Body>
+              </Card>
             </Col>
           }
           {

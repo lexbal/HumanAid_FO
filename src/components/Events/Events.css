@@ -1,4 +1,13 @@
 .events {
     margin-top: 3rem;
     margin-bottom: 3rem;
+    flex: 1 0 auto;
+}
+
+.no-data {
+  width: 100%;
+}
+
+.no-data .card-title {
+  font-weight: bold;
 }

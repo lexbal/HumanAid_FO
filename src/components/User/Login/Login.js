@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-import { 
-  Alert, Card, Button, 
+import {
+  Alert, Card, Button,
   Form, InputGroup
 } from 'react-bootstrap';
 import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faUser, faKey } from '@fortawesome/free-brands-svg-icons';
+import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
 
 import { login } from '../../../redux/actions/user';
 import './Login.css';

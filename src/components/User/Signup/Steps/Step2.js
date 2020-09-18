@@ -8,9 +8,6 @@ const Step2 = ({fields, errors, handleChange, currentStep}) => {
   return (
     currentStep === 2 &&
     <div className="step2">
-      <Form.Label>Informations géographique</Form.Label>
-      <hr/>
-
       <Form.Group as={Row}>
         <Form.Label column sm="2">
           Adresse :

@@ -1,13 +1,14 @@
 import React, { useEffect } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import PropTypes from'prop-types';
+import {
+  Form, Button, Col,
+  Card, Alert, FormControl, Row
+} from 'react-bootstrap';
 
 import { getUser, setUser, updateUser } from '../../../redux/actions/user';
 
-import { 
-  Form, Button, Col,
-  Card, Alert, FormControl, Row 
-} from 'react-bootstrap';
 
 const mapStateToProps = (state) => {
   return {
@@ -76,7 +77,7 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
                   <hr/>
 
                   <Form.Group>
-                    <Form.Control 
+                    <Form.Control
                       id="username"
                       type="text"
                       name="username"
@@ -86,7 +87,7 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
                     />
                   </Form.Group>
                   <Form.Group>
-                    <Form.Control 
+                    <Form.Control
                       id="email"
                       type="text"
                       name="email"
@@ -149,7 +150,7 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
                         onChange={handleChange}
                       />
                     </Form.Group>
-                  }              
+                  }
                 </Col>
               </Row>
               <hr/>
@@ -159,7 +160,7 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
                   <hr/>
 
                   {
-                    user.address && 
+                    user.address &&
                     <>
                       <Form.Group>
                         <Form.Row>
@@ -193,7 +194,7 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
                               onChange={handleChange}
                             />
                           </Col>
-                        </Form.Row> 
+                        </Form.Row>
                       </Form.Group>
                       <Form.Group>
                         <Form.Control
@@ -230,7 +231,7 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
 
                   <hr/>
                 </Col>
-              </Row>              
+              </Row>
               { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
 
               <Button variant="primary" type="submit">
@@ -245,6 +246,21 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
     )
   );
 }
+
+Profile.propTypes = {
+  user: PropTypes.object.isRequired,
+  username: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  getUser: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
+  updateProfile: PropTypes.func.isRequired,
+  role: PropTypes.string.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ])
+};
 
 export default connect(
     mapStateToProps,

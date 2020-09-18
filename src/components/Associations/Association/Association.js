@@ -1,12 +1,16 @@
 import React from 'react';
 import { Col, Card } from 'react-bootstrap';
 import { Link } from "react-router-dom";
+import CryptoJS from "crypto-js";
+import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 import './Association.css';
 
 const Association = ({ id, name, description }) => {
+  let encryptedId = CryptoJS.AES.encrypt((typeof id === "number") ? id.toString() : id, process.env.REACT_APP_SECRET).toString();
+
   return (
     <Col xs={4} md={4} lg={4}>
       <Card className="assoc-card">
@@ -15,7 +19,7 @@ const Association = ({ id, name, description }) => {
             {name}
           </div>
           <div className="assoc-link">
-            <Link to={`/association/detail/${id}`}>
+            <Link to={`/association/detail/${encryptedId}`}>
               <FontAwesomeIcon icon={faInfoCircle} color="grey"/>
             </Link>
           </div>

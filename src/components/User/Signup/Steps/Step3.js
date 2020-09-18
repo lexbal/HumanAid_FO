@@ -15,12 +15,22 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
         <Col sm="10">
           <Form.File
             id="custom-file-translate-scss"
-            label="Logo"
-            name="photo"
             lang="fr"
             custom
-            onChange={handleChange}
-          />
+          >
+            <Form.File.Input
+              name="photo"
+              isValid={fields.photo}
+              isInvalid={errors.photo}
+              onChange={handleChange}
+            />
+            <Form.File.Label data-browse="Upload">
+              {fields.photo ? fields.photo.name : "Insérer une image"}
+            </Form.File.Label>
+            <Form.Control.Feedback type="invalid">
+              {errors.photo}
+            </Form.Control.Feedback>
+          </Form.File>
         </Col>
       </Form.Group>
 
@@ -44,6 +54,26 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
         </Col>
       </Form.Group>
 
+      <Form.Group as={Row} controlId="websiteGroup">
+        <Form.Label column sm="2">
+          Lien vers votre site web :
+        </Form.Label>
+        <Col sm="10">
+          <Form.Control
+            type="text"
+            name="website"
+            placeholder="Site Web"
+            value={fields.website}
+            onChange={handleChange}
+            isValid={fields.website}
+            isInvalid={errors.website}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.website}
+          </Form.Control.Feedback>
+        </Col>
+      </Form.Group>
+
       <Form.Group as={Row}>
         <Form.Label column sm="2">
           Description :
@@ -62,26 +92,6 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
           />
           <Form.Control.Feedback type="invalid">
             {errors.description}
-          </Form.Control.Feedback>
-        </Col>
-      </Form.Group>
-
-      <Form.Group as={Row} controlId="websiteGroup">
-        <Form.Label column sm="2">
-          Lien vers votre site web :
-        </Form.Label>
-        <Col sm="10">
-          <Form.Control
-            type="text"
-            name="website"
-            placeholder="Site Web"
-            value={fields.website}
-            onChange={handleChange}
-            isValid={fields.website}
-            isInvalid={errors.website}
-          />
-          <Form.Control.Feedback type="invalid">
-            {errors.website}
           </Form.Control.Feedback>
         </Col>
       </Form.Group>

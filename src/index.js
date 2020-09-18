@@ -8,7 +8,6 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 
 import App from './App';
-import Footer from './Footer';
 import * as serviceWorker from './serviceWorker';
 import reducers from './redux/reducers/index';
 import './index.css';
@@ -23,7 +22,6 @@ export const store = createStore(
 ReactDOM.render(
   <Provider store={store}>
     <App />
-    <Footer />
   </Provider>,
   document.getElementById('root')
 );

@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import { 
-  Form, Button, FormControl, Alert 
+import {
+  Form, Button, FormControl, Alert
 } from 'react-bootstrap';
 import PropTypes from'prop-types';
 
 import { mail } from '../../../redux/actions/mail';
+import './ContactForm.css';
 
 
 const mapStateToProps = (state) => {
@@ -24,10 +25,16 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const ContactForm = ({ sendMail, error }) => {
+  const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
   const [fields, setField] = useState({
     name: "",
     email: "",
     content: "",
+  });
+  const [errors, setError] = useState({
+    name: null,
+    email: null,
+    content: null,
   });
 
   const handleChange = (event) => {
@@ -36,6 +43,10 @@ const ContactForm = ({ sendMail, error }) => {
     const name   = target.name;
 
     setField({ ...fields, [name]: value });
+
+    if (name === "email") {
+      setError({ ...errors, email: !validEmailRegex.test(value) ? "Email invalide ! (exemple: exemple@gmail.com)" : "" });
+    }
 
     return true;
   }
@@ -65,8 +76,13 @@ const ContactForm = ({ sendMail, error }) => {
                   placeholder="E-mail"
                   value={fields.email}
                   onChange={handleChange}
+                  isValid={fields.email}
+                  isInvalid={errors.email}
                   required
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.email}
+                </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="contentGroup">

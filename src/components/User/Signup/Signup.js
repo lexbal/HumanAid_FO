@@ -30,8 +30,13 @@ const mapStateToProps = (state) => {
 
 
 const Signup = ({ createProfile, loggedIn, error }) => {
+  const validImageType = [
+    "image/png",
+    "image/jpeg",
+    "image/svg+xml"
+  ]
   const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
-  const validPwdRegex = RegExp(/^(?=*[A-z])(?=*[A-Z])(?=*[0-9])\${6,16}$/);
+  const validPwdRegex = RegExp(/^(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])\S{6,12}$/);
   const [currentStep, setCurrentStep] = useState(1);
   const [invalid, setInvalid] = useState(false);
   const [fields, setField] = useState({
@@ -83,7 +88,13 @@ const Signup = ({ createProfile, loggedIn, error }) => {
       setField({ ...fields, address: {...fields.address, [id]: value} });
       setError({ ...errors, address: {...errors.address, [id]: !value ? "Ce champ est vide !" : ""} });
     } else {
-      setField({ ...fields, [name]: (target.type === "file") ? target.files[0] : value });
+      if (target.type === "file") {
+        if (validImageType.includes(target.files[0].type)) {
+          setField({ ...fields, [name]: target.files[0] });
+        }
+      } else {
+        setField({ ...fields, [name]: value });
+      }
 
       switch (name) {
         case 'email':
@@ -91,6 +102,9 @@ const Signup = ({ createProfile, loggedIn, error }) => {
           break;
         case 'password':
           setError({ ...errors, password: !validPwdRegex.test(value) ? "Le mot de passe doit contenir au moins une majuscule, un chiffre et taille comprise entre 6 et 16 caractères" : "" });
+          break;
+        case 'photo':
+          setError({ ...errors, photo: !validImageType.includes(target.files[0].type) ? "Les types de fichiers autorisés sont : png, jpg, jpeg, svg" : "" });console.log(!validImageType.includes(target.files[0].type) ? "Les types de fichiers autorisés sont : png, jpg, jpeg, svg" : "");
           break;
         default:
           setError({ ...errors, [name]: !value ? "Ce champ est vide !" : "" });
@@ -166,12 +180,14 @@ const Signup = ({ createProfile, loggedIn, error }) => {
       <Card className='shadow'>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
-            <h3>- Inscription -</h3>
-            <h5>
-              {currentStep === 1 && " Informations de connexion"}
-              {currentStep === 2 && " Coordonnées géographiques"}
-              {currentStep === 3 && " Informtions professionnelles"}
-            </h5>
+            <div className="title">
+              <h3>- Inscription -</h3>
+              <h5>
+                {currentStep === 1 && " Informations de connexion"}
+                {currentStep === 2 && " Coordonnées géographiques"}
+                {currentStep === 3 && " Informtions professionnelles"}
+              </h5>
+            </div>
 
             <Step1
               currentStep={currentStep}

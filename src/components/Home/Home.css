@@ -1,3 +1,7 @@
+.home {
+  flex: 1 0 auto;
+}
+
 .carousel .carousel-item {
     height: 500px;
 }
@@ -11,6 +15,8 @@
 
 .carousel .carousel-caption {
     color: black;
+    left: 3%!important;
+    text-align: left;
 }
 
 .events .row {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import PropTypes from'prop-types';
 
 const Pagination = ({ entitiesPerPage, totalEntities, setCurrentPage }) => {
     const pageNumbers = [];
@@ -32,8 +33,8 @@ const Pagination = ({ entitiesPerPage, totalEntities, setCurrentPage }) => {
 };
 
 Pagination.propTypes = {
-    entitiesPerPage: PropTypes.number.isRequired, 
-    totalEntities: PropTypes.number.isRequired, 
+    entitiesPerPage: PropTypes.number.isRequired,
+    totalEntities: PropTypes.number.isRequired,
     setCurrentPage: PropTypes.func.isRequired
 };
 

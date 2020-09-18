@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Carousel, Row, Col, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from'prop-types';
 
 import { getEvents } from '../../redux/actions/event';
 import Event from '../Events/Event/Event';
@@ -39,7 +40,7 @@ const Home = ({ events, loading, getAllEvents }) => {
             alt="HumanAid"
           />
           <Carousel.Caption>
-            <h3>HumanAid</h3>
+            <h1>HumanAid</h1>
             <p>Solution digitale répertoriant les évènements associatifs à but non lucratif</p>
           </Carousel.Caption>
             </Carousel.Item>

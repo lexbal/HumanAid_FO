@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
+import CryptoJS from "crypto-js";
 import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
@@ -34,7 +35,9 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
   }
 
   useEffect(() => {
-    getSingleAssoc(id);
+    let bytes = CryptoJS.AES.decrypt(id, process.env.REACT_APP_SECRET);
+    let decryptedId = bytes.toString(CryptoJS.enc.Utf8);
+    getSingleAssoc(decryptedId);
   // eslint-disable-next-line
   }, []);
 
@@ -42,7 +45,7 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
     <div className='assoc-detail'>
       <Container>
         <Row>
-          {assoc.assoc && 
+          {assoc.assoc &&
             <>
               <Col xs={4} md={4} lg={4}>
                 <Card>
@@ -50,19 +53,19 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
                   {!assoc.assoc.photo && <Card.Img variant="top" src={notFound} onError="this.src='../../../images/no-image-found.png'"/>}
                   <Card.Body>
                     <Card.Text>
-                      <span className="informations">Président :</span> 
+                      <span className="informations">Président :</span>
                       <span className="text-right">{assoc.assoc.manager_first_name + " " + assoc.assoc.manager_first_name}</span>
                     </Card.Text>
                     <Card.Text>
-                      <span className="informations">Email :</span> 
+                      <span className="informations">Email :</span>
                       <span className="text-right">{assoc.assoc.email}</span>
                     </Card.Text>
                     <Card.Text>
-                      <span className="informations">Telephone :</span> 
+                      <span className="informations">Telephone :</span>
                       <span className="text-right">{assoc.assoc.landline}</span>
                     </Card.Text>
                     <Card.Text>
-                      <span className="informations">Adresse :</span> 
+                      <span className="informations">Adresse :</span>
                       <span className="text-right">{assoc.assoc.street}</span>
                     </Card.Text>
                     <Card.Text className="networks">

@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Alert from 'react-bootstrap/Alert';
-
+import {
+  Alert, Card, Button,
+  Form, InputGroup
+} from 'react-bootstrap';
 import PropTypes from'prop-types';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faKey } from '@fortawesome/free-solid-svg-icons';
 
 import { login } from '../../../redux/actions/user';
+import './Login.css';
 
 
 const mapDispatchToProps = (dispatch) => {
@@ -52,32 +53,47 @@ const Login = ({ createConnexion, loggedIn, error }) => {
   return (
     !loggedIn ? (
       <div className="Login">
-        <Card style={{ width: '18rem', justifyContent: "center" }}>
-          <Card.Header>Connexion</Card.Header>
+        <Card className="shadow">
           <Card.Body>
+            <h3>Connexion</h3>
+
             <Form onSubmit={handleSubmit}>
-              <Form.Group controlId="usernameGroup">
+
+              <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="basic-addon1">
+                    <FontAwesomeIcon icon={faUser}/>
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
                 <Form.Control
                   type="text"
                   name="email"
                   placeholder="Email"
                   value={fields.email}
                   onChange={handleChange}
-                  autoFocus
+                  autoFocus required
                 />
-              </Form.Group>
-              <Form.Group controlId="passwordGroup">
+              </InputGroup>
+
+              <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                  <InputGroup.Text id="basic-addon1">
+                    <FontAwesomeIcon icon={faKey}/>
+                  </InputGroup.Text>
+                </InputGroup.Prepend>
                 <Form.Control
                   type="password"
                   name="password"
                   value={fields.password}
                   onChange={handleChange}
                   placeholder="Mot de passe"
+                  required
                 />
-              </Form.Group>
+              </InputGroup>
+
               { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
 
-              <Button variant="primary" type="submit">
+              <Button variant="primary" type="submit" id="connect">
                 Se connecter
               </Button>
             </Form>
@@ -88,13 +104,18 @@ const Login = ({ createConnexion, loggedIn, error }) => {
       <Redirect to='/'/>
     )
   );
-}
+};
 
 Login.propTypes = {
-  createConnexion: PropTypes.func.isRequired
+  createConnexion: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ])
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Login)
+)(Login);

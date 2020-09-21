@@ -8,7 +8,7 @@ const config = {
 export const createRating = (rating, event_id) => {
     return (dispatch) => {
       dispatch({
-        type: 'LOADING'
+        type: 'RATING_LOADING'
       });
       return axios.post(`${process.env.REACT_APP_API_HOST}rating`, {
                 rating: rating.rating,
@@ -18,16 +18,16 @@ export const createRating = (rating, event_id) => {
               }, config)
               .then(() => {
                 dispatch({
-                  type: 'MAIL_SUCCESS'
+                  type: 'POST_RATING_SUCCESS'
                 });
               })
               .catch((err) => {
                 if (err.response.status === 401) {
                   removeUser();
                 }
-                
+
                 dispatch({
-                  type: 'ERROR',
+                  type: 'RATING_ERROR',
                   error: err
                 });
               });

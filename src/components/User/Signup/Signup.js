@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-
 import {
-  Alert, Button, Form,
-  FormControl, Card, Col
+  Alert, Button, Form, Card
 } from 'react-bootstrap';
-
 import PropTypes from'prop-types';
 
 import { signup } from '../../../redux/actions/user';
+import Step1 from './Steps/Step1';
+import Step2 from './Steps/Step2';
+import Step3 from './Steps/Step3';
 import './Signup.css';
 
 
@@ -30,6 +30,15 @@ const mapStateToProps = (state) => {
 
 
 const Signup = ({ createProfile, loggedIn, error }) => {
+  const validImageType = [
+    "image/png",
+    "image/jpeg",
+    "image/svg+xml"
+  ]
+  const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+  const validPwdRegex = RegExp(/^(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])\S{6,12}$/);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [invalid, setInvalid] = useState(false);
   const [fields, setField] = useState({
     username: "",
     photo: null,
@@ -49,6 +58,25 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     password: "",
     roles: "",
   });
+  const [errors, setError] = useState({
+    username: null,
+    photo: null,
+    description: null,
+    siret: null,
+    address: {
+      street: null,
+      city: null,
+      zipcode: null,
+      country: null,
+      department: null,
+      region: null
+    },
+    website: null,
+    name: null,
+    email: null,
+    password: null,
+    roles: null,
+  });
 
   const handleChange = (event) => {
     const target = event.target;
@@ -58,214 +86,154 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     if (name === "address") {
       const id   = target.id;
       setField({ ...fields, address: {...fields.address, [id]: value} });
+      setError({ ...errors, address: {...errors.address, [id]: !value ? "Ce champ est vide !" : ""} });
     } else {
-      setField({ ...fields, [name]: (target.type === "file") ? target.files[0] : value });
+      if (target.type === "file") {
+        if (validImageType.includes(target.files[0].type)) {
+          setField({ ...fields, [name]: target.files[0] });
+        }
+      } else {
+        setField({ ...fields, [name]: value });
+      }
+
+      switch (name) {
+        case 'email':
+          setError({ ...errors, email: !validEmailRegex.test(value) ? "Email invalide ! (exemple: exemple@gmail.com)" : "" });
+          break;
+        case 'password':
+          setError({ ...errors, password: !validPwdRegex.test(value) ? "Le mot de passe doit contenir au moins une majuscule, un chiffre et taille comprise entre 6 et 16 caractères" : "" });
+          break;
+        case 'photo':
+          setError({ ...errors, photo: !validImageType.includes(target.files[0].type) ? "Les types de fichiers autorisés sont : png, jpg, jpeg, svg" : "" });
+          break;
+        default:
+          setError({ ...errors, [name]: !value ? "Ce champ est vide !" : "" });
+      }
     }
 
     return true;
   }
 
+  const next = () => {
+    if (currentStep === 1) {
+      for (let value of ["username", "email", "password"]) {
+        if (errors[value] || !fields[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    } else if (currentStep === 2) {
+      for (let value of ["street", "zipcode", "city", "country", "department", "region"]) {
+        if (errors.address[value] || !fields.address[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    } else if (currentStep === 3) {
+      for (let value of ["photo", "name", "description", "website", "siret"]) {
+        if (errors[value] || !fields[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    }
+
+    setInvalid(false);
+    setCurrentStep(currentStep >= 2 ? 3 : currentStep + 1);
+  }
+
+  const prev = () => {
+    setCurrentStep(currentStep <= 1 ? 1 : currentStep - 1);
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    for (let value of Object.keys(errors)) {
+      if (value === "address") {
+        for (let value of Object.keys(errors.address)) {
+          if (errors.address[value]) {
+            setInvalid(true);
+
+            return;
+          }
+        }
+      } else {
+        if (errors[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    }
+
+    setInvalid(false);
     createProfile(fields);
   }
 
   return (
     !loggedIn ? (
     <div className='SignUp'>
-      <Card style={{ width: '65rem', margin: "auto", marginTop: "2%" }}>
-        <Card.Header>Créer un compte</Card.Header>
+      <Card className='shadow'>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="rolesGroup">
-              <Form.Label>Vous êtes ?</Form.Label>
-              <Form.Control
-                as="select"
-                name="roles"
-                value={fields.roles}
-                onChange={handleChange}
-              >
-                <option>Choose...</option>
-                <option>Association</option>
-                <option>Entreprise</option>
-              </Form.Control>
-            </Form.Group>
+            <div className="title">
+              <h3>- Inscription -</h3>
+              <h5>
+                {currentStep === 1 && " Informations de connexion"}
+                {currentStep === 2 && " Coordonnées géographiques"}
+                {currentStep === 3 && " Informtions professionnelles"}
+              </h5>
+            </div>
 
-            <Form.Label>Informations de connexion</Form.Label>
-            <hr/>
+            <Step1
+              currentStep={currentStep}
+              handleChange={handleChange}
+              fields={fields}
+              errors={errors}
+            />
 
-            <Form.Group controlId="siretGroup">
-              <Form.Control
-                type="text"
-                name="username"
-                placeholder="Nom d'utilisateur"
-                value={fields.username}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Control
-                id="emailGroup"    
-                type="text"
-                name="email"
-                placeholder="E-mail"
-                value={fields.email}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group controlId="passwordGroup">
-              <Form.Control
-                type="password"
-                name="password"
-                placeholder="Password"
-                value={fields.password}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <hr/>
+            <Step2
+              currentStep={currentStep}
+              handleChange={handleChange}
+              fields={fields}
+              errors={errors}
+            />
 
             {
               (fields.roles === "Entreprise" || fields.roles === "Association") &&
-              <>
-                <Form.Label>Informations professionnelles</Form.Label>
-                <hr/>
-                <Form.Group controlId="nameGroup">
-                  <Form.Control
-                    type="text"
-                    name="name"
-                    placeholder={"Nom de l'" + fields.roles}
-                    value={fields.name}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-                <Form.Group>
-                  <FormControl
-                    as="textarea"
-                    name="description"
-                    id="description"
-                    aria-label="With textarea"
-                    placeholder="Description"
-                    value={fields.description}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-                <Form.Group controlId="websiteGroup">
-                  <Form.Control
-                    type="text"
-                    name="website"
-                    placeholder="Site Web"
-                    value={fields.website}
-                    onChange={handleChange}
-                  />
-                </Form.Group>
-              </>
+              <Step3
+                currentStep={currentStep}
+                handleChange={handleChange}
+                fields={fields}
+                errors={errors}
+              />
             }
 
+            {error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+            {invalid && <Alert variant="danger">Les champs précédents ne sont pas valides</Alert>}
+
+            {currentStep !== 1 && (
+              <Button variant="secondary mt-2" type="button" onClick={prev}>
+                Précédent
+              </Button>
+            )}
+
+            {currentStep < 3 && !(currentStep === 2 && (fields.roles !== "Entreprise" && fields.roles !== "Association")) && (
+              <Button variant="primary float-right mt-2" type="button" onClick={next}>
+                Suivant
+              </Button>
+            )}
             {
-              fields.roles === "Entreprise" &&
-              <Form.Group controlId="siretGroup">
-                <Form.Control
-                  type="text"
-                  name="siret"
-                  placeholder="Siret"
-                  value={fields.siret}
-                  onChange={handleChange}
-                />
-              </Form.Group>
+              ((currentStep === 2 && (fields.roles !== "Entreprise" && fields.roles !== "Association")) ||
+              (currentStep === 3 && (fields.roles === "Entreprise" || fields.roles === "Association"))) &&
+              <Button variant="primary float-right mt-2" type="submit">
+                S'inscrire
+              </Button>
             }
-
-            {(fields.roles === "Entreprise" || fields.roles === "Association") && <hr/>}
-
-            <Form.Label>Vos informations</Form.Label>
-            <hr/>
-
-            <Form.Group>
-              <Form.File 
-                id="custom-file-translate-scss"
-                label="Photo de profile/Logo"
-                name="photo"
-                lang="fr"
-                custom
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <hr/>
-            <Form.Label>Informations géographique</Form.Label>
-            <hr/>
-
-            <Form.Group>
-              <Form.Row>
-                <Col>
-                  <Form.Control
-                    type="text"
-                    name="address"
-                    id="street"
-                    placeholder="Adresse"
-                    value={fields.address.street}
-                    onChange={handleChange}
-                  />
-                </Col>
-                <Col>
-                  <Form.Control
-                    type="text"
-                    name="address"
-                    id="zipcode"
-                    placeholder="Code postal"
-                    value={fields.address.zipcode}
-                    onChange={handleChange}
-                  />
-                </Col>
-                <Col>
-                  <Form.Control
-                    type="text"
-                    name="address"
-                    id="city"
-                    placeholder="Ville"
-                    value={fields.address.city}
-                    onChange={handleChange}
-                  />
-                </Col>
-              </Form.Row> 
-            </Form.Group>
-            <Form.Group>
-              <Form.Control
-                type="text"
-                name="address"
-                id="country"
-                placeholder="Pays"
-                value={fields.address.country}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Control
-                type="text"
-                name="address"
-                id="department"
-                placeholder="Département"
-                value={fields.address.department}
-                onChange={handleChange}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Control
-                type="text"
-                name="address"
-                id="region"
-                placeholder="Région"
-                value={fields.address.region}
-                onChange={handleChange}
-              />
-            </Form.Group>
-
-            <hr/>
-
-            { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
-
-            <Button variant="primary" type="submit">
-              S'inscrire
-            </Button>
           </Form>
         </Card.Body>
       </Card>
@@ -277,10 +245,15 @@ const Signup = ({ createProfile, loggedIn, error }) => {
 };
 
 Signup.propTypes = {
-    createProfile: PropTypes.func.isRequired
+  createProfile: PropTypes.func.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ])
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Signup)
+)(Signup);

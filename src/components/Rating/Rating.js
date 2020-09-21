@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'react-bootstrap';
+import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar } from '@fortawesome/free-solid-svg-icons';
 
@@ -10,7 +11,7 @@ const Rating = ({ username, rating, comment, publish_date }) => {
             <Row>    
                 <Col xs={2} md={2} lg={2}>
                     <Row> 
-                        <Col className="text-center">{username}</Col>
+                        <Col className="text-center">@{username}</Col>
                     </Row>
                     <Row> 
                         <Col className="text-center">{rating}<FontAwesomeIcon icon={faStar} size="1x" color="yellow"/></Col>
@@ -27,6 +28,13 @@ const Rating = ({ username, rating, comment, publish_date }) => {
             </Row>
         </div>
     );
+};
+
+Rating.propTypes = {
+    username: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    comment: PropTypes.string.isRequired,
+    publish_date: PropTypes.string.isRequired
 };
 
 export default Rating;

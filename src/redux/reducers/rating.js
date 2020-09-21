@@ -4,7 +4,7 @@ const INITIAL_STATE = {
     loading: false,
     error: ""
 };
-  
+
 const rating = (state = INITIAL_STATE, action) => {
     switch (action.type) {
       case 'POST_RATING_SUCCESS':
@@ -14,13 +14,13 @@ const rating = (state = INITIAL_STATE, action) => {
           loading: false,
           error: ""
         }
-      case 'LOADING':
+      case 'RATING_LOADING':
         return {
           ...state,
           loading: true,
           error: ""
         }
-      case 'ERROR':
+      case 'RATING_ERROR':
         return {
           ...state,
           loading: false,
@@ -30,6 +30,5 @@ const rating = (state = INITIAL_STATE, action) => {
         return state
     }
   }
-  
+
   export default rating;
-  

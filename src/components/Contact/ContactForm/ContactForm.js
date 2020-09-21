@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import FormControl from 'react-bootstrap/FormControl';
-import Alert from 'react-bootstrap/Alert';
+import {
+  Form, Button, FormControl, Alert
+} from 'react-bootstrap';
+import PropTypes from'prop-types';
 
 import { mail } from '../../../redux/actions/mail';
+import './ContactForm.css';
 
 
 const mapStateToProps = (state) => {
@@ -25,10 +25,16 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const ContactForm = ({ sendMail, error }) => {
+  const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
   const [fields, setField] = useState({
     name: "",
     email: "",
     content: "",
+  });
+  const [errors, setError] = useState({
+    name: null,
+    email: null,
+    content: null,
   });
 
   const handleChange = (event) => {
@@ -37,6 +43,10 @@ const ContactForm = ({ sendMail, error }) => {
     const name   = target.name;
 
     setField({ ...fields, [name]: value });
+
+    if (name === "email") {
+      setError({ ...errors, email: !validEmailRegex.test(value) ? "Email invalide ! (exemple: exemple@gmail.com)" : "" });
+    }
 
     return true;
   }
@@ -51,43 +61,58 @@ const ContactForm = ({ sendMail, error }) => {
         <Form onSubmit={handleSubmit}>
             <Form.Group controlId="nameGroup">
                 <Form.Control
-                type="text"
-                name="name"
-                placeholder="Nom"
-                value={fields.name}
-                onChange={handleChange}
+                  type="text"
+                  name="name"
+                  placeholder="Nom"
+                  value={fields.name}
+                  onChange={handleChange}
                 />
             </Form.Group>
 
             <Form.Group controlId="emailGroup">
                 <Form.Control
-                type="text"
-                name="email"
-                placeholder="E-mail"
-                value={fields.email}
-                onChange={handleChange}
+                  type="text"
+                  name="email"
+                  placeholder="E-mail"
+                  value={fields.email}
+                  onChange={handleChange}
+                  isValid={fields.email}
+                  isInvalid={errors.email}
+                  required
                 />
+                <Form.Control.Feedback type="invalid">
+                  {errors.email}
+                </Form.Control.Feedback>
             </Form.Group>
 
             <Form.Group controlId="contentGroup">
                 <FormControl
-                as="textarea"
-                name="content"
-                aria-label="With textarea"
-                placeholder="Exprimez-vous votre requête ici !"
-                value={fields.content}
-                onChange={handleChange}
+                  as="textarea"
+                  name="content"
+                  aria-label="With textarea"
+                  placeholder="Exprimez-vous votre requête ici !"
+                  value={fields.content}
+                  onChange={handleChange}
+                  required
                 />
             </Form.Group>
 
-            { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+            {error && <Alert variant="danger">Une erreur est survenue !</Alert>}
 
-            <Button variant="primary" type="submit">
+            <Button variant="primary" type="submit" id="contact">
                 Envoyer
             </Button>
         </Form>
     </div>
   );
+};
+
+ContactForm.propTypes = {
+  sendMail: PropTypes.func.isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ])
 };
 
 export default connect(

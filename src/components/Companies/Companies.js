@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
-import {  Row, Spinner, Col, Image } from 'react-bootstrap';
+import { Row, Spinner, Col, Image } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import PropTypes from'prop-types';
 
-import Company from './Company/Company';
 import { getCompanies } from '../../redux/actions/company';
 import './Companies.css';
 
 const mapStateToProps = (state) => {
   return {
     loading: state.companies.loading,
-    companies: state.companies.companies,
-    error: state.companies.error
+    companies: state.companies.companies
   }
 }
 
@@ -22,7 +21,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const Companies = ({ companies, loading, error, getCompanies }) => {
+const Companies = ({ companies, loading, getCompanies }) => {
   useEffect(() => {
     getCompanies();
   // eslint-disable-next-line
@@ -32,11 +31,16 @@ const Companies = ({ companies, loading, error, getCompanies }) => {
     companies && companies.length > 0 && (
       <div className='companies'>
         <Row>
+          <Col>
+            <h2>Les entreprises donnatrices</h2>
+          </Col>
+        </Row>
+        <Row>
           {
             !loading && companies.map(({photo}, i) =>
               (
                 <div>
-                  {photo && <Image src={process.env.REACT_APP_API_HOST + "images/" + photo} className="logo" key={i}/>}
+                  {photo && <Image src={process.env.REACT_APP_STATIC_HOST + photo} className="logo" key={i}/>}
                 </div>
               )
             )
@@ -55,7 +59,13 @@ const Companies = ({ companies, loading, error, getCompanies }) => {
   );
 };
 
+Companies.propTypes = {
+  getCompanies: PropTypes.func.isRequired,
+  companies: PropTypes.array.isRequired,
+  loading: PropTypes.bool.isRequired
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(Companies)
+)(Companies);

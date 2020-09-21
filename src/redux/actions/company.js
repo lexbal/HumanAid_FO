@@ -5,7 +5,7 @@ export const getCompanies = (limit = null) => {
 
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'COMP_LOADING'
     });
     return axios.get(`${process.env.REACT_APP_API_HOST}company${limitString}`)
             .then((json) => {
@@ -16,7 +16,7 @@ export const getCompanies = (limit = null) => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'COMP_ERROR',
                 error: err
               });
             });

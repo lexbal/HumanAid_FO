@@ -8,7 +8,7 @@ const config = {
 export const createEvent = event => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'EVENT_LOADING'
     });
     return axios.post(`${process.env.REACT_APP_API_HOST}event`, {
               title:        event.title,
@@ -27,7 +27,7 @@ export const createEvent = event => {
               }
 
               dispatch({
-                type: 'ERROR',
+                type: 'EVENT_ERROR',
                 error: err
               });
             });
@@ -37,7 +37,7 @@ export const createEvent = event => {
 export const getEvents = () => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'EVENT_LOADING'
     });
     return axios.get(`${process.env.REACT_APP_API_HOST}event`)
             .then((json) => {
@@ -48,7 +48,7 @@ export const getEvents = () => {
           })
           .catch((err) => {
             dispatch({
-              type: 'ERROR',
+              type: 'EVENT_ERROR',
               error: err
             });
           });
@@ -58,7 +58,7 @@ export const getEvents = () => {
 export const getEvent = id => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'EVENT_LOADING'
     });
     return axios.get(`${process.env.REACT_APP_API_HOST}event/${id}`)
             .then((json) => {
@@ -69,7 +69,7 @@ export const getEvent = id => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'EVENT_ERROR',
                 error: err
               });
             });
@@ -79,7 +79,7 @@ export const getEvent = id => {
 export const getCategories = () => {
   return (dispatch) => {
     dispatch({
-      type: 'LOADING'
+      type: 'EVENT_LOADING'
     });
     return axios.get(`${process.env.REACT_APP_API_HOST}event/categories`)
             .then((json) => {
@@ -90,7 +90,7 @@ export const getCategories = () => {
             })
             .catch((err) => {
               dispatch({
-                type: 'ERROR',
+                type: 'EVENT_ERROR',
                 error: err
               });
             });

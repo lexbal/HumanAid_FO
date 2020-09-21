@@ -1,20 +1,20 @@
-.Contact {
+.Login {
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-.Contact .card {
-    width: 35rem!important;
+.Login .card {
+    width: 25rem!important;
     justify-content: center;
     border-radius: 10px;
     margin: auto;
 }
 
-.Contact .card-body h3 {
+.Login .card-body h3 {
     margin: 2rem;
 }
 
-.Contact .card-body button#contact {
+button#connect {
     width: 100%;
 }

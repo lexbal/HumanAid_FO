@@ -1,20 +1,10 @@
-.event {
-  text-align: left;
+.event-card {
+  width: 95%!important;
 }
 
-.card {
-  width: 15vw;
-  display: inline-flex;
-  margin: 1rem;
-}
-
-.card-body .description {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.card-header .title {
+.event-card .event-name {
+  float: left;
+  width: 90%;
   text-align: left;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -23,3 +13,17 @@
   -webkit-box-orient: vertical;
 }
 
+.event-card .event-link {
+  float: right;
+}
+
+.event-card .event-link a {
+  color: inherit;
+  text-decoration: inherit;
+}
+
+.event-card .card-body .description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

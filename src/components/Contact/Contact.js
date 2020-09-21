@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from "react-redux";
 import Card from 'react-bootstrap/Card';
 
 import "./Contact.css";
@@ -7,10 +6,10 @@ import ContactForm from './ContactForm/ContactForm';
 
 const Contact = () => {
   return (
-    <div className='contact'>
-      <Card style={{ width: '35rem', justifyContent: "center" }}>
-        <Card.Header>Contacter-nous</Card.Header>
+    <div className='Contact'>
+      <Card>
         <Card.Body>
+          <h3>Formulaire de contact</h3>
           <ContactForm />
         </Card.Body>
       </Card>
@@ -18,7 +17,4 @@ const Contact = () => {
   );
 };
 
-export default connect(
-  null,
-  null
-)(Contact)
+export default Contact;

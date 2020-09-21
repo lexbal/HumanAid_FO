@@ -36,13 +36,13 @@ const events = (state = INITIAL_STATE, action) => {
         loading: false,
         error: ""
       }
-    case 'LOADING':
+    case 'EVENT_LOADING':
       return {
         ...state,
         loading: true,
         error: ""
       }
-    case 'ERROR':
+    case 'EVENT_ERROR':
       return {
         ...state,
         loading: false,

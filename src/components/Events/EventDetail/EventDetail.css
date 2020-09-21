@@ -1,7 +1,7 @@
 
 .event-detail {
-    margin-top: 4rem;
-    margin-bottom: 4rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
     text-align: left;
 }
 
@@ -30,4 +30,9 @@
 
 .ratings {
     width: 100%;
+}
+
+.comments {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
 }

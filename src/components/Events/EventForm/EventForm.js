@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
-
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import Alert from 'react-bootstrap/Alert';
+import {
+  Alert, Card, Button, Form
+} from 'react-bootstrap';
+import PropTypes from'prop-types';
 import Select from 'react-select';
 import DateTimePicker from 'react-datetime-picker';
 
-import './EventForm.css';
 import { createEvent, getCategories } from '../../../redux/actions/event';
+import './EventForm.css';
 
 
 const mapStateToProps = (state) => {
@@ -69,7 +68,7 @@ const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn
   return (
     loggedIn ? (
     <div className='eventForm'>
-      <Card style={{ width: '35rem', justifyContent: "center" }}>
+      <Card className="event-form-card">
         <Card.Header>Informations de l'évènement</Card.Header>
         <Card.Body>
           <Form onSubmit={handleSubmit}>
@@ -121,7 +120,7 @@ const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn
               />
             </Form.Group>
 
-            { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+            {error && <Alert variant="danger">Une erreur est survenue !</Alert>}
 
             <Button variant="primary" type="submit">
               Envoyer
@@ -136,7 +135,18 @@ const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn
   );
 };
 
+EventForm.propTypes = {
+  getAllEventCategory: PropTypes.func.isRequired,
+  createEvent: PropTypes.func.isRequired, 
+  eventCategories: PropTypes.array.isRequired,
+  loggedIn: PropTypes.bool.isRequired,
+  error: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.bool
+  ])
+};
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(EventForm)
+)(EventForm);

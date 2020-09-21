@@ -1,41 +1,52 @@
 import React from 'react';
-import { connect } from "react-redux";
-
 import { Container, Col, Row } from "react-bootstrap";
+import { withRouter } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
-import './Footer.css';
 import ContactForm from './components/Contact/ContactForm/ContactForm';
 
-const Footer = () => {
+const Footer = withRouter(({ location }) => {
+    const includePaths = ["/", "/signup", "/profile", "/login", "/associations", "/events", "/event/add", "/contact"];
+    const excludePaths = ["/login", "/signup", "/contact"];
     const facebookLink = "https://www.facebook.com/HumanAid-100879451546535/";
     const twitterLink  = "https://twitter.com/human_aid";
-    
     const handleClick  = (path) => {
-        window.open(path, '_blank');;
+        window.open(path, '_blank');
+    }
+
+    if (location.pathname.startsWith("/association/detail/") || location.pathname.startsWith("/event/detail/")) {
+        let path = location.pathname.split('detail/');
+    
+        if (path[1].indexOf('/') >= 0) {
+            return null;
+        }
+    }
+
+    if (excludePaths.includes(location.pathname) || !includePaths.includes(location.pathname) && (!location.pathname.startsWith("/association/detail/") && !location.pathname.startsWith("/event/detail/"))) {
+        return null;
     }
 
     return (
         <div className="Footer">
             <Container>
-                <Row>
-                    <Col style={{ textAlign: "left" }}>
+                <Row className="titles">
+                    <Col>
                         <h5>Contactez-nous :</h5>
                     </Col>
-                    <Col style={{ textAlign: "left" }}>
-                        <h5>Réseaux :</h5>
+                    <Col>
+                        <h5>Nos réseaux :</h5>
                     </Col>
                     <Col></Col>
                 </Row>
                 <Row>
-                    <Col style={{ textAlign: "left" }}>
+                    <Col>
                         <ContactForm />
                     </Col>
-                    <Col style={{ marginTop: "auto", marginBottom: "auto" }}>
+                    <Col className="network-icons">
                         <FontAwesomeIcon icon={faFacebook} size="5x" onClick={() => handleClick(facebookLink)}/>
                     </Col>
-                    <Col style={{ marginTop: "auto", marginBottom: "auto" }}>
+                    <Col className="network-icons">
                         <FontAwesomeIcon icon={faTwitterSquare} size="5x" onClick={() => handleClick(twitterLink)}/>
                     </Col>
                 </Row>
@@ -47,9 +58,6 @@ const Footer = () => {
             </Container>
         </div>
     );
-}
+});
 
-export default connect(
-  null,
-  null
-)(Footer)
+export default Footer;

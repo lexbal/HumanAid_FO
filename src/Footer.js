@@ -23,7 +23,11 @@ const Footer = withRouter(({ location }) => {
         }
     }
 
-    if (excludePaths.includes(location.pathname) || !includePaths.includes(location.pathname) && (!location.pathname.startsWith("/association/detail/") && !location.pathname.startsWith("/event/detail/"))) {
+    if (excludePaths.includes(location.pathname)) {
+        return null;
+    }
+
+    if (!includePaths.includes(location.pathname) && (!location.pathname.startsWith("/association/detail/") && !location.pathname.startsWith("/event/detail/"))) {
         return null;
     }
 

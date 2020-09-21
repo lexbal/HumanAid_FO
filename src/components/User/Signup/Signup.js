@@ -35,6 +35,7 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     "image/jpeg",
     "image/svg+xml"
   ]
+  // eslint-disable-next-line
   const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
   const validPwdRegex = RegExp(/^(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])\S{6,12}$/);
   const [currentStep, setCurrentStep] = useState(1);

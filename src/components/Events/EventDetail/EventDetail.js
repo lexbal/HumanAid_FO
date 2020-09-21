@@ -5,7 +5,7 @@ import {
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from'prop-types';
-import CryptoJS from "crypto-js";
+//import CryptoJS from "crypto-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
@@ -31,13 +31,13 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
-  let decryptedId = null;
   let { id } = useParams();
+  //let decryptedId = null;
 
   useEffect(() => {
-    let bytes = CryptoJS.AES.decrypt(id, process.env.REACT_APP_SECRET);
-    decryptedId = bytes.toString(CryptoJS.enc.Utf8).replace(/s1L2a3S4h/g, '/');
-    getSingleEvent(decryptedId);
+    /*let bytes = CryptoJS.AES.decrypt(id, process.env.REACT_APP_SECRET);
+    decryptedId = bytes.toString(CryptoJS.enc.Utf8).replace(/s1L2a3S4h/g, '/');*/
+    getSingleEvent(id);
   // eslint-disable-next-line
   }, []);
 
@@ -104,7 +104,7 @@ const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
                             <ListGroup.Item key={i}><Rating username={username} rating={rating} comment={comment} publish_date={publish_date} /></ListGroup.Item>
                           )
                         }
-                        {loggedIn && <ListGroup.Item><RatingForm event_id={decryptedId} /></ListGroup.Item>}
+                        {loggedIn && <ListGroup.Item><RatingForm event_id={id} /></ListGroup.Item>}
                       </ListGroup>
                     </Row>
                   </Col>

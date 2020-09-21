@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
-import CryptoJS from "crypto-js";
+//import CryptoJS from "crypto-js";
 import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
@@ -35,9 +35,9 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
   }
 
   useEffect(() => {
-    let newId = id.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=');
-    let decryptedId = CryptoJS.AES.decrypt(newId, process.env.REACT_APP_SECRET).toString(CryptoJS.enc.Utf8);
-    getSingleAssoc(decryptedId);
+    /*let newId = id.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=');
+    let decryptedId = CryptoJS.AES.decrypt(newId, process.env.REACT_APP_SECRET).toString(CryptoJS.enc.Utf8);*/
+    getSingleAssoc(id);
   // eslint-disable-next-line
   }, []);
 

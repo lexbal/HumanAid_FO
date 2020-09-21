@@ -25,6 +25,7 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const ContactForm = ({ sendMail, error }) => {
+  // eslint-disable-next-line
   const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
   const [fields, setField] = useState({
     name: "",

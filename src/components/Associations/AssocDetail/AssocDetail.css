@@ -1,12 +1,15 @@
-.assoc-detail {
-  margin-top: 3rem;
-  margin-bottom: 3rem;
-  text-align: left;
+.assoc-container {
+  width: 100%!important;
 }
 
-.assoc-detail .card {
-  margin: 0;
-  width: 100%;
+.card-info {
+  width: 100%!important;
+}
+
+.assoc-detail {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: left;
 }
 
 .networks {
@@ -25,4 +28,8 @@
 
 .text-right {
   float: right;
+}
+
+.assoc-events {
+  margin-top: 5rem;
 }

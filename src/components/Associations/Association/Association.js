@@ -9,7 +9,8 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import './Association.css';
 
 const Association = ({ id, name, description }) => {
-  let encryptedId = CryptoJS.AES.encrypt((typeof id === "number") ? id.toString() : id, process.env.REACT_APP_SECRET).toString();
+  let test = CryptoJS.AES.encrypt((typeof id === "number") ? id.toString() : id, process.env.REACT_APP_SECRET).toString();
+  let encryptedId = test.replace(/\+/g,'p1L2u3S').replace(/\//g,'s1L2a3S4h').replace(/=/g,'e1Q2u3A4l');
 
   return (
     <Col xs={4} md={4} lg={4}>

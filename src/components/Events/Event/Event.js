@@ -9,7 +9,7 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import './Event.css';
 
 const Event = ({ id, title, description, categories, publish_date }) => {
-  let encryptedId = CryptoJS.AES.encrypt((typeof id === "number") ? id.toString() : id, process.env.REACT_APP_SECRET).toString();
+  let encryptedId = CryptoJS.AES.encrypt((typeof id === "number") ? id.toString() : id, process.env.REACT_APP_SECRET).toString().replace(/\//g,'s1L2a3S4h');
 
   return (
     <Col xs={4} md={4} lg={4}>

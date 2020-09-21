@@ -6,9 +6,9 @@ import './NotFound.css';
 const NotFound = () => {
   return (
     <div id="NotFound">
-  		<div class="notfound">
+  		<div className="notfound">
   			<div>
-  				<div class="notfound-404">
+  				<div className="notfound-404">
   					<h1>!</h1>
   				</div>
   				<h2>Erreur 404</h2>

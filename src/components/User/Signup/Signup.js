@@ -104,7 +104,7 @@ const Signup = ({ createProfile, loggedIn, error }) => {
           setError({ ...errors, password: !validPwdRegex.test(value) ? "Le mot de passe doit contenir au moins une majuscule, un chiffre et taille comprise entre 6 et 16 caractères" : "" });
           break;
         case 'photo':
-          setError({ ...errors, photo: !validImageType.includes(target.files[0].type) ? "Les types de fichiers autorisés sont : png, jpg, jpeg, svg" : "" });console.log(!validImageType.includes(target.files[0].type) ? "Les types de fichiers autorisés sont : png, jpg, jpeg, svg" : "");
+          setError({ ...errors, photo: !validImageType.includes(target.files[0].type) ? "Les types de fichiers autorisés sont : png, jpg, jpeg, svg" : "" });
           break;
         default:
           setError({ ...errors, [name]: !value ? "Ce champ est vide !" : "" });

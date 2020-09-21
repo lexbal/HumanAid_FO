@@ -39,7 +39,7 @@ const Events = ({ role, events, loading, getAllEvents }) => {
   }, []);
 
   return (
-    <div className='events'>
+    <div className='Events'>
       <Container>
         <Row>
           {

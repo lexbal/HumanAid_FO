@@ -46,7 +46,7 @@ const RatingForm = ({ event_id, createRating, error }) => {
     return (
         <div className='RatingForm'>
             <Form onSubmit={handleSubmit}>   
-                <Form.Label>Ajouter un commentaire</Form.Label> 
+                <Form.Label><h5>Ajouter un commentaire :</h5></Form.Label> 
                 <Box component="fieldset" mb={1} borderColor="transparent">
                     <Rating
                         name="rating"

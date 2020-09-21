@@ -7,7 +7,7 @@ import { faFacebook, faTwitterSquare } from "@fortawesome/free-brands-svg-icons"
 import ContactForm from './components/Contact/ContactForm/ContactForm';
 
 const Footer = withRouter(({ location }) => {
-    const includePaths = ["/", "/signup", "/profile", "/login", "/association/detail/:id", "/associations", "/events", "/event/detail/:id", "/event/add", "/contact"];
+    const includePaths = ["/", "/signup", "/profile", "/login", "/associations", "/events", "/event/add", "/contact"];
     const excludePaths = ["/login", "/signup", "/contact"];
     const facebookLink = "https://www.facebook.com/HumanAid-100879451546535/";
     const twitterLink  = "https://twitter.com/human_aid";
@@ -15,8 +15,16 @@ const Footer = withRouter(({ location }) => {
         window.open(path, '_blank');
     }
 
-    if (excludePaths.includes(location.pathname) || !includePaths.includes(location.pathname)) {
-      return null;
+    if (location.pathname.startsWith("/association/detail/") || location.pathname.startsWith("/event/detail/")) {
+        let path = location.pathname.split('detail/');
+    
+        if (path[1].indexOf('/') >= 0) {
+            return null;
+        }
+    }
+
+    if (excludePaths.includes(location.pathname) || !includePaths.includes(location.pathname) && (!location.pathname.startsWith("/association/detail/") && !location.pathname.startsWith("/event/detail/"))) {
+        return null;
     }
 
     return (

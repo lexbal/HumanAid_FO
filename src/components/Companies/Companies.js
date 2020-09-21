@@ -31,6 +31,11 @@ const Companies = ({ companies, loading, getCompanies }) => {
     companies && companies.length > 0 && (
       <div className='companies'>
         <Row>
+          <Col>
+            <h2>Les entreprises donnatrices</h2>
+          </Col>
+        </Row>
+        <Row>
           {
             !loading && companies.map(({photo}, i) =>
               (

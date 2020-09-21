@@ -39,7 +39,15 @@ const Header = withRouter(({ location, username, role, loggedIn, removeConnexion
     removeConnexion()
   }
 
-  if (!includePaths.includes(location.pathname)) {
+  if (location.pathname.startsWith("/association/detail/") || location.pathname.startsWith("/event/detail/")) {
+    let path = location.pathname.split('detail/');
+
+    if (path[1].indexOf('/') >= 0) {
+        return null;
+    }
+  }
+
+  if (!includePaths.includes(location.pathname) && (!location.pathname.startsWith("/association/detail/") && !location.pathname.startsWith("/event/detail/"))) {
     return null;
   }
 
@@ -93,7 +101,7 @@ const Header = withRouter(({ location, username, role, loggedIn, removeConnexion
 Header.propTypes = {
   removeConnexion: PropTypes.func.isRequired,
   loggedIn: PropTypes.bool.isRequired,
-  roles: PropTypes.string.isRequired,
+  roles: PropTypes.string,
   username: PropTypes.string.isRequired
 };
 

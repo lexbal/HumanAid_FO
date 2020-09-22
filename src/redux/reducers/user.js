@@ -25,6 +25,7 @@ const user = (state = INITIAL_STATE, action) => {
         email: action.email,
         username: action.username,
         token: action.token,
+        role: getUserValue("role"),
         loading: false,
         loggedIn: isLoggedIn(),
         error: ""

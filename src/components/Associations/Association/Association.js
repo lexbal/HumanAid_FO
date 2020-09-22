@@ -14,7 +14,7 @@ const Association = ({ id, name, description }) => {
 
   return (
     <Col xs={4} md={4} lg={4}>
-      <Card className="assoc-card">
+      <Card className="assoc-card shadow">
         <Card.Header>
           <div className="assoc-name">
             {name}

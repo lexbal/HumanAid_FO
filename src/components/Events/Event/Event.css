@@ -1,16 +1,25 @@
 .event-card {
   width: 95%!important;
+  justify-content: center;
+  border-radius: 10px;
+  margin: auto;
 }
 
 .event-card .event-name {
+  font-weight: bold;
   float: left;
   width: 90%;
   text-align: left;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 2;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
+}
+
+.event-card .event-name .badge-category {
+  position:absolute;
+}
+
+.event-card .event-name .badge-category {
+  width: min-content!important;
+  display: contents!important;
+  position:relative;
 }
 
 .event-card .event-link {

@@ -13,10 +13,21 @@ const Event = ({ id, title, description, categories, publish_date }) => {
 
   return (
     <Col xs={4} md={4} lg={4}>
-      <Card className="event-card">
+      <Card className="event-card shadow">
         <Card.Header>
           <div className="event-name">
-            {title}
+            <div className="event-title">
+              {title}
+            </div>
+            {categories && (
+              <div className="badge-category">
+                {categories.split(',').map((element, i) =>
+                  <Badge pill variant="primary">
+                    {element}
+                  </Badge>
+                )}
+              </div>
+            )}
           </div>
           <div className="event-link">
             <Link to={`/event/detail/${id}`}>
@@ -25,15 +36,6 @@ const Event = ({ id, title, description, categories, publish_date }) => {
           </div>
         </Card.Header>
         <Card.Body>
-            {categories && (
-              <div>
-                {categories.split(',').map((element, i) =>
-                  <Badge pill variant="primary">
-                    {element}
-                  </Badge>
-                )}
-              </div>
-            )}
           <Card.Text className="description">
             {description}
           </Card.Text>

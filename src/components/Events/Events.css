@@ -1,7 +1,8 @@
 .Events {
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    padding-top: 3rem;
+    padding-bottom: 3rem;
     flex: 1 0 auto;
+    background: url("../../images/event-background.svg") no-repeat center center fixed;
 }
 
 .no-data {
@@ -11,3 +12,4 @@
 .no-data .card-title {
   font-weight: bold;
 }
+

@@ -11,8 +11,12 @@ export const createEvent = event => {
       type: 'EVENT_LOADING'
     });
     return axios.post(`${process.env.REACT_APP_API_HOST}event`, {
+              user: getUserValue("username") ? getUserValue("username") : getUserValue("email"),
               title:        event.title,
               description:  event.description,
+              categories:   event.categories.map(({value}, i) => {
+                return value;
+              }),
               start_date:   event.start,
               end_date:     event.end
             }, config)

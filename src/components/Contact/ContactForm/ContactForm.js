@@ -37,6 +37,7 @@ const ContactForm = ({ sendMail, error }) => {
     email: null,
     content: null,
   });
+  const [visible, setVisible] = useState(false);
 
   const handleChange = (event) => {
     const target = event.target;
@@ -55,6 +56,7 @@ const ContactForm = ({ sendMail, error }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     sendMail(fields);
+    setVisible(true);
   }
 
   return (
@@ -98,7 +100,9 @@ const ContactForm = ({ sendMail, error }) => {
                 />
             </Form.Group>
 
-            {error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+
+            {error && visible && <Alert variant="danger">Une erreur est survenue !</Alert>}
+            {!error && visible && <Alert variant="success">Votre message a bien été envoyé !</Alert>}
 
             <Button variant="primary" type="submit" id="contact">
                 Envoyer

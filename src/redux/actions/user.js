@@ -9,7 +9,26 @@ export const signup = user => {
   var form_data = new FormData();
 
   for (var key in user) {
-    form_data.append((key === "photo") ? 'file' : key, user[key]);
+    if (key === "roles") {
+      let role = null;
+
+      switch (user[key]) {
+        case "Entreprise": 
+          role = ['ROLE_COMP'];
+          break;
+        case "Association": 
+          role = ['ROLE_ASSOC'];
+          break;
+        default: 
+          role = ['ROLE_USER'];
+      }
+      
+      form_data.append(key, role);
+    } else if (key === "address") {
+      form_data.append("address", JSON.stringify(user[key]));
+    } else {
+      form_data.append((key === "photo") ? 'file' : key, user[key]);
+    }
   }
 
   return (dispatch) => {

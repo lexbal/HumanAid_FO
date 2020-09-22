@@ -29,6 +29,19 @@ const events = (state = INITIAL_STATE, action) => {
         loading: false,
         error: ""
       }
+    case 'POST_RATING_SUCCESS':
+      return {
+        ...state,
+        event: {
+          ...state.event,
+          ratings: [
+            ...state.event.ratings,
+            action.rating
+          ]
+        },
+        loading: false,
+        error: ""
+      }
     case 'GET_EVENT_SUCCESS':
       return {
         ...state,

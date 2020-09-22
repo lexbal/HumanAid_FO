@@ -54,6 +54,47 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
         </Col>
       </Form.Group>
 
+      {
+        fields.roles === "Association" &&
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">
+            Président/Représentant :
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Row>
+              <Col>
+                <Form.Control
+                  type="text"
+                  name="manager_last_name"
+                  placeholder="Nom"
+                  value={fields.manager_last_name}
+                  onChange={handleChange}
+                  isValid={fields.manager_last_name}
+                  isInvalid={errors.manager_last_name}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.manager_last_name}
+                </Form.Control.Feedback>
+              </Col>
+              <Col>
+                <Form.Control
+                  type="text"
+                  name="manager_first_name"
+                  placeholder="Prénom"
+                  value={fields.manager_first_name}
+                  onChange={handleChange}
+                  isValid={fields.manager_first_name}
+                  isInvalid={errors.manager_first_name}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.manager_first_name}
+                </Form.Control.Feedback>
+              </Col>
+            </Form.Row>
+          </Col>
+        </Form.Group>
+      }
+
       <Form.Group as={Row} controlId="websiteGroup">
         <Form.Label column sm="2">
           Lien vers votre site web :
@@ -70,6 +111,26 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
           />
           <Form.Control.Feedback type="invalid">
             {errors.website}
+          </Form.Control.Feedback>
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row}>
+        <Form.Label column sm="2">
+          Téléphone :
+        </Form.Label>
+        <Col sm="10">
+          <FormControl
+            type="text"
+            name="landline"
+            placeholder="Téléphone"
+            value={fields.landline}
+            onChange={handleChange}
+            isValid={fields.landline}
+            isInvalid={errors.landline}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.landline}
           </Form.Control.Feedback>
         </Col>
       </Form.Group>

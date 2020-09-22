@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import {
-  Alert, Card, Button, Form
+  Alert, Card, Button, Form,
+  Col, Row
 } from 'react-bootstrap';
 import PropTypes from'prop-types';
 import Select from 'react-select';
@@ -32,7 +33,15 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn, error }) => {
+  const [visible, setVisible] = useState(false);
   const [fields, setField] = useState({
+    title: "",
+    description: "",
+    categories: [],
+    start: "",
+    end: "",
+  });
+  const [errors, setError] = useState({
     title: "",
     description: "",
     categories: [],
@@ -41,7 +50,12 @@ const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn
   });
 
   const handleChange = (event, inputName = null) => {
-    let value = (event.length > 0) ? event[0].id : event; 
+    let value = [];
+    
+    if (event) {
+      value = (event.length > 0) ? event[0] : event; 
+    }
+    
     let name  = inputName;
 
     if (!inputName) {
@@ -49,14 +63,20 @@ const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn
       value  = target.type === 'checkbox' ? target.checked : target.value;
       name   = target.name;
     }
-    
-    setField({ ...fields, [name]: value });
+
+    if (name === 'categories') {
+      setField({ ...fields, categories: (event) ? event : [] });
+    } else {
+      setError({ ...errors, [name]: !value ? "Ce champ est vide !" : ""});
+      setField({ ...fields, [name]: value });
+    }
 
     return true;
   }
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    setVisible(true);
     createEvent(fields);
   }
 
@@ -68,62 +88,104 @@ const EventForm = ({ getAllEventCategory, createEvent, eventCategories, loggedIn
   return (
     loggedIn ? (
     <div className='eventForm'>
-      <Card className="event-form-card">
-        <Card.Header>Informations de l'évènement</Card.Header>
+      <Card className="shadow">
         <Card.Body>
+          <h3>Informations de l'évènement</h3>
+
           <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="titleGroup">
-              <Form.Control
-                type="text"
-                name="title"
-                placeholder="Titre"
-                value={fields.title}
-                onChange={handleChange}
-              />
+            <Form.Group as={Row} controlId="titleGroup">
+              <Form.Label column sm="2">
+                Nom/Titre de l'événement :
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control
+                  type="text"
+                  name="title"
+                  placeholder="Nom/Titre"
+                  value={fields.title}
+                  onChange={handleChange}
+                  isValid={fields.title}
+                  isInvalid={errors.title}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.title}
+                </Form.Control.Feedback>
+              </Col>
             </Form.Group>
 
-            <Form.Group controlId="descriptionGroup">
-              <Form.Control
-                type="text"
-                name="description"
-                placeholder="Description"
-                value={fields.description}
-                onChange={handleChange}
-              />
+            <Form.Group as={Row} controlId="descriptionGroup">
+              <Form.Label column sm="2">
+                Description de l'événement :
+              </Form.Label>
+              <Col sm="10">
+                <Form.Control
+                  type="text"
+                  name="description"
+                  placeholder="Description"
+                  value={fields.description}
+                  onChange={handleChange}
+                  isValid={fields.description}
+                  isInvalid={errors.description}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.description}
+                </Form.Control.Feedback>
+              </Col>
             </Form.Group>
 
-            <Form.Group controlId="categoriesGroup">
-              <Select
-                isMulti
-                name="categories"
-                options={eventCategories}
-                onChange={e => handleChange(e, 'categories')}
-                value={fields.categories}
-                className="basic-multi-select"
-                classNamePrefix="select"
-              />
+            <Form.Group as={Row} controlId="categoriesGroup">
+              <Form.Label column sm="2">
+                Catégorie d'événement :
+              </Form.Label>
+              <Col sm="10">
+                <Select
+                  isMulti
+                  name="categories"
+                  options={eventCategories ? eventCategories.map(({id, label}, i) => {
+                    return {value: id, label: label};
+                  }) : []}
+                  onChange={e => handleChange(e, 'categories')}
+                  value={fields.categories}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.description}
+                </Form.Control.Feedback>
+              </Col>
             </Form.Group>
 
-            <Form.Group controlId="startGroup">
-              <DateTimePicker
-                onChange={e => handleChange(e, 'start')}
-                value={fields.start}
-                placeholder="Date de début"
-              />
+            <Form.Group as={Row} controlId="startGroup">
+              <Form.Label column sm="2">
+                Date de début :
+              </Form.Label>
+              <Col sm="10">
+                <DateTimePicker
+                  onChange={e => handleChange(e, 'start')}
+                  value={fields.start}
+                  placeholder="Date de début"
+                />
+              </Col>
             </Form.Group>
 
-            <Form.Group controlId="endGroup">
-              <DateTimePicker
-                onChange={e => handleChange(e, 'end')}
-                value={fields.end}
-                placeholder="Date de fin"
-              />
+            <Form.Group as={Row} controlId="endGroup">
+              <Form.Label column sm="2">
+                Date de fin :
+              </Form.Label>
+              <Col sm="10">
+                <DateTimePicker
+                  onChange={e => handleChange(e, 'end')}
+                  value={fields.end}
+                  placeholder="Date de fin"
+                />
+              </Col>
             </Form.Group>
 
             {error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+            {!error && visible && <Alert variant="success">L'annonce de votre événement a été créer avec succès</Alert>}
 
             <Button variant="primary" type="submit">
-              Envoyer
+              Poster
             </Button>
           </Form>
         </Card.Body>

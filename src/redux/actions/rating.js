@@ -16,9 +16,10 @@ export const createRating = (rating, event_id) => {
                 event_id: event_id,
                 user: getUserValue("username") ? getUserValue("username") : getUserValue("email")
               }, config)
-              .then(() => {
+              .then((json) => {
                 dispatch({
-                  type: 'POST_RATING_SUCCESS'
+                  type: 'POST_RATING_SUCCESS',
+                  rating: json.data
                 });
               })
               .catch((err) => {

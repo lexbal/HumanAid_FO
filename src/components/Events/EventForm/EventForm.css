@@ -1,11 +1,22 @@
 .eventForm {
-    margin-top: 5rem;
-    margin-bottom: 5rem;
+    height: 100%;
+    display: flex;
+    align-items: center;
 }
 
-.eventForm .event-form-card { 
-    width: 35rem; 
+.eventForm .card { 
+    width: 55rem; 
+    border-radius: 10px;
     justify-content: center; 
+    margin: auto;
+}
+
+.eventForm .card-body h3 {
+    margin: 2rem;
+}
+
+.eventForm form {
+    text-align: left;
 }
 
 .react-datetime-picker {

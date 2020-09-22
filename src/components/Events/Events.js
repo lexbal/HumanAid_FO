@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Container, Spinner, Button, Card } from 'react-bootstrap';
+import { Link } from "react-router-dom";
 import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -57,10 +58,12 @@ const Events = ({ role, events, loading, getAllEvents }) => {
                       <>
                         <Card.Text>
                           <h5>Gagner en visibilité et créer l'annonce de votre évènements maintenant</h5>
-                          <Button>
-                            <FontAwesomeIcon icon={faPlus} color="white"/>
-                            Ajoutez un évènement
-                          </Button>
+                          <Link to="/event/add" style={{ marginRight: '10px' }}>
+                            <Button>
+                              <FontAwesomeIcon icon={faPlus} color="white"/>
+                              Ajoutez un évènement
+                            </Button>
+                          </Link>
                         </Card.Text>
                       </>
                     }

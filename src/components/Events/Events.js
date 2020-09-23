@@ -44,8 +44,8 @@ const Events = ({ role, events, loading, getAllEvents }) => {
       <Container>
         <Row>
           {
-            !loading && events && events.length > 0 && currentEvents.map(({id, title, description, categories, publish_date}, i) =>
-              <Event id={id} title={title} description={description} categories={categories} publish_date={publish_date} key={i}/>
+            !loading && events && events.length > 0 && currentEvents.map(({id, title, description, categories, rating, publish_date}, i) =>
+              <Event id={id} title={title} description={description} categories={categories} publish_date={publish_date} rating={rating} key={i}/>
             )
           }
           {

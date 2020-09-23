@@ -1,13 +1,18 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
 import PropTypes from'prop-types';
+import CryptoJS from "crypto-js";
 import {
   Form, Button, Col,
-  Card, Alert, FormControl, Row
+  Card, Alert, Row, Spinner
 } from 'react-bootstrap';
 
 import { getUser, setUser, updateUser } from '../../../redux/actions/user';
+import './Profile.css';
+import Part1 from './Part/Part1';
+import Part2 from './Part/Part2';
+import Part3 from './Part/Part3';
 
 
 const mapStateToProps = (state) => {
@@ -15,7 +20,7 @@ const mapStateToProps = (state) => {
     user: state.user.user,
     username: state.user.username,
     email: state.user.email,
-    role: state.user.role,
+    loading: state.user.loading,
     loggedIn: state.user.loggedIn,
     error: state.user.error
   }
@@ -36,9 +41,46 @@ const mapDispatchToProps = (dispatch) => {
 }
 
 
-const Profile = ({ user, username, email, getUser, setUser, updateProfile, role, loggedIn, error }) => {
+const Profile = ({ user, username, email, getUser, setUser, updateProfile, loading, loggedIn, error }) => {
+  const validImageType = [
+    "image/png",
+    "image/jpeg",
+    "image/svg+xml"
+  ];
+  // eslint-disable-next-line
+  const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
+  const validLandlineRegex = RegExp(/^(?=.*[0-9])\S{6,15}$/);
+  const [invalid, setInvalid] = useState(false);
+  const [visible, setVisible] = useState(false);
+  const [errors, setError] = useState({
+    username: null,
+    photo: null,
+    description: null,
+    siret: null,
+    landline: null,
+    manager_first_name: null,
+    manager_last_name: null,
+    facebook: null,
+    twitter: null,
+    address: {
+      street: null,
+      city: null,
+      zipcode: null,
+      country: null,
+      department: null,
+      region: null
+    },
+    website: null,
+    name: null,
+    email: null,
+    password: null,
+    roles: null,
+  });
+
   useEffect(() => {
-    getUser(username ? username : email);
+    let string = CryptoJS.AES.encrypt(username ? username : email, process.env.REACT_APP_SECRET).toString();
+    let encryptedId = string.replace(/\+/g,'p1L2u3S').replace(/\//g,'s1L2a3S4h').replace(/=/g,'e1Q2u3A4l');
+    getUser(encryptedId);
   // eslint-disable-next-line
   }, []);
 
@@ -50,8 +92,32 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
     if (name === "address") {
       const id   = target.id;
       user.address = {...user.address, [id]: value};
+      setError({ ...errors, address: {...errors.address, [id]: !value ? "Ce champ est vide !" : ""} });
     } else {
-      user[name] = (target.type === "file") ? target.files[0] : value;
+      if (target.type === "file") {
+        if (validImageType.includes(target.files[0].type)) {
+          user.file = target.files[0];
+        }
+      } else {
+        user[name] = (target.type === "file") ? target.files[0] : value;
+      }
+
+      switch (name) {
+        case 'email':
+          setError({ ...errors, email: !validEmailRegex.test(value) ? "Email invalide ! (exemple: exemple@gmail.com)" : "" });
+          break;
+        case 'photo':
+          setError({ ...errors, photo: !validImageType.includes(target.files[0].type) ? "Les types de fichiers autorisés sont : png, jpg, jpeg, svg" : "" });
+          break;
+        case 'landline':
+          setError({ ...errors, landline: !validLandlineRegex.test(value) ? "Numéro de téléphone incorrect !" : "" });
+          break;
+        case 'siret':
+          setError({ ...errors, siret: (!value.length === 14) ? "Le numéro de siret doit contenir 14 caractères" : "" });
+          break;
+        default:
+          setError({ ...errors, [name]: !value ? "Ce champ est vide !" : "" });
+      }
     }
 
     setUser(user);
@@ -61,183 +127,82 @@ const Profile = ({ user, username, email, getUser, setUser, updateProfile, role,
 
   const handleSubmit = (event) => {
     event.preventDefault();
+
+    for (let value of Object.keys(errors)) {
+      if (value === "address") {
+        for (let value of Object.keys(errors.address)) {
+          if (errors.address[value]) {
+            setInvalid(true);
+
+            return;
+          }
+        }
+      } else {
+        if (errors[value]) {
+          setInvalid(true);
+
+          return;
+        }
+      }
+    }
+
+    setVisible(true);
+    setInvalid(false);
     updateProfile(user);
   }
 
   return (
     loggedIn ? (
       <div className="Profile">
-        <Card style={{ width: '90%', justifyContent: "center" }}>
-          <Card.Header>Profil</Card.Header>
+        <Card className="shadow">
           <Card.Body>
-            <Form onSubmit={handleSubmit}>
-              <Row>
-                <Col>
-                  <Form.Label>Informations de connexion</Form.Label>
-                  <hr/>
+            <h3>Votre profil</h3>
 
-                  <Form.Group>
-                    <Form.Control
-                      id="username"
-                      type="text"
-                      name="username"
-                      placeholder="Nom d'utilisateur"
-                      defaultValue={user.username}
-                      onChange={handleChange}
-                    />
-                  </Form.Group>
-                  <Form.Group>
-                    <Form.Control
-                      id="email"
-                      type="text"
-                      name="email"
-                      placeholder="E-mail"
-                      defaultValue={user.email}
-                      onChange={handleChange}
-                        />
-                  </Form.Group>
-                </Col>
-                <Col style={{ borderLeft: "1px lightgrey solid" }}>
-                  <Form.Label>Informations de l'utilisateur</Form.Label>
+            {
+              user && !loading && (
+                <Form onSubmit={handleSubmit}>
+                  <Row>
+                    <Col>
+                      <Part1 user={user} errors={errors} handleChange={handleChange} />
+                    </Col>
+                    <Col style={{ borderLeft: "1px lightgrey solid" }}>
+                      <Part2 user={user} errors={errors} handleChange={handleChange} />
+                    </Col>
+                  </Row>
                   <hr/>
-
                   {
-                    (role === "ROLE_ASSOC" || role === "ROLE_COMP") &&
-                    <>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          id="name"
-                          name="name"
-                          placeholder={role === "ROLE_COMP" ? "Nom de l'Entreprise" : "Nom de l'Association"}
-                          defaultValue={user.name}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <FormControl
-                          as="textarea"
-                          id="description"
-                          name="description"
-                          aria-label="With textarea"
-                          placeholder="Description"
-                          defaultValue={user.description}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          id="website"
-                          name="website"
-                          placeholder="Site Web"
-                          defaultValue={user.website}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                    </>
+                    user.roles && (
+                      <Row>
+                        { 
+                          (user.roles.includes("COMP") || user.roles.includes("ASSOC") || user.roles.includes("ADMIN")) &&  
+                            <Col>
+                              <Part3 user={user} errors={errors} handleChange={handleChange} />
+                            </Col>
+                        }
+                      </Row>
+                    )
                   }
 
-                  {
-                    role === "ROLE_COMP" &&
-                    <Form.Group>
-                      <Form.Control
-                        type="text"
-                        id="siret"
-                        name="siret"
-                        placeholder="Siret"
-                        defaultValue={user.siret}
-                        onChange={handleChange}
-                      />
-                    </Form.Group>
-                  }
-                </Col>
-              </Row>
-              <hr/>
-              <Row>
-                <Col>
-                  <Form.Label>Informations géographique</Form.Label>
-                  <hr/>
+                  {invalid && <Alert variant="danger">Les champs précédents ne sont pas valides</Alert>}
+                  {!error && !invalid && visible && <Alert variant="success">Modifications enregistrées !</Alert>}
+                  { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
 
-                  {
-                    user.address &&
-                    <>
-                      <Form.Group>
-                        <Form.Row>
-                          <Col>
-                            <Form.Control
-                              type="text"
-                              name="address"
-                              id="street"
-                              placeholder="Adresse"
-                              defaultValue={user.address.street}
-                              onChange={handleChange}
-                            />
-                          </Col>
-                          <Col>
-                            <Form.Control
-                              type="text"
-                              name="address"
-                              id="zipcode"
-                              placeholder="Code postal"
-                              defaultValue={user.address.zipcode}
-                              onChange={handleChange}
-                            />
-                          </Col>
-                          <Col>
-                            <Form.Control
-                              type="text"
-                              name="address"
-                              id="city"
-                              placeholder="Ville"
-                              defaultValue={user.address.city}
-                              onChange={handleChange}
-                            />
-                          </Col>
-                        </Form.Row>
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          name="address"
-                          id="country"
-                          placeholder="Pays"
-                          defaultValue={user.address.country}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          name="address"
-                          id="department"
-                          placeholder="Département"
-                          defaultValue={user.address.department}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                      <Form.Group>
-                        <Form.Control
-                          type="text"
-                          name="address"
-                          id="region"
-                          placeholder="Région"
-                          defaultValue={user.address.region}
-                          onChange={handleChange}
-                        />
-                      </Form.Group>
-                    </>
-                  }
+                  <Button variant="primary" type="submit">
+                    Enregistrer
+                  </Button>
+                </Form>
+              )
+            }
 
-                  <hr/>
-                </Col>
-              </Row>
-              { error && <Alert variant="danger">Une erreur est survenue !</Alert>}
-
-              <Button variant="primary" type="submit">
-                S'inscrire
-              </Button>
-            </Form>
+          {
+            loading &&
+            <Col>
+              <Spinner animation="border" role="status">
+                <span className="sr-only">Loading...</span>
+              </Spinner>
+            </Col>
+          }
+            
           </Card.Body>
         </Card>
       </div>

@@ -2,6 +2,11 @@
   flex: 1 0 auto;
 }
 
+.events .event-title {
+  margin-top: 2rem;
+  text-align: left;
+}
+
 .carousel .carousel-item {
     height: 500px;
 }

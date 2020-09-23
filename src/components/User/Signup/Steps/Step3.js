@@ -157,6 +157,46 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
         </Col>
       </Form.Group>
 
+      <Form.Group as={Row}>
+        <Form.Label column sm="2">
+          Lien page facebook :
+        </Form.Label>
+        <Col sm="10">
+          <FormControl
+            type="text"
+            name="facebook"
+            placeholder="Facebook"
+            value={fields.facebook}
+            onChange={handleChange}
+            isValid={fields.facebook}
+            isInvalid={errors.facebook}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.facebook}
+          </Form.Control.Feedback>
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row}>
+        <Form.Label column sm="2">
+          Lien page Twitter :
+        </Form.Label>
+        <Col sm="10">
+          <FormControl
+            type="text"
+            name="twitter"
+            placeholder="Twitter"
+            value={fields.twitter}
+            onChange={handleChange}
+            isValid={fields.twitter}
+            isInvalid={errors.twitter}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.twitter}
+          </Form.Control.Feedback>
+        </Col>
+      </Form.Group>
+
       {
         fields.roles === "Entreprise" &&
         <Form.Group as={Row} controlId="siretGroup">

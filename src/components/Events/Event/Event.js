@@ -2,21 +2,22 @@ import React from 'react';
 import { Link } from "react-router-dom";
 import { Col, Card, Badge } from 'react-bootstrap';
 import PropTypes from'prop-types';
-//import CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import { faInfoCircle, faStar } from '@fortawesome/free-solid-svg-icons';
 
 import './Event.css';
 
-const Event = ({ id, title, description, categories, publish_date }) => {
-  //let encryptedId = CryptoJS.AES.encrypt((typeof id === "number") ? id.toString() : id, process.env.REACT_APP_SECRET).toString().replace(/\//g,'s1L2a3S4h');
+const Event = ({ id, title, description, categories, rating, publish_date }) => {
+  let string = CryptoJS.AES.encrypt((typeof id === "number") ? id.toString() : id, process.env.REACT_APP_SECRET).toString();
+  let encryptedId = string.replace(/\+/g,'p1L2u3S').replace(/\//g,'s1L2a3S4h').replace(/=/g,'e1Q2u3A4l');
 
   return (
     <Col xs={4} md={4} lg={4}>
       <Card className="event-card shadow">
         <Card.Header>
           <div className="event-name">
-            <div className="event-title">
+            <div className="event-card-title">
               {title}
             </div>
             {categories && (
@@ -28,9 +29,16 @@ const Event = ({ id, title, description, categories, publish_date }) => {
                 )}
               </div>
             )}
+            {
+              rating && (
+                <div className="event-rating">
+                  {rating}<FontAwesomeIcon icon={faStar} size="1x" color="yellow"/>
+                </div>
+              )
+            }
           </div>
           <div className="event-link">
-            <Link to={`/event/detail/${id}`}>
+            <Link to={`/event/detail/${encryptedId}`}>
               <FontAwesomeIcon icon={faInfoCircle} color="grey"/>
             </Link>
           </div>
@@ -53,6 +61,7 @@ Event.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   categories: PropTypes.array.isRequired,
+  rating: PropTypes.string.isRequired,
   publish_date: PropTypes.string.isRequired
 };
 

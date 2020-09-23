@@ -10,20 +10,25 @@
   float: left;
   width: 90%;
   text-align: left;
+  flex-direction: column;
+  display: flex;
 }
 
 .event-card .event-name .badge-category {
-  position:absolute;
-}
-
-.event-card .event-name .badge-category {
-  width: min-content!important;
-  display: contents!important;
+  width: 100%!important;
   position:relative;
+}
+
+.event-card .event-name .badge-category .badge {
+  margin-right: 5px;
 }
 
 .event-card .event-link {
   float: right;
+}
+
+.event-card .event-name .event-rating {
+  width: 100%!important;
 }
 
 .event-card .event-link a {

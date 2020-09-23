@@ -1,9 +1,6 @@
 import axios from 'axios';
+import CryptoJS from "crypto-js";
 import { setUserToken, getUserValue, removeUser } from '../../services/AuthService';
-
-const config = {
-  headers: { Authorization: `${getUserValue("token")}` }
-};
 
 export const signup = user => {
   var form_data = new FormData();
@@ -89,7 +86,9 @@ export const getUser = id => {
     dispatch({
       type: 'USER_LOADING'
     });
-    return axios.get(`${process.env.REACT_APP_API_HOST}user/${id}`)
+    return axios.get(`${process.env.REACT_APP_API_HOST}user/${id}`, {
+              headers: { Authorization: `${getUserValue("token")}` }
+            })
             .then((json) => {
               dispatch({
                 type: 'GET_USER_SUCCESS',
@@ -97,6 +96,10 @@ export const getUser = id => {
               });
             })
             .catch((err) => {
+              if (err.response.status === 401) {
+                removeUser();
+              }
+
               dispatch({
                 type: 'USER_ERROR',
                 error: err
@@ -115,20 +118,16 @@ export const setUser = user => {
 };
 
 export const updateUser = user => {
+  let string = CryptoJS.AES.encrypt((typeof user.id === "number") ? user.id.toString() : user.id, process.env.REACT_APP_SECRET).toString();
+  let encryptedId = string.replace(/\+/g,'p1L2u3S').replace(/\//g,'s1L2a3S4h').replace(/=/g,'e1Q2u3A4l');
+  
   return (dispatch) => {
     dispatch({
       type: 'USER_LOADING'
     });
-    return axios.put(`${process.env.REACT_APP_API_HOST}user/${user.id}`, {
-              username: user.username,
-              description: user.description,
-              siret: user.siret,
-              address: user.address,
-              website: user.website,
-              name: user.name,
-              email: user.email,
-              roles: getUserValue("roles")
-            }, config)
+    return axios.put(`${process.env.REACT_APP_API_HOST}user/${encryptedId}`, user, {
+              headers: { Authorization: `${getUserValue("token")}` }
+            })
             .then((json) => {
               dispatch({
                 type: 'UPDATE_USER_SUCCESS',
@@ -137,6 +136,10 @@ export const updateUser = user => {
               });
             })
             .catch((err) => {
+              if (err.response.status === 401) {
+                removeUser();
+              }
+
               dispatch({
                 type: 'USER_ERROR',
                 error: err

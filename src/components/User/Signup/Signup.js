@@ -34,7 +34,7 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     "image/png",
     "image/jpeg",
     "image/svg+xml"
-  ]
+  ];
   // eslint-disable-next-line
   const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
   const validPwdRegex = RegExp(/^(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])\S{6,12}$/);
@@ -50,6 +50,8 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     landline: "",
     manager_first_name: "",
     manager_last_name: "",
+    facebook: "",
+    twitter: "",
     address: {
       street: "",
       city: "",
@@ -72,6 +74,8 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     landline: null,
     manager_first_name: null,
     manager_last_name: null,
+    facebook: null,
+    twitter: null,
     address: {
       street: null,
       city: null,
@@ -209,7 +213,7 @@ const Signup = ({ createProfile, loggedIn, error }) => {
               <h5>
                 {currentStep === 1 && " Informations de connexion"}
                 {currentStep === 2 && " Coordonnées géographiques"}
-                {currentStep === 3 && " Informtions professionnelles"}
+                {currentStep === 3 && " Informations professionnelles"}
               </h5>
             </div>
 

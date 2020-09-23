@@ -1,0 +1,13 @@
+.companies {
+    width: 100%;
+    background-color: rgb(167, 167, 167);
+}
+
+.companies .row {
+    margin: auto;
+    padding: 15px;
+}
+
+.companies img {
+    max-height: 100px;
+}

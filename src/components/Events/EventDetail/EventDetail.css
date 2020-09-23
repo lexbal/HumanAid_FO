@@ -1,0 +1,47 @@
+
+.event-detail {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.event-dates {
+    color: grey;
+}
+
+.event-detail .card {
+    margin: 0;
+    width: 100%;
+}
+
+.informations {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+.text-right {
+    float: right;
+}
+
+.networks svg {
+    cursor: pointer;
+}
+
+.networks {
+    display: flex;
+    justify-content: space-around;
+}
+
+.ratings {
+    width: 100%;
+}
+
+.comments {
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+}
+
+.event-detail .badge-category .badge {
+    margin-right: 5px;
+    margin-bottom: 1rem;
+}

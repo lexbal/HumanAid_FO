@@ -1,0 +1,20 @@
+.Login {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.Login .card {
+    width: 25rem!important;
+    justify-content: center;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.Login .card-body h3 {
+    margin: 2rem;
+}
+
+button#connect {
+    width: 100%;
+}

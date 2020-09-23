@@ -1,0 +1,20 @@
+.Contact {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.Contact .card {
+    width: 35rem!important;
+    justify-content: center;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.Contact .card-body h3 {
+    margin: 2rem;
+}
+
+.Contact .card-body button#contact {
+    width: 100%;
+}

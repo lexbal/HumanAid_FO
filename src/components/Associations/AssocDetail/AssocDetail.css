@@ -1,0 +1,35 @@
+.assoc-container {
+  width: 100%!important;
+}
+
+.card-info {
+  width: 100%!important;
+}
+
+.assoc-detail {
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+  text-align: left;
+}
+
+.networks {
+  display: flex;
+  justify-content: space-around;
+}
+
+.networks svg {
+  cursor: pointer;
+}
+
+.informations {
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.text-right {
+  float: right;
+}
+
+.assoc-events {
+  margin-top: 5rem;
+}

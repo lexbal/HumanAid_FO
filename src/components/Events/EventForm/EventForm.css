@@ -1,0 +1,30 @@
+.eventForm {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.eventForm .card { 
+    width: 55rem; 
+    border-radius: 10px;
+    justify-content: center; 
+    margin: auto;
+}
+
+.eventForm .card-body h3 {
+    margin: 2rem;
+}
+
+.eventForm form {
+    text-align: left;
+}
+
+.react-datetime-picker {
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+}
+
+.react-datetime-picker__wrapper {
+    border: 1px solid #ced4da!important;
+    border-radius: .25rem!important;
+}

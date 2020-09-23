@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { connect } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import {
   Alert, Button, Form, Card
 } from 'react-bootstrap';
@@ -34,17 +34,24 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     "image/png",
     "image/jpeg",
     "image/svg+xml"
-  ]
+  ];
   // eslint-disable-next-line
   const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i);
   const validPwdRegex = RegExp(/^(?=.*[A-z])(?=.*[A-Z])(?=.*[0-9])\S{6,12}$/);
+  const validLandlineRegex = RegExp(/^(?=.*[0-9])\S{6,15}$/);
   const [currentStep, setCurrentStep] = useState(1);
   const [invalid, setInvalid] = useState(false);
+  const [visible, setVisible] = useState(false);
   const [fields, setField] = useState({
     username: "",
     photo: null,
     description: "",
     siret: "",
+    landline: "",
+    manager_first_name: "",
+    manager_last_name: "",
+    facebook: "",
+    twitter: "",
     address: {
       street: "",
       city: "",
@@ -64,6 +71,11 @@ const Signup = ({ createProfile, loggedIn, error }) => {
     photo: null,
     description: null,
     siret: null,
+    landline: null,
+    manager_first_name: null,
+    manager_last_name: null,
+    facebook: null,
+    twitter: null,
     address: {
       street: null,
       city: null,
@@ -106,6 +118,12 @@ const Signup = ({ createProfile, loggedIn, error }) => {
           break;
         case 'photo':
           setError({ ...errors, photo: !validImageType.includes(target.files[0].type) ? "Les types de fichiers autorisés sont : png, jpg, jpeg, svg" : "" });
+          break;
+        case 'landline':
+          setError({ ...errors, landline: !validLandlineRegex.test(value) ? "Numéro de téléphone incorrect !" : "" });
+          break;
+        case 'siret':
+          setError({ ...errors, siret: (!value.length === 14) ? "Le numéro de siret doit contenir 14 caractères" : "" });
           break;
         default:
           setError({ ...errors, [name]: !value ? "Ce champ est vide !" : "" });
@@ -153,6 +171,14 @@ const Signup = ({ createProfile, loggedIn, error }) => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
+    if (fields.roles === "Association") {
+      setField({ ...fields, siret: "" });
+    } else if (fields.roles === "Entreprise") {
+      setField({ ...fields, manager_first_name: "", manager_last_name: "" });
+    } else if (fields.roles === "") {
+      setField({ ...fields, manager_first_name: "", manager_last_name: "", landline: "", photo: "", name: "", description: "", website: "", siret: "" });
+    }
+
     for (let value of Object.keys(errors)) {
       if (value === "address") {
         for (let value of Object.keys(errors.address)) {
@@ -171,6 +197,7 @@ const Signup = ({ createProfile, loggedIn, error }) => {
       }
     }
 
+    setVisible(true);
     setInvalid(false);
     createProfile(fields);
   }
@@ -186,7 +213,7 @@ const Signup = ({ createProfile, loggedIn, error }) => {
               <h5>
                 {currentStep === 1 && " Informations de connexion"}
                 {currentStep === 2 && " Coordonnées géographiques"}
-                {currentStep === 3 && " Informtions professionnelles"}
+                {currentStep === 3 && " Informations professionnelles"}
               </h5>
             </div>
 
@@ -214,8 +241,9 @@ const Signup = ({ createProfile, loggedIn, error }) => {
               />
             }
 
-            {error && <Alert variant="danger">Une erreur est survenue !</Alert>}
+            {error && visible && <Alert variant="danger">Une erreur est survenue !</Alert>}
             {invalid && <Alert variant="danger">Les champs précédents ne sont pas valides</Alert>}
+            {!error && !invalid && visible && <Alert variant="success">Votre compte a été créer ! <Link to="/login">Connectez-vous</Link></Alert>}
 
             {currentStep !== 1 && (
               <Button variant="secondary mt-2" type="button" onClick={prev}>

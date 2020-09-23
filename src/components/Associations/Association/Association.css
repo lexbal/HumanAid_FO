@@ -1,10 +1,14 @@
 .assoc-card {
     width: 95%!important;
+    justify-content: center;
+    border-radius: 10px;
+    margin: auto;
 }
 
 .assoc-card .assoc-name {
     float: left;
     width: 80%;
+    font-weight: bold;
 }
 
 .assoc-card .assoc-link {

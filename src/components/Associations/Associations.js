@@ -11,6 +11,7 @@ import './Associations.css';
 
 const mapStateToProps = (state) => {
   return {
+    loggedIn: state.user.loggedIn,
     loading: state.assocs.loading,
     assocs: state.assocs.assocs
   }
@@ -24,7 +25,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-const Associations = ({ assocs, loading, getAllAssociations }) => {
+const Associations = ({ assocs, loading, loggedIn, getAllAssociations }) => {
   const [assocsPerPage]               = useState(6);
   const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastAssoc              = currentPage * assocsPerPage;
@@ -46,7 +47,7 @@ const Associations = ({ assocs, loading, getAllAssociations }) => {
             )
           }
           {
-            !loading && assocs.length === 0 &&
+            !loading && !loggedIn && assocs.length === 0 &&
             <Col>
               <Card className="no-data">
                 <Card.Body>

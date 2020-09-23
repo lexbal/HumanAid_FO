@@ -5,6 +5,10 @@
     text-align: left;
 }
 
+.event-dates {
+    color: grey;
+}
+
 .event-detail .card {
     margin: 0;
     width: 100%;
@@ -34,5 +38,10 @@
 
 .comments {
     margin-top: 3rem;
+    margin-bottom: 1rem;
+}
+
+.event-detail .badge-category .badge {
+    margin-right: 5px;
     margin-bottom: 1rem;
 }

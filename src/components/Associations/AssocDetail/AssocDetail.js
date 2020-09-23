@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Container, Col, Row, Card } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
-//import CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js";
 import PropTypes from'prop-types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
@@ -35,9 +35,9 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
   }
 
   useEffect(() => {
-    /*let newId = id.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=');
-    let decryptedId = CryptoJS.AES.decrypt(newId, process.env.REACT_APP_SECRET).toString(CryptoJS.enc.Utf8);*/
-    getSingleAssoc(id);
+    let newId = id.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=');
+    let decryptedId = CryptoJS.AES.decrypt(newId, process.env.REACT_APP_SECRET).toString(CryptoJS.enc.Utf8);
+    getSingleAssoc(decryptedId);
   // eslint-disable-next-line
   }, []);
 
@@ -56,7 +56,7 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
                       <Card.Body>
                         <Card.Text>
                           <span className="informations">Président :</span>
-                          <span className="text-right">{assoc.assoc.manager_first_name + " " + assoc.assoc.manager_first_name}</span>
+                          <span className="text-right">{assoc.assoc.manager_first_name + " " + assoc.assoc.manager_last_name}</span>
                         </Card.Text>
                         <Card.Text>
                           <span className="informations">Email :</span>
@@ -70,10 +70,14 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
                           <span className="informations">Adresse :</span>
                           <span className="text-right">{assoc.assoc.street}</span>
                         </Card.Text>
-                        <Card.Text className="networks">
-                          <FontAwesomeIcon icon={faFacebookSquare} size="2x" color="#3b5998" onClick={() => handleClick(assoc.assoc.facebook)}/>
-                          <FontAwesomeIcon icon={faTwitterSquare} size="2x" onClick={() => handleClick(assoc.assoc.twitter)}/>
-                        </Card.Text>
+                        {
+                          (assoc.assoc.twitter || assoc.assoc.facebook) && (
+                            <Card.Text className="networks">
+                              {assoc.assoc.facebook && <FontAwesomeIcon icon={faFacebookSquare} size="2x" color="#3b5998" onClick={() => handleClick(assoc.assoc.facebook)}/>}
+                              {assoc.assoc.twitter && <FontAwesomeIcon icon={faTwitterSquare} size="2x" onClick={() => handleClick(assoc.assoc.twitter)}/>}
+                            </Card.Text>
+                          )
+                        }
                       </Card.Body>
                     </Card>
                   </Col>
@@ -97,8 +101,8 @@ const AssocDetail = ({ getSingleAssoc, assoc }) => {
                         </Row>
                         <Row>
                           {
-                            assoc.events.map(({id, title, description, categories, publish_date}, i) =>
-                              <Event id={id} title={title} description={description} categories={categories} publish_date={publish_date} key={i}/>
+                            assoc.events.map(({id, title, description, categories, rating, publish_date}, i) =>
+                              <Event id={id} title={title} description={description} categories={categories} publish_date={publish_date} rating={rating} key={i}/>
                             )
                           }
                         </Row>

@@ -1,0 +1,14 @@
+.Profile .card {
+    width: 90%;
+    justify-content: center;
+    border-radius: 10px;
+    margin: auto;
+}
+
+.Profile .part {
+    text-align: left;
+}
+
+.Profile .card-body h3 {
+    margin: 2rem;
+}

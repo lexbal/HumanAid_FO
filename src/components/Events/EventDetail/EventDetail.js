@@ -1,11 +1,11 @@
 import React, { useEffect } from 'react';
 import {
-  Row, Col, Card, Container, ListGroup
+  Row, Col, Card, Container, ListGroup, Badge
 } from 'react-bootstrap';
 import { useParams } from "react-router-dom";
 import { connect } from 'react-redux';
 import PropTypes from'prop-types';
-//import CryptoJS from "crypto-js";
+import CryptoJS from "crypto-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebookSquare, faTwitterSquare } from "@fortawesome/free-brands-svg-icons";
 
@@ -32,12 +32,12 @@ const mapDispatchToProps = (dispatch) => {
 
 const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
   let { id } = useParams();
-  //let decryptedId = null;
+  let decryptedId = null;
 
   useEffect(() => {
-    /*let bytes = CryptoJS.AES.decrypt(id, process.env.REACT_APP_SECRET);
-    decryptedId = bytes.toString(CryptoJS.enc.Utf8).replace(/s1L2a3S4h/g, '/');*/
-    getSingleEvent(id);
+    let newId = id.replace(/p1L2u3S/g, '+' ).replace(/s1L2a3S4h/g, '/').replace(/e1Q2u3A4l/g, '=');
+    decryptedId = CryptoJS.AES.decrypt(newId, process.env.REACT_APP_SECRET).toString(CryptoJS.enc.Utf8);
+    getSingleEvent(decryptedId);
   // eslint-disable-next-line
   }, []);
 
@@ -74,10 +74,14 @@ const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
                           <span className="informations">Adresse :</span>
                           <span className="text-right">{event.event.street}</span>
                         </Card.Text>
-                        <Card.Text className="networks">
-                          <FontAwesomeIcon icon={faFacebookSquare} size="2x" color="#3b5998" onClick={() => handleClick(event.event.facebook)}/>
-                          <FontAwesomeIcon icon={faTwitterSquare} size="2x" onClick={() => handleClick(event.event.twitter)}/>
-                        </Card.Text>
+                        {
+                          (event.event.twitter || event.event.facebook) && (
+                            <Card.Text className="networks">
+                              {event.event.facebook && <FontAwesomeIcon icon={faFacebookSquare} size="2x" color="#3b5998" onClick={() => handleClick(event.event.facebook)}/>}
+                              {event.event.twitter && <FontAwesomeIcon icon={faTwitterSquare} size="2x" onClick={() => handleClick(event.event.twitter)}/>}
+                            </Card.Text>
+                          )
+                        }
                       </Card.Body>
                     </Card>
                   </Col>
@@ -85,12 +89,22 @@ const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
                     <h4>{event.event.title ? event.event.title : "Title not found"}</h4>
                     {
                       event.event.start_date &&
-                      <h6>
+                      <h6 className="event-dates">
                         Date de l'événement : {event.event.end_date && <>du </>}
                         {new Date(event.event.start_date).toLocaleString()}
                         {event.event.end_date && <> à {new Date(event.event.end_date).toLocaleString()} </>}
                       </h6>
                     }
+
+                    {event.event.categories && (
+                      <div className="badge-category">
+                        {event.event.categories.split(',').map((element, i) =>
+                          <Badge pill variant="primary">
+                            {element}
+                          </Badge>
+                        )}
+                      </div>
+                    )}
                     <p>{event.event.description ? event.event.description : "Aucune description disponible"}</p>
 
                     <Row className="comments">
@@ -104,7 +118,7 @@ const EventDetail = ({ getSingleEvent, event, loggedIn }) => {
                             <ListGroup.Item key={i}><Rating username={username} rating={rating} comment={comment} publish_date={publish_date} /></ListGroup.Item>
                           )
                         }
-                        {loggedIn && <ListGroup.Item><RatingForm event_id={id} /></ListGroup.Item>}
+                        {loggedIn && <ListGroup.Item><RatingForm event_id={decryptedId} /></ListGroup.Item>}
                       </ListGroup>
                     </Row>
                   </Col>

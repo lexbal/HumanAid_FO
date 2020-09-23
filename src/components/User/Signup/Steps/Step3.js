@@ -54,6 +54,47 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
         </Col>
       </Form.Group>
 
+      {
+        fields.roles === "Association" &&
+        <Form.Group as={Row}>
+          <Form.Label column sm="2">
+            Président/Représentant :
+          </Form.Label>
+          <Col sm={10}>
+            <Form.Row>
+              <Col>
+                <Form.Control
+                  type="text"
+                  name="manager_last_name"
+                  placeholder="Nom"
+                  value={fields.manager_last_name}
+                  onChange={handleChange}
+                  isValid={fields.manager_last_name}
+                  isInvalid={errors.manager_last_name}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.manager_last_name}
+                </Form.Control.Feedback>
+              </Col>
+              <Col>
+                <Form.Control
+                  type="text"
+                  name="manager_first_name"
+                  placeholder="Prénom"
+                  value={fields.manager_first_name}
+                  onChange={handleChange}
+                  isValid={fields.manager_first_name}
+                  isInvalid={errors.manager_first_name}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {errors.manager_first_name}
+                </Form.Control.Feedback>
+              </Col>
+            </Form.Row>
+          </Col>
+        </Form.Group>
+      }
+
       <Form.Group as={Row} controlId="websiteGroup">
         <Form.Label column sm="2">
           Lien vers votre site web :
@@ -76,6 +117,26 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
 
       <Form.Group as={Row}>
         <Form.Label column sm="2">
+          Téléphone :
+        </Form.Label>
+        <Col sm="10">
+          <FormControl
+            type="text"
+            name="landline"
+            placeholder="Téléphone"
+            value={fields.landline}
+            onChange={handleChange}
+            isValid={fields.landline}
+            isInvalid={errors.landline}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.landline}
+          </Form.Control.Feedback>
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row}>
+        <Form.Label column sm="2">
           Description :
         </Form.Label>
         <Col sm="10">
@@ -92,6 +153,46 @@ const Step3 = ({fields, errors, handleChange, currentStep}) => {
           />
           <Form.Control.Feedback type="invalid">
             {errors.description}
+          </Form.Control.Feedback>
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row}>
+        <Form.Label column sm="2">
+          Lien page facebook :
+        </Form.Label>
+        <Col sm="10">
+          <FormControl
+            type="text"
+            name="facebook"
+            placeholder="Facebook"
+            value={fields.facebook}
+            onChange={handleChange}
+            isValid={fields.facebook}
+            isInvalid={errors.facebook}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.facebook}
+          </Form.Control.Feedback>
+        </Col>
+      </Form.Group>
+
+      <Form.Group as={Row}>
+        <Form.Label column sm="2">
+          Lien page Twitter :
+        </Form.Label>
+        <Col sm="10">
+          <FormControl
+            type="text"
+            name="twitter"
+            placeholder="Twitter"
+            value={fields.twitter}
+            onChange={handleChange}
+            isValid={fields.twitter}
+            isInvalid={errors.twitter}
+          />
+          <Form.Control.Feedback type="invalid">
+            {errors.twitter}
           </Form.Control.Feedback>
         </Col>
       </Form.Group>

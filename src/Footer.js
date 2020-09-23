@@ -8,7 +8,7 @@ import ContactForm from './components/Contact/ContactForm/ContactForm';
 
 const Footer = withRouter(({ location }) => {
     const includePaths = ["/", "/signup", "/profile", "/login", "/associations", "/events", "/event/add", "/contact"];
-    const excludePaths = ["/login", "/signup", "/contact"];
+    const excludePaths = ["/login", "/signup", "/contact", "/event/add", "/profile"];
     const facebookLink = "https://www.facebook.com/HumanAid-100879451546535/";
     const twitterLink  = "https://twitter.com/human_aid";
     const handleClick  = (path) => {

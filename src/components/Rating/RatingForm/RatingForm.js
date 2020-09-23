@@ -39,8 +39,11 @@ const RatingForm = ({ event_id, createRating, error }) => {
     
     const handleSubmit = (event) => {
         event.preventDefault();
-        
         createRating(fields, event_id);
+        setField({
+            rating: "",
+            comment: ""
+        });
     }
     
     return (
@@ -60,7 +63,7 @@ const RatingForm = ({ event_id, createRating, error }) => {
                         name="comment"
                         aria-label="With textarea"
                         placeholder="Exprimez-vous votre requête ici !"
-                        value={fields.content}
+                        value={fields.comment}
                         onChange={handleChange}
                     />
                 </Form.Group>

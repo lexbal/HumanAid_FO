@@ -63,9 +63,14 @@ const Home = ({ events, loading, getAllEvents }) => {
       {events && events.length > 0 && (
         <div className='events'>
           <Row>
+            <Col>
+              <h2 className='event-title'>Les dernieres annonces publiées</h2>
+            </Col>
+          </Row>
+          <Row>
             {
-              !loading && events.slice(0, 6).map(({id, title, description, categories, publish_date}, i) =>
-                <Event id={id} title={title} description={description} categories={categories} publish_date={publish_date} key={i}/>
+              !loading && events.slice(0, 6).map(({id, title, description, categories, rating, publish_date}, i) =>
+                <Event id={id} title={title} description={description} categories={categories} publish_date={publish_date} rating={rating} key={i}/>
               )
             }
             {

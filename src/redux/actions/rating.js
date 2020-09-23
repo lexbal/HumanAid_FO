@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { getUserValue, removeUser } from '../../services/AuthService';
 
-const config = {
-  headers: { Authorization: `${getUserValue("token")}` }
-};
-
 export const createRating = (rating, event_id) => {
     return (dispatch) => {
       dispatch({
@@ -15,10 +11,13 @@ export const createRating = (rating, event_id) => {
                 comment: rating.comment,
                 event_id: event_id,
                 user: getUserValue("username") ? getUserValue("username") : getUserValue("email")
-              }, config)
-              .then(() => {
+              }, {
+                headers: { Authorization: `${getUserValue("token")}` }
+              })
+              .then((json) => {
                 dispatch({
-                  type: 'POST_RATING_SUCCESS'
+                  type: 'POST_RATING_SUCCESS',
+                  rating: json.data
                 });
               })
               .catch((err) => {
